@@ -12,8 +12,8 @@ function EventMap(): React.JSX.Element {
        style={styles.map}
        provider={PROVIDER_GOOGLE}
        region={{
-         latitude: 37.78825,
-         longitude: -122.4324,
+         latitude: 33.2098,
+         longitude: -87.5692,
          latitudeDelta: 0.015,
          longitudeDelta: 0.0121,
        }}
