@@ -156,3 +156,10 @@ vendor/
 # CircleCI
 .circleci/generated_config.yml
 .circleci/storage
+
+# Android build files
+android/app/build/intermediates/
+android/app/build/tmp/
+
+# Envirnonment variables
+*.env

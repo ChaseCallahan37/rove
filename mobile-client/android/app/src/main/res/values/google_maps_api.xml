@@ -1,0 +1,8 @@
+<resources>
+  <string 
+    name="google_maps_key" 
+    templateMergeStrategy="preserve" 
+    translatable="false">
+ <!-- The key is injected at build time through the build.gradle script-->  
+  </string>
+</resources>
