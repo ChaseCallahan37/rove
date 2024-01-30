@@ -9,6 +9,12 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- We add this meta tag so that the react-native-map
+           package will work with our android apps-->
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/GOOGLE_MAPS_API_KEY"
+      />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

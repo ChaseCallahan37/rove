@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.rovemobile.app-mergeDebugResources-26:/values-ps/values-ps.xml",
+            "outputFile": "com.rovemobile.app-mergeDebugResources-31:/values-ps/values-ps.xml",
             "map": [
                 {
                     "source": "/home/chase/.gradle/caches/transforms-3/ff34738e7fb960ce73fd0d6cf687f2a8/transformed/jetified-react-android-0.73.3-debug/res/values-ps/values-ps.xml",

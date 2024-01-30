@@ -5,5 +5,7 @@ integer react_native_dev_server_port
 integer react_native_inspector_proxy_port
 mipmap ic_launcher
 mipmap ic_launcher_round
+string GOOGLE_MAPS_API_KEY
 string app_name
+string google_maps_key
 style AppTheme
