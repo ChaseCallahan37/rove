@@ -1,7 +1,7 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:1:1-29:12
-MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:1:1-29:12
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:1:1-31:12
+MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:1:1-31:12
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml:2:1-9:12
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml:2:1-9:12
@@ -93,9 +93,9 @@ MERGED from [com.google.android.gms:play-services-maps:18.2.0] /home/chase/.grad
 	android:name
 		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:3:22-64
 application
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-28:19
-MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-28:19
-MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-28:19
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-30:19
+MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-30:19
+MERGED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:5:5-30:19
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml:5:5-8:50
 MERGED from [com.facebook.react:react-android:0.73.3] /home/chase/.gradle/caches/transforms-3/ff34738e7fb960ce73fd0d6cf687f2a8/transformed/jetified-react-android-0.73.3-debug/AndroidManifest.xml:18:5-22:19
 MERGED from [com.facebook.react:react-android:0.73.3] /home/chase/.gradle/caches/transforms-3/ff34738e7fb960ce73fd0d6cf687f2a8/transformed/jetified-react-android-0.73.3-debug/AndroidManifest.xml:18:5-22:19
@@ -158,35 +158,35 @@ MERGED from [com.facebook.soloader:soloader:0.10.5] /home/chase/.gradle/caches/t
 		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:6:7-38
 		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:6:7-38
 meta-data#com.google.android.geo.API_KEY
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:12:7-15:9
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:14:7-17:9
 	android:value
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:14:9-52
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:16:9-52
 	android:name
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:13:9-54
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:15:9-54
 activity#com.rovemobile.MainActivity
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:16:7-27:18
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:18:7-29:18
 	android:label
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:18:9-41
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:20:9-41
 	android:launchMode
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:20:9-40
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:22:9-40
 	android:windowSoftInputMode
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:21:9-51
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:23:9-51
 	android:exported
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:22:9-32
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:24:9-32
 	android:configChanges
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:19:9-118
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:21:9-118
 	android:name
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:17:9-37
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:19:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:23:9-26:25
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:25:9-28:25
 action#android.intent.action.MAIN
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:24:13-65
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:26:13-65
 	android:name
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:24:21-62
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:26:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:25:13-73
+ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:27:13-73
 	android:name
-		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:25:23-70
+		ADDED from /home/chase/projects/professional/rove/mobile-client/android/app/src/main/AndroidManifest.xml:27:23-70
 uses-sdk
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/chase/projects/professional/rove/mobile-client/android/app/src/debug/AndroidManifest.xml
