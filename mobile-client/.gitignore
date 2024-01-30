@@ -158,8 +158,8 @@ vendor/
 .circleci/storage
 
 # Android build files
-android/app/build/intermediates/
-android/app/build/tmp/
+android/app/build/
+android/build/
 
 # Envirnonment variables
 *.env
