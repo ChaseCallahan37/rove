@@ -1,28 +1,16 @@
 import { PropsWithChildren } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
+import eventApi from "../api/events";
 
 type SectionProps = PropsWithChildren<{
 }>;
 
 
-const events  = [{
-  coordinate: {latitude: 33.2098,
-  longitude: -87.5692} 
-},
-{
-  coordinate: {latitude: 33.2325,
-  longitude: -87.5211} 
-},{
-  coordinate: {latitude: 33.2341,
-  longitude: -87.5331} 
-},{
-  coordinate: {latitude: 33.2433,
-  longitude: -87.5909} 
-},
-]
+
 
 function EventMap(): React.JSX.Element {
+    const events = eventApi.retrieveEvents()
     return (
       <View style={styles.container}>
      <MapView
