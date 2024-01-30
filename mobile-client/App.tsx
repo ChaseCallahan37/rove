@@ -26,6 +26,10 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import EventMap from './src/components/EventMap';
 
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
