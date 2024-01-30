@@ -24,7 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import EventMap from './src/components/EventMap';
+import EventMap from './components/EventMap';
 
 import {enableLatestRenderer} from 'react-native-maps';
 
