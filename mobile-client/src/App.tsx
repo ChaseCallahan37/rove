@@ -38,7 +38,7 @@ type SectionProps = PropsWithChildren<{
 
 function App(): React.JSX.Element {
   return (
-       <View>
+       <View style={{flex: 1}}>
         <EventMap />
         </View>
   );

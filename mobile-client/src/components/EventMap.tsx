@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import eventApi from "../api/events";
 
@@ -9,7 +9,7 @@ type SectionProps = PropsWithChildren<{
 function EventMap(): React.JSX.Element {
   const events = eventApi.retrieveEvents();
   console.log(events);
- return <View>
+ return <View style={{flex: 1}}>
             <MapView
               style={styles.map}
               provider={PROVIDER_GOOGLE}
@@ -27,15 +27,74 @@ function EventMap(): React.JSX.Element {
                   />
               )}
           </MapView>
+         <ScrollView>
+          <Text>NEARBY</Text>
+        
+         <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-around", marginBottom: 15}}>       
         {events.map(({title}, index) => 
-                  <Text style={styles.text} key={index}>{title}</Text>
-              )}
+
+            <View style={styles.card}>
+               <TouchableOpacity style={styles.joinButton} >
+        <Text style={styles.joinButtonText}>Join</Text>
+      </TouchableOpacity>
+      <Image style={styles.imagePlaceholder} source={{ uri: "/home/chase/projects/professional/rove/mobile-client/assets/generic_event.webp" }} />
+      <Text style={styles.groupName}>Group Name</Text>
+      <Text style={styles.members}>Members members</Text>
+            </View>
+       )}
+
+ </View>
+
+        </ScrollView> 
     </View> 
   
 }
 
 const styles = StyleSheet.create({
+    joinButton: {
+        alignSelf: "flex-start",
+        paddingVertical: 4,
+        paddingHorizontal: 6,
+        borderRadius: 4
+    },
+
+
+    joinButtonText: {
+        color: 'white',
+      },
+      imagePlaceholder: {
+        backgroundColor: '#bdc3c7',
+        height: 150, // Adjust the height as needed
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 16,
+      },
+      groupInfo: {
+        alignItems: 'center',
+      },
+      groupName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+      },
+      members: {
+        fontSize: 16,
+      },
+    card: {
+        width: "45%",
+        backgroundColor: '#d6f5d6', // This is a placeholder color
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        elevation: 3, // Adds a subtle shadow on Android
+        shadowOpacity: 0.1, // Adds a subtle shadow on iOS
+        shadowRadius: 4,
+        shadowColor: '#000',
+        shadowOffset: { height: 2, width: 0 },
+        marginBottom: 10
+      },
   text: {
+
       color: "white"
       // Add more styling for your text as needed
   },
@@ -45,7 +104,7 @@ const styles = StyleSheet.create({
   },
   map: {
       // Specify the height of the map or use flex to allocate space
-      height: 500, // You can adjust this value as needed
+      height: 450, // You can adjust this value as needed
       width: '100%',
   },
   eventList: {
