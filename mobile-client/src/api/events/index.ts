@@ -1,3 +1,3 @@
-import * as eventApi from "./event"
+import * as eventApi from "./event";
 
-export default eventApi 
+export default eventApi;

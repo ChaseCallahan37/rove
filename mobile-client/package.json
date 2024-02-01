@@ -5,8 +5,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
     "start": "react-native start",
+    "format": "npx prettier --write src/",
     "test": "jest"
   },
   "dependencies": {
