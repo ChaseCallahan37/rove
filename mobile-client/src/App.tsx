@@ -5,8 +5,8 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React from "react";
+import type { PropsWithChildren } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -15,7 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
-} from 'react-native';
+} from "react-native";
 
 import {
   Colors,
@@ -23,10 +23,10 @@ import {
   Header,
   LearnMoreLinks,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import EventMap from './components/EventMap';
+} from "react-native/Libraries/NewAppScreen";
+import EventMap from "./components/EventMap";
 
-import {enableLatestRenderer} from 'react-native-maps';
+import { enableLatestRenderer } from "react-native-maps";
 
 enableLatestRenderer();
 
@@ -34,15 +34,12 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-
-
 function App(): React.JSX.Element {
   return (
-       <View style={{flex: 1}}>
-        <EventMap />
-        </View>
+    <View style={{ flex: 1 }}>
+      <EventMap />
+    </View>
   );
 }
-
 
 export default App;

@@ -1,16 +1,16 @@
-import service from "../service"
+import service from "../service";
 
 export type Event = {
-    title: string,
-    date: Date
-    coordinate: {
-        latitude: number,
-        longitude: number
-    }
-}
+  title: string;
+  date: Date;
+  coordinate: {
+    latitude: number;
+    longitude: number;
+  };
+};
 
-const resourceName = "events"
+const resourceName = "events";
 
-export function retrieveEvents(){
-   return service.get<Event[]>(resourceName) 
+export function retrieveEvents() {
+  return service.get<Event[]>(resourceName);
 }
