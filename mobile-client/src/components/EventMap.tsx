@@ -33,7 +33,7 @@ function EventMap(): React.JSX.Element {
          <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-around", marginBottom: 15}}>       
         {events.map(({title}, index) => 
 
-            <View style={styles.card}>
+            <View key={index} style={styles.card}>
                <TouchableOpacity style={styles.joinButton} >
         <Text style={styles.joinButtonText}>Join</Text>
       </TouchableOpacity>
