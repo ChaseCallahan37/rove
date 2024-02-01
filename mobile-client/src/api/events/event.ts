@@ -1,6 +1,8 @@
 import service from "../service"
 
 export type Event = {
+    title: string,
+    date: Date
     coordinate: {
         latitude: number,
         longitude: number
