@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=super_super_secret
+      - DB_HOSTNAME=db
+      - DB_DATABASE=real_deal_dev_db
+      - DB_PORT=5433
+
+  db:
+    image: postgres:latest
+    ports:
+      # I change default for host because I am already running a postgres db
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: real_deal_dev_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super_super_secret 
+
+volumes:
+  postgres_data:
