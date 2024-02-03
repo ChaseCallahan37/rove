@@ -23,11 +23,20 @@ const data = {
   ],
 };
 
-const url = "http://localhost:4000/api/"
-
+async function getIpAddress() {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return `http://${data.ip}:4000/api/`;
+  } catch (error) {
+    console.error('Failed to fetch IP address:', error);
+  }
+}
 async function get<T>(resource: string) {
   console.log(`Running request for data!!! ${resource}`);
-  
+  const url = `http://192.168.12.131:4000/api/`
+  console.log(`Hers my ip address ${url}`);
+   
   return fetch(url + resource);
 
 }
