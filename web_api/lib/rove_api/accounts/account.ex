@@ -5,6 +5,7 @@ defmodule RoveApi.Accounts.Account do
   schema "account" do
     field :email, :string
     field :hash_password, :string
+    has_one :user, RoveApi.Users.User
 
     timestamps(type: :utc_datetime)
   end

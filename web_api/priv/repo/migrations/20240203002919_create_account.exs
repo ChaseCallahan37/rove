@@ -2,7 +2,8 @@ defmodule RoveApi.Repo.Migrations.CreateAccount do
   use Ecto.Migration
 
   def change do
-    create table(:account) do
+    create table(:accounts, primary_key: false) do
+      add :id, :binary_id, primary_key: true
       add :email, :string
       add :hash_password, :string
 
@@ -10,5 +11,6 @@ defmodule RoveApi.Repo.Migrations.CreateAccount do
     end
 
     create unique_index(:accounts, [:email])
+
   end
 end
