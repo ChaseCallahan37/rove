@@ -1,25 +1,31 @@
-import { PropsWithChildren, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import {
+  FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, {
-  Marker,
-  PROVIDER_DEFAULT,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import eventApi from "../api/events";
-
-type SectionProps = PropsWithChildren<{}>;
+import useApi from "../hooks/useApi";
 
 function EventMap(): React.JSX.Element {
-  const events = eventApi.retrieveEvents();
+  const {
+    data: events,
+    request: getEvents,
+    loading,
+    error,
+  } = useApi(eventApi.retrieveEvents);
+
+  // @ts-ignore
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   const mapRef = useRef(null);
-  console.log(events);
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -33,55 +39,49 @@ function EventMap(): React.JSX.Element {
           longitudeDelta: 0.0121,
         }}
       >
-        {events.map(({ coordinate }, index) => (
-          <Marker key={index} coordinate={coordinate} />
-        ))}
-      </MapView>
-      <ScrollView>
-        <Text>NEARBY</Text>
-
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-around",
-            marginBottom: 15,
-          }}
-        >
-          {events.map(({ title, coordinate }, index) => (
-            <TouchableOpacity
-              onPress={() => {
-                if (!mapRef) return null;
-                // @ts-ignore
-                mapRef.current.animateToRegion(
-                  {
-                    latitude: coordinate.latitude,
-                    longitude: coordinate.longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                  },
-                  1000
-                );
-              }}
-              key={index}
-              style={styles.card}
-            >
-              <TouchableOpacity style={styles.joinButton}>
-                <Text style={styles.joinButtonText}>Join</Text>
-              </TouchableOpacity>
-              <Image
-                style={styles.imagePlaceholder}
-                source={{
-                  uri: "/home/chase/projects/professional/rove/mobile-client/assets/generic_event.webp",
-                }}
-              />
-              <Text style={styles.groupName}>Group Name</Text>
-              <Text style={styles.members}>Members members</Text>
-            </TouchableOpacity>
+        {events &&
+          /*@ts-ignore          */
+          events.map(({ latitude, longitude }, index) => (
+            <Marker key={index} coordinate={{ latitude, longitude }} />
           ))}
-        </View>
-      </ScrollView>
+      </MapView>
+      <Text>NEARBY</Text>
+
+      {/*@ts-ignore          */}
+      <FlatList
+        data={events}
+        numColumns={2} // Adjust the number of columns as needed
+        renderItem={({ item: { latitude, longitude, title } }) => (
+          <TouchableOpacity
+            onPress={() => {
+              if (!mapRef) return null;
+              // @ts-ignore
+              mapRef.current.animateToRegion(
+                {
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
+                },
+                1000
+              );
+            }}
+            style={styles.card}
+          >
+            <TouchableOpacity style={styles.joinButton}>
+              <Text style={styles.joinButtonText}>Join</Text>
+            </TouchableOpacity>
+            <Image
+              style={styles.imagePlaceholder}
+              source={{
+                uri: "https://cdn.dribbble.com/users/1409624/screenshots/11850998/media/445dea8b45ff2bf796545364620bccd4.png?resize=400x300&vertical=center",
+              }}
+            />
+            <Text style={styles.groupName}>Group Name</Text>
+            <Text style={styles.members}>{title}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { height: 2, width: 0 },
     marginBottom: 10,
+    margin: "2.5%",
   },
   text: {
     color: "white",

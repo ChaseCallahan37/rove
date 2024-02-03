@@ -3,14 +3,14 @@ import service from "../service";
 export type Event = {
   title: string;
   date: Date;
-  coordinate: {
-    latitude: number;
-    longitude: number;
-  };
+  latitude: number;
+  longitude: number;
 };
 
 const resourceName = "events";
 
-export function retrieveEvents() {
-  return service.get<Event[]>(resourceName);
+export async function retrieveEvents() {
+  const res = await service.get(resourceName);
+
+  return res;
 }

@@ -77,3 +77,8 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+
+# Using Local Web API
+
+Since you cannot use the localhost binding when trying to connect to your api running locally, we have included a startup dev script to set an environment variable called `WEB_API_URL`. This is what will be used to identify the proper url if you are running the API locally. Also, I had issues when running on certain Wifis, but when i switch over to my phones tethering, it works great. Not sure why.
