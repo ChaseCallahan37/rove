@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useRef } from "react";
 import {
+  FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,28 +9,24 @@ import {
 } from "react-native";
 import MapView, {
   Marker,
-  PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
 import eventApi from "../api/events";
 import useApi from "../hooks/useApi";
-import service from "../api/service";
 
-type SectionProps = PropsWithChildren<{}>;
 
 function EventMap(): React.JSX.Element {
-
   const {
     data: events,
     request: getEvents,
     loading,
-    error
-  } = useApi(eventApi.retrieveEvents)
-  
+    error,
+  } = useApi(eventApi.retrieveEvents);
+
   // @ts-ignore
   useEffect(() => {
-    getEvents()
-  }, [])
+    getEvents();
+  }, []);
 
   const mapRef = useRef(null);
 
@@ -47,57 +43,49 @@ function EventMap(): React.JSX.Element {
           longitudeDelta: 0.0121,
         }}
       >
-{/*@ts-ignore          */}
-        {events && events.map(({ coordinate }, index) => (
-          <Marker key={index} coordinate={coordinate} />
-        ))}
-      </MapView>
-      <ScrollView>
-        <Text>NEARBY</Text>
-
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-around",
-            marginBottom: 15,
-          }}
-        >
-{/*@ts-ignore          */}
-          {events && events.map(({ title, coordinate }, index) => (
-            <TouchableOpacity
-              onPress={() => {
-                if (!mapRef) return null;
-                // @ts-ignore
-                mapRef.current.animateToRegion(
-                  {
-                    latitude: coordinate.latitude,
-                    longitude: coordinate.longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                  },
-                  1000
-                );
-              }}
-              key={index}
-              style={styles.card}
-            >
-              <TouchableOpacity style={styles.joinButton}>
-                <Text style={styles.joinButtonText}>Join</Text>
-              </TouchableOpacity>
-              <Image
-                style={styles.imagePlaceholder}
-                source={{
-                  uri: "/home/chase/projects/professional/rove/mobile-client/assets/generic_event.webp",
-                }}
-              />
-              <Text style={styles.groupName}>Group Name</Text>
-              <Text style={styles.members}>Members members</Text>
-            </TouchableOpacity>
+        {events &&
+          /*@ts-ignore          */
+          events.map(({ latitude, longitude }, index) => (
+            <Marker key={index} coordinate={{ latitude, longitude }} />
           ))}
-        </View>
-      </ScrollView>
+      </MapView>
+      <Text>NEARBY</Text>
+
+      {/*@ts-ignore          */}
+      <FlatList
+        data={events}
+        numColumns={2} // Adjust the number of columns as needed
+        renderItem={({ item: { latitude, longitude, title } }) => (
+          <TouchableOpacity
+            onPress={() => {
+              if (!mapRef) return null;
+              // @ts-ignore
+              mapRef.current.animateToRegion(
+                {
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
+                },
+                1000
+              );
+            }}
+            style={styles.card}
+          >
+            <TouchableOpacity style={styles.joinButton}>
+              <Text style={styles.joinButtonText}>Join</Text>
+            </TouchableOpacity>
+            <Image
+              style={styles.imagePlaceholder}
+              source={{
+                uri: "./assets/generic_event.webp",
+              }}
+            />
+            <Text style={styles.groupName}>Group Name</Text>
+            <Text style={styles.members}>{title}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
@@ -143,6 +131,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { height: 2, width: 0 },
     marginBottom: 10,
+    margin: "2.5%",
   },
   text: {
     color: "white",
