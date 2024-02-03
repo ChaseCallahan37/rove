@@ -9,7 +9,7 @@ import Config
 
 config :rove_api,
   ecto_repos: [RoveApi.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
 config :rove_api, RoveApiWeb.Endpoint,
