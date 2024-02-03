@@ -1,9 +1,8 @@
+import Config from "react-native-config";
 
-
-const url = `http://192.168.12.131:4000/api/`;
+const url = Config.WEB_API_URL;
 
 async function get(resource: string) {
-
   return fetch(url + resource) as Promise<Response>;
 }
 

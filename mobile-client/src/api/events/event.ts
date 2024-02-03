@@ -11,5 +11,6 @@ const resourceName = "events";
 
 export async function retrieveEvents() {
   const res = await service.get(resourceName);
-  return res 
+
+  return res;
 }

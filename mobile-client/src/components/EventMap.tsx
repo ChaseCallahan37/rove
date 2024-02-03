@@ -7,13 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, {
-  Marker,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import eventApi from "../api/events";
 import useApi from "../hooks/useApi";
-
 
 function EventMap(): React.JSX.Element {
   const {
