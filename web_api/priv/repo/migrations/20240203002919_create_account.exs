@@ -8,5 +8,7 @@ defmodule RoveApi.Repo.Migrations.CreateAccount do
 
       timestamps(type: :utc_datetime)
     end
+
+    create unique_index(:accounts, [:email])
   end
 end
