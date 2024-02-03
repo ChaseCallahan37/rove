@@ -6,21 +6,13 @@ const webApiUrlEnv = "WEB_API_URL";
 const envPath = path.join(__dirname, '../.env'); // Adjust the path as necessary
 
 const interfaces = os.networkInterfaces();
-let ipAddress = '';
-
-for (const devName in interfaces) {
-  const iface = interfaces[devName].find(alias => alias.family === 'IPv4' && !alias.internal);
-
-  if (iface) {
-    ipAddress = iface.address;
-    break;
-  }
-}
-
+// Find the internal IPv4 Address of your host machine
+const ipAddress = interfaces[devName].find(alias => alias.family === 'IPv4' && !alias.internal).address;
 const url = `http://${ipAddress}:4000/api/`;
-console.log(`Your IP Address: ${ipAddress}`);
 
-// Function to read the .env file and return it as a dictionary
+// We read in all pre-existing env variables, then update the 
+// env variable for web api url, then rewrite entire dictionary back
+// to .env file. This prevents loss of other env variables in file
 function readEnvFile(filePath) {
   const env = {};
   try {
@@ -38,7 +30,7 @@ function readEnvFile(filePath) {
 }
 
 // Function to write the dictionary back to the .env file
-function writeEnvFile(filePath, env) {
+function writeEnvFile(env, filePath) {
   const lines = Object.keys(env).map(key => `${key}=${env[key]}`);
   fs.writeFileSync(filePath, lines.join('\n'));
   console.log(`.env file has been updated.`);
@@ -47,4 +39,4 @@ function writeEnvFile(filePath, env) {
 // Read, update, and write the .env file
 const env = readEnvFile(envPath);
 env[webApiUrlEnv] = url; // Update the WEB_API_URL
-writeEnvFile(envPath, env);
+writeEnvFile(env, envPath);
