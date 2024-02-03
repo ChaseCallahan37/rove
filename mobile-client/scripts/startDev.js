@@ -7,7 +7,15 @@ const envPath = path.join(__dirname, '../.env'); // Adjust the path as necessary
 
 const interfaces = os.networkInterfaces();
 // Find the internal IPv4 Address of your host machine
-const ipAddress = interfaces[devName].find(alias => alias.family === 'IPv4' && !alias.internal).address;
+for (const devName in interfaces) {
+  const iface = interfaces[devName].find(alias => alias.family === 'IPv4' && !alias.internal);
+
+  if (iface) {
+    ipAddress = iface.address;
+    break;
+  }
+}
+
 const url = `http://${ipAddress}:4000/api/`;
 
 // We read in all pre-existing env variables, then update the 
