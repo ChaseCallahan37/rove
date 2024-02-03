@@ -23,9 +23,13 @@ const data = {
   ],
 };
 
-function get<T>(resource: string): T {
-  // @ts-ignore
-  return data[resource];
+const url = "http://localhost:4000/api/"
+
+async function get<T>(resource: string) {
+  console.log(`Running request for data!!! ${resource}`);
+  
+  return fetch(url + resource);
+
 }
 
 export default {

@@ -1,4 +1,4 @@
-import { PropsWithChildren, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import {
   Image,
   ScrollView,
@@ -13,13 +13,27 @@ import MapView, {
   PROVIDER_GOOGLE,
 } from "react-native-maps";
 import eventApi from "../api/events";
+import useApi from "../hooks/useApi";
+import service from "../api/service";
 
 type SectionProps = PropsWithChildren<{}>;
 
 function EventMap(): React.JSX.Element {
-  const events = eventApi.retrieveEvents();
+
+  const {
+    data: events,
+    request: getEvents,
+    loading,
+    error
+  } = useApi(eventApi.retrieveEvents)
+  
+  // @ts-ignore
+  useEffect(() => {
+    getEvents()
+  }, [])
+
   const mapRef = useRef(null);
-  console.log(events);
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -33,7 +47,8 @@ function EventMap(): React.JSX.Element {
           longitudeDelta: 0.0121,
         }}
       >
-        {events.map(({ coordinate }, index) => (
+{/*@ts-ignore          */}
+        {events && events.map(({ coordinate }, index) => (
           <Marker key={index} coordinate={coordinate} />
         ))}
       </MapView>
@@ -49,7 +64,8 @@ function EventMap(): React.JSX.Element {
             marginBottom: 15,
           }}
         >
-          {events.map(({ title, coordinate }, index) => (
+{/*@ts-ignore          */}
+          {events && events.map(({ title, coordinate }, index) => (
             <TouchableOpacity
               onPress={() => {
                 if (!mapRef) return null;
