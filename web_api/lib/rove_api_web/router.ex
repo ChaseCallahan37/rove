@@ -20,6 +20,13 @@ defmodule RoveApiWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/api", RoveApiWeb do
+    pipe_through :api
+
+    get "/events", EventController, :index
+    post "/events", EventController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", RoveApiWeb do
   #   pipe_through :api
