@@ -74,7 +74,7 @@ function EventMap(): React.JSX.Element {
             <Image
               style={styles.imagePlaceholder}
               source={{
-                uri: "./assets/generic_event.webp",
+                uri: "https://cdn.dribbble.com/users/1409624/screenshots/11850998/media/445dea8b45ff2bf796545364620bccd4.png?resize=400x300&vertical=center",
               }}
             />
             <Text style={styles.groupName}>Group Name</Text>
