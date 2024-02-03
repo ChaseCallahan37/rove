@@ -2,7 +2,8 @@ defmodule RoveApi.Accounts.Account do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "account" do
+  @primary_key {:id, :binary_id, autogenerate: true}
+  schema "accounts" do
     field :email, :string
     field :hash_password, :string
     has_one :user, RoveApi.Users.User
