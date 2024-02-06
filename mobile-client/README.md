@@ -82,3 +82,14 @@ To learn more about React Native, take a look at the following resources:
 # Using Local Web API
 
 Since you cannot use the localhost binding when trying to connect to your api running locally, we have included a startup dev script to set an environment variable called `WEB_API_URL`. This is what will be used to identify the proper url if you are running the API locally. Also, I had issues when running on certain Wifis, but when i switch over to my phones tethering, it works great. Not sure why.
+
+
+# Running Locally
+Please be sure that when you are running this locally you:
+1. Properly start the backend
+2. Prepare your associated package for ios or android
+      npm run android
+   or
+      npm run ios
+3. Run the start dev script. This will make sure your Private IP address is pulled from your machine and written to the .env file and used for calls to the API
+      npm run dev
