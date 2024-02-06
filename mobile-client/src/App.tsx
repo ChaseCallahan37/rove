@@ -8,9 +8,7 @@ import AppNavigation from "./navigation/AppNavigations";
 enableLatestRenderer();
 
 function App(): React.JSX.Element {
-  return (
-   <AppNavigation /> 
-  );
+  return <AppNavigation />;
 }
 
 export default App;
