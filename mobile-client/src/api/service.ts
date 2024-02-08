@@ -6,17 +6,20 @@ async function get(resource: string) {
   return fetch(url + resource) as Promise<Response>;
 }
 
-async function post<T>(resource: string, payload: T){
+async function post<T>(resource: string, payload: T) {
+  console.log("HERE IS POST");
+  console.log(payload);
+
   return fetch(url + resource, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
-  })
+    body: JSON.stringify(payload),
+  });
 }
 
 export default {
   get,
-  post
+  post,
 };
