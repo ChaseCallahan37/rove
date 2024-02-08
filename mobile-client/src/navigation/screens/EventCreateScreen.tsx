@@ -1,76 +1,67 @@
 import { useState } from "react";
-import { Text, TextInput, SafeAreaView, Button } from "react-native";
-import DatePicker from "react-native-date-picker"
+import { Text, SafeAreaView, Button } from "react-native";
 import useApi from "../../hooks/useApi";
 import { Event, createEvent } from "../../api/events/event";
+import AppDatePicker from "../../components/AppDatePicker";
+import AppNumberInput from "../../components/AppNumberInput";
+import AppTextInput from "../../components/AppTextInput";
+import InputGroup from "../../components/InputGroup";
 
 function EventCreateScreen() {
-    const [eventType, setEventType] = useState("")
-    const [eventDate, setEventDate] = useState(new Date())
-    const [eventLatitude, setEventLatitude] = useState(0)
-    const [eventLongitude, setEventLongitude] = useState(0)
-    const [eventDescription, setEventDescription] = useState("")
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDate, setEventDate] = useState(new Date());
+  const [eventLatitude, setEventLatitude] = useState(0);
+  const [eventLongitude, setEventLongitude] = useState(0);
 
-    const [open, setOpen] = useState(false)
-    const {request} = useApi(createEvent)
-    
-    const handleSubmit = () => {
-      const myEvent: Event = {
-       date: eventDate,
-        latitude: eventLatitude,
-        longitude: eventLongitude,
-        title: eventDescription 
-      }
-      
-      console.log(myEvent);
-        
-      
-      request(myEvent)   
-        
-    }
+  const { request } = useApi(createEvent);
+
+  const handleSubmit = () => {
+    const myEvent: Event = {
+      date: eventDate,
+      latitude: eventLatitude,
+      longitude: eventLongitude,
+      title: eventTitle,
+    };
+
+    console.log(myEvent);
+
+    request(myEvent);
+  };
 
   return (
     <SafeAreaView>
-      <Text style={{color: "blue"}}>EVENT CREATE SCREEN</Text>
-      <TextInput 
-        value={eventType}
-        style={{backgroundColor: "black"}}
-        placeholder="Please enter the type"
-        keyboardType="ascii-capable"
-        onChange={({nativeEvent: {text}}) => setEventType(text)}
+      <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
+      <InputGroup label={{ size: "sm", text: "Event Title" }}>
+        <AppTextInput
+          updateValue={(text) => setEventTitle(text)}
+          value={eventTitle}
         />
-        <Button title="Open" onPress={() => setOpen(true)} />
-      <DatePicker
-        modal
-        open={open}
-        date={eventDate}
-        onConfirm={(date) => {
-          setOpen(false)
-          setEventDate(date)
-        }}
-        onCancel={() => {
-          setOpen(false)
-        }}
-      />
-        <TextInput
-        value={eventLatitude.toLocaleString()}
-        style={{backgroundColor: "black"}}
-        placeholder="Please enter latitude"
-        keyboardType="decimal-pad"
-        onChange={({nativeEvent: {text}}) => setEventLatitude(parseInt(text))}
+      </InputGroup>
+
+      <InputGroup label={{ text: "Event Date", size: "sm" }}>
+        <AppDatePicker
+          date={eventDate}
+          updateDate={(date) => setEventDate(date)}
         />
-        <TextInput
-        value={eventLongitude.toLocaleString()}
-        style={{backgroundColor: "black"}}
-        placeholder="Please enter longitude"
-        keyboardType="decimal-pad"
-        onChange={({nativeEvent: {text}}) => setEventLongitude(parseInt(text))}
+      </InputGroup>
+
+      <InputGroup label={{ size: "sm", text: "Event Latitude" }}>
+        <AppNumberInput
+          placeholder="34.0235"
+          value={eventLatitude}
+          updateValue={(num) => setEventLatitude(num)}
         />
-        <Button 
-            title="Submit"
-            onPress={handleSubmit}
-            
+      </InputGroup>
+
+      <InputGroup label={{ text: "Event Longitude", size: "sm" }}>
+        <AppNumberInput
+          placeholder="123.3216"
+          value={eventLongitude}
+          updateValue={(num) => setEventLongitude(num)}
         />
+      </InputGroup>
+
+      <Button title="Submit" onPress={handleSubmit} />
     </SafeAreaView>
   );
 }
