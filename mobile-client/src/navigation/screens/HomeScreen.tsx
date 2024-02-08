@@ -10,10 +10,10 @@ function HomeScreen({ navigation }) {
         title="Go To Events"
         onPress={() => navigation.navigate(routes.eventMap)}
       />
-    <Button 
+      <Button
         title="Create new Event"
         onPress={() => navigation.navigate(routes.eventCreate)}
-        />
+      />
     </View>
   );
 }

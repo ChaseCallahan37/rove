@@ -13,10 +13,10 @@ function AppDatePicker({ date, updateDate }: AppDatePickerProps) {
   const { isToggled: showDatePicker, toggle: toggleDatePicker } =
     useToggle(false);
 
-    const handleOnConfirm = (date: Date) => {
-      updateDate(date)
-      toggleDatePicker()
-    } 
+  const handleOnConfirm = (date: Date) => {
+    updateDate(date);
+    toggleDatePicker();
+  };
   return (
     <>
       <Button title={format.dateTime(date)} onPress={toggleDatePicker} />

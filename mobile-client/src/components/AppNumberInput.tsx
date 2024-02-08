@@ -11,13 +11,12 @@ function AppNumberInput({
   updateValue,
   placeholder,
 }: AppNumberInputProps) {
-
   const handleOnChange = (text: string) => {
     updateValue(parseFloat(text));
   };
 
   return (
-    <View style={{backgroundColor: "grey"}}>
+    <View style={{ backgroundColor: "grey" }}>
       <TextInput
         // We want to render an empty string, in order to keep the UI clean
         value={value ? value.toLocaleString() : ""}

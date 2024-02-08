@@ -15,8 +15,8 @@ export async function retrieveEvents() {
   return res;
 }
 
-export async function createEvent(event: Event) {
-  const res = await service.post<Event>(resourceName, event);
+export async function createEvent(newEvent: Event) {
+  const res = await service.post<{event: Event}>(resourceName, {event: newEvent});
 
   return res;
 }
