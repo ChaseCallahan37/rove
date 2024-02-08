@@ -1,16 +1,16 @@
 import { useState } from "react";
 
-function useToggle(initialState = true) {
-    const [isToggled, setIsToggled] = useState(initialState)
+function useToggle(initialState = false) {
+  const [isToggled, setIsToggled] = useState(initialState);
 
-    function toggle(){
-        setIsToggled(prev => !prev)
-    }
+  function toggle() {
+    setIsToggled((prev) => !prev);
+  }
 
-    return {
-        toggle,
-        isToggled
-    }
+  return {
+    toggle,
+    isToggled,
+  };
 }
 
-export default useToggle
+export default useToggle;
