@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 type AppEventMapProps = {
-  ref?: React.MutableRefObject<null>;
   pins?: { latitude: number; longitude: number }[];
 };
 
