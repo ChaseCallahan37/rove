@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
-import EventMap from "../components/EventMap";
 import EventCreateScreen from "./screens/EventCreateScreen";
+import EventMapScreen from "./screens/EventMapScreen";
 
 // We want to define the routes here and export them throughout our app
 // so that we do not mispell the name of the routes in other places
@@ -19,7 +19,7 @@ function AppNavigation() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name={routes.home} component={HomeScreen} />
-        <Stack.Screen name={routes.eventMap} component={EventMap} />
+        <Stack.Screen name={routes.eventMap} component={EventMapScreen} />
         <Stack.Screen name={routes.eventCreate} component={EventCreateScreen} />
       </Stack.Navigator>
     </NavigationContainer>
