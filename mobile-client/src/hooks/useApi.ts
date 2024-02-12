@@ -33,11 +33,6 @@ function useApi(apiCall: Function) {
       console.log(e);
     } finally {
       const responseSucceeded = result?.status < 300;
-      console.log(responseSucceeded);
-      console.log("DIFJIOSDFOISDJFOL");
-
-      console.log(result);
-
       return responseSucceeded;
     }
   };

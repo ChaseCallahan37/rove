@@ -1,15 +1,10 @@
 import {
-  FlatList,
-  Image,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import { useEffect, useRef } from "react";
 import eventApi from "../../api/events";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 
@@ -18,7 +13,6 @@ function EventMapScreen() {
     data: events,
     request: getEvents,
     loading,
-    error,
   } = useApi(eventApi.retrieveEvents);
 
   // @ts-ignore

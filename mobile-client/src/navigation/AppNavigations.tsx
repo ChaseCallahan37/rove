@@ -3,16 +3,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import EventCreateScreen from "./screens/EventCreateScreen";
 import EventMapScreen from "./screens/EventMapScreen";
-import ChooseEventLocationScreen from "./screens/ChooseEventLocationScreen";
 
 export type AppNavigationProp<
-  T extends "Home" | "EventMap" | "EventCreate" | "ChooseEventLocation"
+  T extends "Home" | "EventMap" | "EventCreate" 
 > = NavigationProp<
   {
     Home: undefined;
     EventMap: undefined;
     EventCreate: undefined;
-    ChooseEventLocation: undefined;
   },
   T
 >;
@@ -26,10 +24,6 @@ function AppNavigation() {
         <Stack.Screen name={"Home"} component={HomeScreen} />
         <Stack.Screen name={"EventMap"} component={EventMapScreen} />
         <Stack.Screen name={"EventCreate"} component={EventCreateScreen} />
-        <Stack.Screen
-          name={"ChooseEventLocation"}
-          component={ChooseEventLocationScreen}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

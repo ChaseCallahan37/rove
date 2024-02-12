@@ -1,6 +1,5 @@
 import { Button, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
-import { NavigationProp } from "@react-navigation/native";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;

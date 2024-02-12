@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { GestureResponderEvent, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapView, {
   ClickEvent,
   LongPressEvent,

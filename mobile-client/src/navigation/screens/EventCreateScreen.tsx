@@ -3,7 +3,6 @@ import { Text, SafeAreaView, Button, Alert } from "react-native";
 import useApi from "../../hooks/useApi";
 import { Event, createEvent } from "../../api/events/event";
 import AppDatePicker from "../../components/AppDatePicker";
-import AppNumberInput from "../../components/AppNumberInput";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
 import { AppNavigationProp } from "../AppNavigations";
@@ -11,7 +10,7 @@ import AppMapView from "../../components/AppMapView";
 import useToggle from "../../hooks/useToggle";
 
 type EventCreateScreenProps = {
-  navigation: AppNavigationProp<"ChooseEventLocation">;
+  navigation: AppNavigationProp<"EventCreate">;
 };
 
 function EventCreateScreen({ navigation }: EventCreateScreenProps) {
@@ -46,10 +45,6 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     };
 
     const succeeded = await request(myEvent);
-
-    console.log("HERE IS FORM");
-
-    console.log(succeeded);
 
     if (!succeeded) {
       return Alert.alert("Your request failed, please try again");

@@ -1,8 +1,7 @@
-import { Button, Text, View } from "react-native";
+import { Button } from "react-native";
 import useToggle from "../hooks/useToggle";
 import DatePicker from "react-native-date-picker";
 import format from "../utils/format";
-import { setDate } from "date-fns";
 
 type AppDatePickerProps = {
   date: Date;

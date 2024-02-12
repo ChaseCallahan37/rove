@@ -16,7 +16,7 @@ function EventList({ mapRef, events }: EventListProps) {
   return (
     <FlatList
       data={events}
-      numColumns={2} // Adjust the number of columns as needed
+      numColumns={2}
       // @ts-ignore
       renderItem={({ item: { latitude, longitude, title } }) => (
         <TouchableOpacity
