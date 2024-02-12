@@ -1,31 +1,55 @@
 import { useState } from "react";
-import { Text, SafeAreaView, Button } from "react-native";
+import { Text, SafeAreaView, Button, Alert } from "react-native";
 import useApi from "../../hooks/useApi";
 import { Event, createEvent } from "../../api/events/event";
 import AppDatePicker from "../../components/AppDatePicker";
-import AppNumberInput from "../../components/AppNumberInput";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
+import { AppNavigationProp } from "../AppNavigations";
+import AppMapView from "../../components/AppMapView";
+import useToggle from "../../hooks/useToggle";
 
-function EventCreateScreen() {
+type EventCreateScreenProps = {
+  navigation: AppNavigationProp<"EventCreate">;
+};
+
+function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
-  const [eventLatitude, setEventLatitude] = useState(0);
-  const [eventLongitude, setEventLongitude] = useState(0);
+  const [eventCoordinate, setEventCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  }>();
 
   const { request } = useApi(createEvent);
 
-  const handleSubmit = () => {
+  const { isToggled, toggle } = useToggle(false);
+
+  const handleUpdateCoordinate = (coordinate: {
+    latitude: number;
+    longitude: number;
+  }) => {
+    setEventCoordinate(coordinate);
+  };
+
+  const handleSubmit = async () => {
+    if (!eventCoordinate) {
+      throw Error("Must provide coordinates");
+    }
+    const { latitude, longitude } = eventCoordinate;
     const myEvent: Event = {
       date: eventDate,
-      latitude: eventLatitude,
-      longitude: eventLongitude,
+      latitude,
+      longitude,
       title: eventTitle,
     };
 
-    console.log(myEvent);
+    const succeeded = await request(myEvent);
 
-    request(myEvent);
+    if (!succeeded) {
+      return Alert.alert("Your request failed, please try again");
+    }
+    navigation.navigate("Home");
   };
 
   return (
@@ -45,23 +69,18 @@ function EventCreateScreen() {
         />
       </InputGroup>
 
-      <InputGroup label={{ size: "sm", text: "Event Latitude" }}>
-        <AppNumberInput
-          placeholder="34.0235"
-          value={eventLatitude}
-          updateValue={(num) => setEventLatitude(num)}
-        />
-      </InputGroup>
+      <InputGroup>
+        <Button title="Choose Location" onPress={toggle} />
 
-      <InputGroup label={{ text: "Event Longitude", size: "sm" }}>
-        <AppNumberInput
-          placeholder="123.3216"
-          value={eventLongitude}
-          updateValue={(num) => setEventLongitude(num)}
-        />
+        {isToggled && (
+          <AppMapView
+            onDoublePress={handleUpdateCoordinate}
+            onLongPress={handleUpdateCoordinate}
+            pins={eventCoordinate && [eventCoordinate]}
+          />
+        )}
       </InputGroup>
-
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Submit" onPress={() => handleSubmit()} />
     </SafeAreaView>
   );
 }

@@ -1,18 +1,21 @@
 import { Button, Text, View } from "react-native";
-import { routes } from "../AppNavigations";
+import { AppNavigationProp } from "../AppNavigations";
 
-// @ts-ignore
-function HomeScreen({ navigation }) {
+type HomeScreenProps = {
+  navigation: AppNavigationProp<"Home">;
+};
+
+function HomeScreen({ navigation }: HomeScreenProps) {
   return (
     <View>
       <Text style={{ color: "blue" }}>Home Screen</Text>
       <Button
         title="Go To Events"
-        onPress={() => navigation.navigate(routes.eventMap)}
+        onPress={() => navigation.navigate("EventMap")}
       />
       <Button
         title="Create new Event"
-        onPress={() => navigation.navigate(routes.eventCreate)}
+        onPress={() => navigation.navigate("EventCreate")}
       />
     </View>
   );
