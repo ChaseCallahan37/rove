@@ -7,29 +7,33 @@ import AppNumberInput from "../../components/AppNumberInput";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
 import { AppNavigationProp } from "../AppNavigations";
-
+import AppMapView from "../../components/AppMapView";
+import useToggle from "../../hooks/useToggle";
 
 type EventCreateScreenProps = {
-  navigation: AppNavigationProp<"ChooseEventLocation">
-}
+  navigation: AppNavigationProp<"ChooseEventLocation">;
+};
 
-function EventCreateScreen({navigation}: EventCreateScreenProps) {
+function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
-  const [eventLatitude, setEventLatitude] = useState(0);
-  const [eventLongitude, setEventLongitude] = useState(0);
+  const [eventCoordinate, setEventCoordinate] = useState<{latitude: number, longitude: number}>();
 
   const { request } = useApi(createEvent);
 
+  const { isToggled, toggle } = useToggle(false);
+
   const handleSubmit = () => {
+    if(!eventCoordinate){
+      throw Error("Must provide coordinates")
+    }
+    const {latitude, longitude} = eventCoordinate
     const myEvent: Event = {
       date: eventDate,
-      latitude: eventLatitude,
-      longitude: eventLongitude,
+      latitude,
+      longitude,
       title: eventTitle,
     };
-
-    console.log(myEvent);
 
     request(myEvent);
   };
@@ -51,9 +55,12 @@ function EventCreateScreen({navigation}: EventCreateScreenProps) {
         />
       </InputGroup>
 
-      <Button title="Choose Location" />
+      <InputGroup>
+        <Button title="Choose Location" onPress={toggle} />
 
-      <Button title="Submit" onPress={handleSubmit} />
+        {isToggled && <AppMapView onPress={(coordinate) => setEventCoordinate(coordinate)} pins={eventCoordinate && [eventCoordinate]}/>}
+      </InputGroup>
+      <Button title="Submit" onPress={() => handleSubmit()} />
     </SafeAreaView>
   );
 }
