@@ -40,6 +40,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     };
 
     request(myEvent);
+    navigation.navigate("Home")
   };
 
   return (
