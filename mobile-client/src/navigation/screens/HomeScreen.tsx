@@ -17,6 +17,10 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         title="Create new Event"
         onPress={() => navigation.navigate("EventCreate")}
       />
+      <Button 
+        title="Event Detail Screen"
+        onPress={() => navigation.navigate("EventDetails")}
+      />
     </View>
   );
 }
