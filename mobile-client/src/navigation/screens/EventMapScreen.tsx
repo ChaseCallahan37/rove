@@ -41,10 +41,19 @@ function EventMapScreen() {
             events.map(({ latitude, longitude }) => ({ latitude, longitude }))
           }
         ></AppMapView>
-        <Text>NEARBY</Text>
+        <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
 
         {/*@ts-ignore          */}
-        <EventList mapRef={mapRef} events={events} />
+        {loading ? (
+          <Text style={{ color: "brown" }}>Loading...</Text>
+        // @ts-ignore
+        ) : events.length > 0 ? (
+          <EventList mapRef={mapRef} events={events} />
+        ) : (
+          <Text onPress={() => getEvents()} style={{ color: "brown" }}>
+            There are no events to display, click here to retry
+          </Text>
+        )}
       </View>
     </View>
   );

@@ -17,21 +17,27 @@ type EventCreateScreenProps = {
 function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
-  const [eventCoordinate, setEventCoordinate] = useState<{latitude: number, longitude: number}>();
+  const [eventCoordinate, setEventCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  }>();
 
   const { request } = useApi(createEvent);
 
   const { isToggled, toggle } = useToggle(false);
 
-  const handleUpdateCoordinate = (coordinate: {latitude: number, longitude: number}) => {
-    setEventCoordinate(coordinate)
-  }
+  const handleUpdateCoordinate = (coordinate: {
+    latitude: number;
+    longitude: number;
+  }) => {
+    setEventCoordinate(coordinate);
+  };
 
-  const handleSubmit = () => {
-    if(!eventCoordinate){
-      throw Error("Must provide coordinates")
+  const handleSubmit = async () => {
+    if (!eventCoordinate) {
+      throw Error("Must provide coordinates");
     }
-    const {latitude, longitude} = eventCoordinate
+    const { latitude, longitude } = eventCoordinate;
     const myEvent: Event = {
       date: eventDate,
       latitude,
@@ -39,8 +45,16 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       title: eventTitle,
     };
 
-    request(myEvent);
-    navigation.navigate("Home")
+    const succeeded = await request(myEvent);
+
+    console.log("HERE IS FORM");
+
+    console.log(succeeded);
+
+    if (!succeeded) {
+      return Alert.alert("Your request failed, please try again");
+    }
+    navigation.navigate("Home");
   };
 
   return (
@@ -63,7 +77,13 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       <InputGroup>
         <Button title="Choose Location" onPress={toggle} />
 
-        {isToggled && <AppMapView onDoublePress={handleUpdateCoordinate} onLongPress={handleUpdateCoordinate} pins={eventCoordinate && [eventCoordinate]}/>}
+        {isToggled && (
+          <AppMapView
+            onDoublePress={handleUpdateCoordinate}
+            onLongPress={handleUpdateCoordinate}
+            pins={eventCoordinate && [eventCoordinate]}
+          />
+        )}
       </InputGroup>
       <Button title="Submit" onPress={() => handleSubmit()} />
     </SafeAreaView>

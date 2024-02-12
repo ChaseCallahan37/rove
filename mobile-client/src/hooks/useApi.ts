@@ -6,24 +6,39 @@ function useApi(apiCall: Function) {
   const [error, setError] = useState(false);
   const [progress, setProgress] = useState();
 
+  // We want to return true or false to indicate whether
+  // the request fails or succeeds
   // @ts-ignore
   const request = async (...args) => {
+    let result;
+
     try {
       setLoading(true);
-      const result = await apiCall(...args);
 
+      result = await apiCall(...args);
       setLoading(false);
       // @ts-ignore
       setProgress(null);
       if (!result.ok) {
-        return setError(true);
+        setError(true);
       }
+
       const { data } = await result.json();
 
       setError(false);
       setData(data);
     } catch (e) {
+      setError(true);
+      setLoading(false);
       console.log(e);
+    } finally {
+      const responseSucceeded = result?.status < 300;
+      console.log(responseSucceeded);
+      console.log("DIFJIOSDFOISDJFOL");
+
+      console.log(result);
+
+      return responseSucceeded;
     }
   };
 
