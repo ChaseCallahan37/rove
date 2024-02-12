@@ -45,21 +45,7 @@ function EventCreateScreen() {
         />
       </InputGroup>
 
-      <InputGroup label={{ size: "sm", text: "Event Latitude" }}>
-        <AppNumberInput
-          placeholder="34.0235"
-          value={eventLatitude}
-          updateValue={(num) => setEventLatitude(num)}
-        />
-      </InputGroup>
-
-      <InputGroup label={{ text: "Event Longitude", size: "sm" }}>
-        <AppNumberInput
-          placeholder="123.3216"
-          value={eventLongitude}
-          updateValue={(num) => setEventLongitude(num)}
-        />
-      </InputGroup>
+      <Button title="Choose Location" />
 
       <Button title="Submit" onPress={handleSubmit} />
     </SafeAreaView>

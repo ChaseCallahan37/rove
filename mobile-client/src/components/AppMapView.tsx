@@ -10,7 +10,7 @@ type AppEventMapProps = {
 // MapView component, allowing us to effectively encapsulate our map dependency
 const AppMapView = forwardRef(({ pins }: AppEventMapProps, ref) => {
   return (
-    <View style={{  }}>
+    <View style={{}}>
       <MapView
         // @ts-ignore
         ref={ref}
@@ -31,7 +31,7 @@ const AppMapView = forwardRef(({ pins }: AppEventMapProps, ref) => {
       </MapView>
     </View>
   );
-})
+});
 
 const styles = StyleSheet.create({
   map: {

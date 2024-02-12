@@ -29,12 +29,11 @@ function EventMapScreen() {
   const mapRef = useRef(null);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Text style={{ color: "blue" }}>EVENT MAP SCREEN</Text>
       <View style={{ flex: 1 }}>
         <AppMapView
           ref={mapRef}
-
           // @ts-ignore
           pins={
             events &&
@@ -45,10 +44,7 @@ function EventMapScreen() {
         <Text>NEARBY</Text>
 
         {/*@ts-ignore          */}
-        <EventList 
-          mapRef={mapRef}
-          events={events}
-        />
+        <EventList mapRef={mapRef} events={events} />
       </View>
     </View>
   );
