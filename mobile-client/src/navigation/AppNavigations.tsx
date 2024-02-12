@@ -4,16 +4,15 @@ import HomeScreen from "./screens/HomeScreen";
 import EventCreateScreen from "./screens/EventCreateScreen";
 import EventMapScreen from "./screens/EventMapScreen";
 
-export type AppNavigationProp<
-  T extends "Home" | "EventMap" | "EventCreate" 
-> = NavigationProp<
-  {
-    Home: undefined;
-    EventMap: undefined;
-    EventCreate: undefined;
-  },
-  T
->;
+export type AppNavigationProp<T extends "Home" | "EventMap" | "EventCreate"> =
+  NavigationProp<
+    {
+      Home: undefined;
+      EventMap: undefined;
+      EventCreate: undefined;
+    },
+    T
+  >;
 
 const Stack = createNativeStackNavigator();
 
