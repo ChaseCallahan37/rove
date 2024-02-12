@@ -23,6 +23,10 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
 
   const { isToggled, toggle } = useToggle(false);
 
+  const handleUpdateCoordinate = (coordinate: {latitude: number, longitude: number}) => {
+    setEventCoordinate(coordinate)
+  }
+
   const handleSubmit = () => {
     if(!eventCoordinate){
       throw Error("Must provide coordinates")
@@ -58,7 +62,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       <InputGroup>
         <Button title="Choose Location" onPress={toggle} />
 
-        {isToggled && <AppMapView onPress={(coordinate) => setEventCoordinate(coordinate)} pins={eventCoordinate && [eventCoordinate]}/>}
+        {isToggled && <AppMapView onDoublePress={handleUpdateCoordinate} onLongPress={handleUpdateCoordinate} pins={eventCoordinate && [eventCoordinate]}/>}
       </InputGroup>
       <Button title="Submit" onPress={() => handleSubmit()} />
     </SafeAreaView>
