@@ -6,8 +6,14 @@ import AppDatePicker from "../../components/AppDatePicker";
 import AppNumberInput from "../../components/AppNumberInput";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
+import { AppNavigationProp } from "../AppNavigations";
 
-function EventCreateScreen() {
+
+type EventCreateScreenProps = {
+  navigation: AppNavigationProp<"ChooseEventLocation">
+}
+
+function EventCreateScreen({navigation}: EventCreateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
   const [eventLatitude, setEventLatitude] = useState(0);
