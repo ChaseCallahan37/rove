@@ -1,7 +1,4 @@
-import {
-  Text,
-  View,
-} from "react-native";
+import { Text, View } from "react-native";
 import useApi from "../../hooks/useApi";
 import { useEffect, useRef } from "react";
 import eventApi from "../../api/events";
@@ -40,13 +37,8 @@ function EventMapScreen() {
         {/*@ts-ignore          */}
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
-        // @ts-ignore
-        ) : events.length > 0 ? (
-          <EventList mapRef={mapRef} events={events} />
         ) : (
-          <Text onPress={() => getEvents()} style={{ color: "brown" }}>
-            There are no events to display, click here to retry
-          </Text>
+          <EventList mapRef={mapRef} events={events} />
         )}
       </View>
     </View>
