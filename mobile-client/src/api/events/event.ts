@@ -16,6 +16,13 @@ export async function retrieveEvents() {
   return res;
 }
 
+export async function retrieveEvent(id: string) {
+  const res = await service.getOne(resourceName, id)
+
+  return res
+  
+}
+
 export async function createEvent(newEvent: Event) {
   const res = await service.post<{ event: Event }>(resourceName, {
     event: newEvent,
