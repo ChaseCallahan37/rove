@@ -8,6 +8,22 @@ async function get(resource: string) {
   return res;
 }
 
+async function getOne(resource: string, id: string){
+  const payload = {
+    id
+  }
+  
+  const res = fetch(url + resource, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  })
+
+  return res
+}
+
 async function post<T>(resource: string, payload: T) {
   const res = fetch(url + resource, {
     method: "POST",
@@ -22,5 +38,6 @@ async function post<T>(resource: string, payload: T) {
 
 export default {
   get,
-  post,
+  getOne,
+  post
 };
