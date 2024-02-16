@@ -1,6 +1,8 @@
 import { Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
-import { Event } from "../../api/events/event";
+import { Event, retrieveEvent } from "../../api/events/event";
+import useApi from "../../hooks/useApi";
+import { useEffect } from "react";
 
 export type EventDetailsScreenParams = {
   eventID: string;
@@ -15,11 +17,20 @@ export type EventDetailsScreenProps = {
 
 function EventDetailsScreen({
   navigation,
-  route: { params: event },
+  route: { params: {eventID}},
 }: EventDetailsScreenProps) {
+
+  const {loading, error, data: event, request: getEvent} = useApi(retrieveEvent)
+
+  useEffect(() => {
+    getEvent(eventID)
+  }, [])
+
+
   return (
     <View>
-      <Text style={{ color: "blue" }}>{JSON.stringify(event)}</Text>
+      {loading ? <Text style={{color: "red"}}>Loading</Text> : error ? <Text style={{color: "red"}}>Error</Text> : 
+      <Text style={{ color: "blue" }}>This is new event!{JSON.stringify(event)}</Text>}
     </View>
   );
 }
