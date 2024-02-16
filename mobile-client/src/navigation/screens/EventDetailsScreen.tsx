@@ -3,7 +3,7 @@ import { AppNavigationProp } from "../AppNavigations";
 import { Event } from "../../api/events/event";
 
 export type EventDetailsScreenParams = {
-  event: Event;
+  eventID: string;
 };
 
 export type EventDetailsScreenProps = {
@@ -19,7 +19,7 @@ function EventDetailsScreen({
 }: EventDetailsScreenProps) {
   return (
     <View>
-      <Text style={{ color: "yellow" }}>{JSON.stringify(event)}</Text>
+      <Text style={{ color: "blue" }}>{JSON.stringify(event)}</Text>
     </View>
   );
 }
