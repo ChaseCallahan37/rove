@@ -17,19 +17,6 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         title="Create new Event"
         onPress={() => navigation.navigate("EventCreate")}
       />
-      <Button
-        title="Event Detail Screen"
-        onPress={() =>
-          navigation.navigate("EventDetails", {
-            event: {
-              title: "Test",
-              latitude: 33.2132,
-              longitude: -87.2313,
-              date: new Date(),
-            },
-          })
-        }
-      />
     </View>
   );
 }
