@@ -9,17 +9,7 @@ async function get(resource: string) {
 }
 
 async function getOne(resource: string, id: string){
-  const payload = {
-    id
-  }
-  
-  const res = fetch(url + resource, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload)
-  })
+  const res = fetch(url + resource + `/${id}`)
 
   return res
 }
