@@ -4,8 +4,13 @@ import { useEffect, useRef } from "react";
 import eventApi from "../../api/events";
 import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
+import { AppNavigationProp } from "../AppNavigations";
 
-function EventMapScreen() {
+type HomeScreenProps = {
+  navigation: AppNavigationProp<"Home">;
+};
+
+function EventMapScreen({navigation}: HomeScreenProps) {
   const {
     data: events,
     request: getEvents,
@@ -38,7 +43,7 @@ function EventMapScreen() {
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
-          <EventList mapRef={mapRef} events={events} />
+          <EventList mapRef={mapRef} events={events} onEventClick={(event) => navigation.navigate("EventDetails", event)}/>
         )}
       </View>
     </View>
