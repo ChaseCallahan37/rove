@@ -1,6 +1,7 @@
 import service from "../service";
 
 export type Event = {
+  id: string,
   title: string;
   date: Date;
   latitude: number;
