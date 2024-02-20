@@ -1,5 +1,19 @@
 defmodule RoveApiWeb.Router do
   use RoveApiWeb, :router
+  use Plug.ErrorHandler
+
+  # These need to be handled with the Plug.ErrorHandler abvoe
+  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+    conn
+    |> json(%{errors: message})
+    |> halt()
+  end
+
+  defp handle_errors(conn, %{reason: %{message: message}}) do
+    conn
+    |> json(%{errors: message})
+    |> halt()
+  end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -17,7 +31,6 @@ defmodule RoveApiWeb.Router do
 
   scope "/", RoveApiWeb do
     pipe_through :browser
-
     get "/", PageController, :home
   end
 
@@ -29,7 +42,8 @@ defmodule RoveApiWeb.Router do
     post "/events", EventController, :create
 
     get "/accounts", AccountController, :index
-    post "/accounts", AccountController, :create
+    post "/accounts/create", AccountController, :create
+    post "/accounts/sign-in", AccountController, :sign_in
   end
 
   # Other scopes may use custom stacks.

@@ -2,7 +2,7 @@ defmodule RoveApiWeb.AccountController do
   use RoveApiWeb, :controller
 
   alias Hex.API.User
-  alias RoveApiWeb.Auth.Guardian
+  alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
   alias RoveApi.{Accounts, Accounts.Account, Users, Users.User}
 
   action_fallback RoveApiWeb.FallbackController
@@ -21,6 +21,17 @@ defmodule RoveApiWeb.AccountController do
       |> put_resp_header("location", ~p"/api/accounts/#{account}")
       |> render(:show, %{account: account, token: token})
     end
+  end
+
+  def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
+    case Guardian.authenticate(email, hash_password) do
+      {:ok, account, token} ->
+        conn
+        |> put_status(:ok)
+        |> render(:show, %{account: account, token: token})
+      {:error, :unauthorized} -> raise ErrorResponse.Unauthorized, message: "Email or password incorrect."
+    end
+
   end
 
   def show(conn, %{"id" => id}) do
