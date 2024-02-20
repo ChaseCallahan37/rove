@@ -5,20 +5,29 @@ import MapView, {
   LongPressEvent,
   MapPressEvent,
   Marker,
+  MarkerPressEvent,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
 
 type AppEventMapProps = {
-  pins?: { latitude: number; longitude: number }[] | undefined;
+  pins?: { id?: string; latitude: number; longitude: number }[] | undefined;
   onPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onLongPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onDoublePress?: (coordinate: { latitude: number; longitude: number }) => void;
+  onPinPress?: (pin: {
+    latitude: number;
+    longitude: number;
+    eventID: string;
+  }) => void;
 };
 
 // We use forward ref here so that we can pass the reference down to the
 // MapView component, allowing us to effectively encapsulate our map dependency
 const AppMapView = forwardRef(
-  ({ pins, onPress, onDoublePress, onLongPress }: AppEventMapProps, ref) => {
+  (
+    { pins, onPress, onDoublePress, onLongPress, onPinPress }: AppEventMapProps,
+    ref
+  ) => {
     const handleOnPress = (event: MapPressEvent) => {
       if (!onPress) {
         throw new Error("Must provide onPress field in order to use it");
@@ -44,6 +53,25 @@ const AppMapView = forwardRef(
       onDoublePress(coordinate);
     };
 
+    const handleOnPinPress = (
+      event: MarkerPressEvent,
+      eventID: string | undefined
+    ) => {
+      if (!onPinPress) return;
+
+      if (!eventID)
+        throw new Error(
+          "You must pass pins with an ID into the map view in order to use handleOnPinPress"
+        );
+
+      const { latitude, longitude } = event.nativeEvent.coordinate;
+      onPinPress({
+        latitude,
+        longitude,
+        eventID,
+      });
+    };
+
     return (
       <View style={{}}>
         <MapView
@@ -63,8 +91,14 @@ const AppMapView = forwardRef(
         >
           {pins &&
             /*@ts-ignore          */
-            pins.map(({ latitude, longitude }, index) => (
-              <Marker key={index} coordinate={{ latitude, longitude }} />
+            pins.map(({ latitude, longitude, id: eventID }, index) => (
+              <Marker
+                key={index}
+                coordinate={{ latitude, longitude }}
+                onPress={
+                  onPinPress && ((event) => handleOnPinPress(event, eventID))
+                }
+              />
             ))}
         </MapView>
       </View>

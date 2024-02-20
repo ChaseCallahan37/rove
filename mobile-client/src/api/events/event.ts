@@ -1,6 +1,7 @@
 import service from "../service";
 
 export type Event = {
+  id: string;
   title: string;
   date: Date;
   latitude: number;
@@ -11,6 +12,12 @@ const resourceName = "events";
 
 export async function retrieveEvents() {
   const res = await service.get(resourceName);
+
+  return res;
+}
+
+export async function retrieveEvent(id: string) {
+  const res = await service.getOne(resourceName, id);
 
   return res;
 }

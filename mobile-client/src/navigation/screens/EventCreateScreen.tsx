@@ -37,7 +37,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       throw Error("Must provide coordinates");
     }
     const { latitude, longitude } = eventCoordinate;
-    const myEvent: Event = {
+    const myEvent = {
       date: eventDate,
       latitude,
       longitude,

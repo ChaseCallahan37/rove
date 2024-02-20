@@ -13,8 +13,10 @@ type EventListProps = {
 };
 
 function EventList({ mapRef, events }: EventListProps) {
-  if(!events || (events && events?.length == 0)){
-    return <Text style={{color: "brown"}}>There are ne events to render</Text>
+  if (!events || (events && events?.length == 0)) {
+    return (
+      <Text style={{ color: "brown" }}>There are ne events to render</Text>
+    );
   }
 
   return (

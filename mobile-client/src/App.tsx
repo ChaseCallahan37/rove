@@ -1,5 +1,6 @@
 import React from "react";
 import { enableLatestRenderer } from "react-native-maps";
+import tw, { useDeviceContext } from "twrnc";
 
 import AppNavigation from "./navigation/AppNavigations";
 
@@ -8,6 +9,8 @@ import AppNavigation from "./navigation/AppNavigations";
 enableLatestRenderer();
 
 function App(): React.JSX.Element {
+  useDeviceContext(tw);
+
   return <AppNavigation />;
 }
 
