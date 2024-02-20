@@ -22,14 +22,16 @@ config :rove_api, RoveApiWeb.Endpoint,
   pubsub_server: RoveApi.PubSub,
   live_view: [signing_salt: "EFkA29Oz"]
 
+config :rove_api, RoveApiWeb.Auth.Guardian,
+    issuer: "rove_api",
+    secret_key: "458wrmzHh6cpi8EBdgwmS7ESUSdNs2eIJhi+eQTRKSJPTje4MkAVA0c/iiulGcKt"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
 # locally. You can see the emails in your browser, at "/dev/mailbox".
 #
 # For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :rove_api, RoveApi.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
