@@ -1,11 +1,10 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 import { Event, retrieveEvent } from "../../api/events/event";
 import useApi from "../../hooks/useApi";
 import { useEffect } from "react";
 
-
-import {style as tw} from "twrnc"
+import { style as tw } from "twrnc";
 import format from "../../utils/format";
 
 export type EventDetailsScreenParams = {
@@ -21,36 +20,64 @@ export type EventDetailsScreenProps = {
 
 function EventDetailsScreen({
   navigation,
-  route: { params: {eventID}},
+  route: {
+    params: { eventID },
+  },
 }: EventDetailsScreenProps) {
-
-  const {loading, error, data, request: getEvent} = useApi(retrieveEvent)
-  const event = data as Event | undefined | null
+  const { loading, error, data, request: getEvent } = useApi(retrieveEvent);
+  const event = data as Event | undefined | null;
   useEffect(() => {
-    getEvent(eventID)
-  }, [])
-
-console.log(event);
-
+    getEvent(eventID);
+  }, []);
 
   return (
-    <View style={tw(['flex-1', 'bg-slate-100'])}>
-      {loading ? <Text style={{color: "red"}}>Loading</Text> : error ? <Text style={{color: "red"}}>Error</Text> :
-      event && 
-      <View style={tw(['grow', 'px-2'])}>
-        <Text style={{ color: "blue" }}>This is new event!{JSON.stringify(event)}</Text>
-        <View style={tw(['bg-sky-200', 'rounded-full', 'p-2', 'flex', 'items-center'])}>
-          <Text style={tw(['text-black', 'text-lg'])}>{event.title}</Text>
-          {// @ts-ignore
-          
-          <Text style={tw(['text-black'])}>{event.date}</Text>
-}
-        </View>
-      </View>
-      
-      
-      
-      }
+    <View style={tw(["flex-1", "bg-slate-100", "py-8", "px-2"])}>
+      {loading ? (
+        <Text style={{ color: "red" }}>Loading</Text>
+      ) : error ? (
+        <Text style={{ color: "red" }}>Error</Text>
+      ) : (
+        event && (
+          <View style={tw(["grow", "px-2"])}>
+            <View
+              style={tw([
+                "bg-sky-200",
+                "rounded-full",
+                "p-2",
+                "flex",
+                "flex-row",
+                "items-center",
+                "justify-around",
+              ])}
+            >
+              <Text style={tw(["text-black", "font-bold", "text-lg"])}>
+                {event.title}
+              </Text>
+              {
+                // @ts-ignore
+
+                <Text style={tw(["text-black", "text-sm"])}>{event.date}</Text>
+              }
+            </View>
+
+            <View style={tw(["mt-16", "rounded", "bg-slate-200"])}>
+              <Image
+                style={tw(["w-full", "h-72", "rounded-t"])}
+                source={{
+                  uri: "https://cdn.dribbble.com/users/1409624/screenshots/11850998/media/445dea8b45ff2bf796545364620bccd4.png?resize=400x300&vertical=center",
+                }}
+              />
+
+              <View style={tw(["p-2"])}>
+                <Text style={tw(["text-black", "text-sm"])}>{event.title}</Text>
+                <Text style={tw(["text-black", "text-base", "font-semibold"])}>
+                  25 Members
+                </Text>
+              </View>
+            </View>
+          </View>
+        )
+      )}
     </View>
   );
 }

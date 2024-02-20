@@ -1,7 +1,7 @@
 import service from "../service";
 
 export type Event = {
-  id: string,
+  id: string;
   title: string;
   date: Date;
   latitude: number;
@@ -17,10 +17,9 @@ export async function retrieveEvents() {
 }
 
 export async function retrieveEvent(id: string) {
-  const res = await service.getOne(resourceName, id)
+  const res = await service.getOne(resourceName, id);
 
-  return res
-  
+  return res;
 }
 
 export async function createEvent(newEvent: Event) {

@@ -10,7 +10,6 @@ import { Event } from "../api/events/event";
 type EventListProps = {
   mapRef: React.MutableRefObject<null>;
   events: Event[] | null;
-  
 };
 
 function EventList({ mapRef, events }: EventListProps) {

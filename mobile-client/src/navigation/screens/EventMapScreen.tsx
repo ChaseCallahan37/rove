@@ -10,7 +10,7 @@ type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
 };
 
-function EventMapScreen({navigation}: HomeScreenProps) {
+function EventMapScreen({ navigation }: HomeScreenProps) {
   const {
     data: events,
     request: getEvents,
@@ -29,13 +29,19 @@ function EventMapScreen({navigation}: HomeScreenProps) {
       <Text style={{ color: "blue" }}>EVENT MAP SCREEN</Text>
       <View style={{ flex: 1 }}>
         <AppMapView
-          onPinPress={({eventID}) => navigation.navigate("EventDetails", {eventID})}
+          onPinPress={({ eventID }) =>
+            navigation.navigate("EventDetails", { eventID })
+          }
           ref={mapRef}
           // @ts-ignore
           pins={
             events &&
             // @ts-ignore
-            events.map(({ latitude, longitude, id }) => ({ latitude, longitude, id }))
+            events.map(({ latitude, longitude, id }) => ({
+              latitude,
+              longitude,
+              id,
+            }))
           }
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>

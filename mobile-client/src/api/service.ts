@@ -8,10 +8,10 @@ async function get(resource: string) {
   return res;
 }
 
-async function getOne(resource: string, id: string){
-  const res = fetch(url + resource + `/${id}`)
+async function getOne(resource: string, id: string) {
+  const res = fetch(url + resource + `/${id}`);
 
-  return res
+  return res;
 }
 
 async function post<T>(resource: string, payload: T) {
@@ -29,5 +29,5 @@ async function post<T>(resource: string, payload: T) {
 export default {
   get,
   getOne,
-  post
+  post,
 };
