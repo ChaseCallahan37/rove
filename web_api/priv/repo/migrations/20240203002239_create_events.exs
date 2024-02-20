@@ -3,7 +3,7 @@ defmodule RoveApi.Repo.Migrations.CreateEvents do
 
   def change do
     create table(:events, primary_key: false) do
-      add :id, :binary_id, primary_key: true
+      add :id, :binary_id, primary_key: true, autogenerate: true
       add :title, :string
       add :date, :date
       add :latitude, :float

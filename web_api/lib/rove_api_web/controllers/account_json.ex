@@ -8,6 +8,10 @@ defmodule RoveApiWeb.AccountJSON do
     %{data: for(account <- account, do: data(account))}
   end
 
+  def show(%{account: account, token: token}) do
+    %{data: data(account, token)}
+  end
+
   @doc """
   Renders a single account.
   """
@@ -19,7 +23,15 @@ defmodule RoveApiWeb.AccountJSON do
     %{
       id: account.id,
       email: account.email,
-      hash_password: account.hash_password
     }
+  end
+
+  def data(%Account{} = account, token) do
+    Map.merge(
+      %{
+        token: token
+      },
+      data(account)
+    )
   end
 end

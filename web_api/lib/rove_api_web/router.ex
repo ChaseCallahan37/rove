@@ -27,6 +27,9 @@ defmodule RoveApiWeb.Router do
     get "/events", EventController, :index
     get "/events/:id", EventController, :show
     post "/events", EventController, :create
+
+    get "/accounts", AccountController, :index
+    post "/accounts", AccountController, :create
   end
 
   # Other scopes may use custom stacks.

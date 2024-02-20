@@ -3,6 +3,7 @@ defmodule RoveApi.Accounts.Account do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "accounts" do
     field :email, :string
     field :hash_password, :string

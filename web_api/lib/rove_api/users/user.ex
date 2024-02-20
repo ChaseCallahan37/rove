@@ -3,7 +3,8 @@ defmodule RoveApi.Users.User do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  schema "user" do
+  @foreign_key_type :binary_id
+  schema "users" do
     field :user_name, :string
     belongs_to :account, RoveApi.Accounts.Account
 
