@@ -26,7 +26,13 @@ defmodule RoveApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
     plug CORSPlug, origin: "*"
+  end
+
+  pipeline :auth do
+    plug RoveApiWeb.Auth.Pipeline
+    plug RoveApiWeb.Auth.SetAccount
   end
 
   scope "/", RoveApiWeb do
@@ -41,9 +47,16 @@ defmodule RoveApiWeb.Router do
     get "/events/:id", EventController, :show
     post "/events", EventController, :create
 
-    get "/accounts", AccountController, :index
+
     post "/accounts/create", AccountController, :create
     post "/accounts/sign-in", AccountController, :sign_in
+  end
+
+  scope "/api", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    get "/accounts/:id", AccountController, :show
+    get "/accounts", AccountController, :index
   end
 
   # Other scopes may use custom stacks.
