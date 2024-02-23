@@ -69,6 +69,7 @@ defmodule RoveApiWeb.Router do
     # We add the sign-out endpoint here because only accounts that are
     # authenticated, should be able to sign out
     get "/accounts/sign-out", AccountController, :sign_out
+    get "/accounts/refresh-session", AccountController, :refresh_session
   end
 
   # Other scopes may use custom stacks.
