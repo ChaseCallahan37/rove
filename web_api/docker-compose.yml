@@ -9,7 +9,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: real_deal_dev_db
+      POSTGRES_DB: rove_api_dev_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: super_super_secret 
 

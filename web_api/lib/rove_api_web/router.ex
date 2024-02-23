@@ -15,6 +15,14 @@ defmodule RoveApiWeb.Router do
     |> halt()
   end
 
+  defp handle_errors(conn, body) do
+    IO.inspect(body)
+
+    conn
+    |> json(%{errors: "request failed see logs"})
+    |> halt()
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -57,6 +65,7 @@ defmodule RoveApiWeb.Router do
 
     get "/accounts/:id", AccountController, :show
     get "/accounts", AccountController, :index
+    put "/accounts", AccountController, :update
   end
 
   # Other scopes may use custom stacks.
