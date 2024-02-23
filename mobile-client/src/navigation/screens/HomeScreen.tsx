@@ -1,6 +1,7 @@
 import { Button, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 
+import tw from 'twrnc'
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
 };
@@ -8,7 +9,7 @@ type HomeScreenProps = {
 function HomeScreen({ navigation }: HomeScreenProps) {
   return (
     <View>
-      <Text style={{ color: "blue" }}>Home Screen</Text>
+      <Text style={tw.style(['text-black'])}>Home Screen</Text>
       <Button
         title="Go To Events"
         onPress={() => navigation.navigate("EventMap")}
