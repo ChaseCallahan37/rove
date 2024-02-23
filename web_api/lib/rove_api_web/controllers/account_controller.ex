@@ -1,6 +1,7 @@
 defmodule RoveApiWeb.AccountController do
   use RoveApiWeb, :controller
 
+  alias ElixirSense.Core.Guard
   alias Hex.API.User
   alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
   alias RoveApi.{Accounts, Accounts.Account, Users, Users.User}
@@ -36,6 +37,25 @@ defmodule RoveApiWeb.AccountController do
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/accounts/#{account}")
       |> render(:show, %{account: account, token: token})
+    end
+  end
+
+  def refresh_session(conn, %{}) do
+    old_token = Guardian.Plug.current_token(conn)
+    case Guardian.decode_and_verify(old_token) do
+      {:ok, claims} ->
+        case Guardian.resource_from_claims(claims) do
+          {:ok, account} ->
+            {:ok, {_old, {new_token, _new_claims}}} = Guardian.refresh(old_token)
+            conn
+            |> Plug.Conn.put_session(:account_id, account.id)
+            |> put_status(:ok)
+            |> render(:show, %{account: account, token: new_token})
+          {:error, _reason} ->
+            ErrorResponse.NotFound
+        end
+      {:error, _reason} ->
+        raise ErrorResponse.NotFound
     end
   end
 
