@@ -16,7 +16,6 @@ defmodule RoveApiWeb.Auth.Guardian do
       nil -> {:error, :not_found}
       resource -> {:ok, resource}
     end
-
   end
 
   def resource_from_claims(_) do

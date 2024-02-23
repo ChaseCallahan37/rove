@@ -1,7 +1,6 @@
 defmodule RoveApiWeb.AccountController do
   use RoveApiWeb, :controller
 
-  alias ElixirSense.Core.Guard
   alias Hex.API.User
   alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
   alias RoveApi.{Accounts, Accounts.Account, Users, Users.User}
@@ -46,7 +45,7 @@ defmodule RoveApiWeb.AccountController do
       {:ok, claims} ->
         case Guardian.resource_from_claims(claims) do
           {:ok, account} ->
-            {:ok, {_old, {new_token, _new_claims}}} = Guardian.refresh(old_token)
+            {:ok, _old, {new_token, _new_claims}} = Guardian.refresh(old_token)
             conn
             |> Plug.Conn.put_session(:account_id, account.id)
             |> put_status(:ok)
