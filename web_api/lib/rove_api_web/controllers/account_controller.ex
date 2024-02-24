@@ -5,23 +5,14 @@ defmodule RoveApiWeb.AccountController do
   alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
   alias RoveApi.{Accounts, Accounts.Account, Users, Users.User}
 
+  import RoveApiWeb.Auth.AuthorizedPlug
+
   # we state this so that we can check for this specific actions to be called
   # only be the authorized user
-  plug :is_authorized_account when action in [:update, :delete]
+  plug :is_authorized when action in [:update, :delete]
 
   action_fallback RoveApiWeb.FallbackController
 
-  # This function is expecting params to contain
-  defp is_authorized_account(conn, _opts) do
-    %{params: %{"account" => params}} = conn
-    %{"id" => account_id} = params
-    account = Accounts.get_account!(account_id)
-    if conn.assigns.account.id == account.id do
-      conn
-    else
-      raise ErrorResponse.Forbidden
-    end
-  end
 
   def index(conn, _params) do
     account = Accounts.list_account()
@@ -82,6 +73,7 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def update(conn, %{"account" => account_params}) do
+    IO.puts("IN UPDATE")
     account = Accounts.get_account!(account_params["id"])
 
     with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
