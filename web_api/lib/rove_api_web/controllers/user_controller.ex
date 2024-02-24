@@ -6,7 +6,7 @@ defmodule RoveApiWeb.UserController do
 
   import RoveApiWeb.Auth.AuthorizedPlug
 
-  plug :is_authorized when action in [:update, :delete]
+  plug :is_authorized when action in [:show, :update, :delete]
 
   action_fallback RoveApiWeb.FallbackController
 

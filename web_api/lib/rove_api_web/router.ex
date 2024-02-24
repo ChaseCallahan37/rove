@@ -72,6 +72,7 @@ defmodule RoveApiWeb.Router do
     get "/accounts/refresh-session", AccountController, :refresh_session
 
     put "/users/update", UserController, :update
+    get "/users/get-by-id/:id", UserController, :show
   end
 
   # Other scopes may use custom stacks.

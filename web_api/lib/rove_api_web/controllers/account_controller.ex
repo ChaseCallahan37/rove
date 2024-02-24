@@ -67,17 +67,24 @@ defmodule RoveApiWeb.AccountController do
     |> render(:show, %{account: account, token: nil})
   end
 
+  def current_account(%{assigns: %{account: account}} = conn, %{}) do
+    conn
+    |> put_status(:ok)
+    |> render(:show, account: account)
+  end
+
   def show(conn, %{"id" => id}) do
     account = Accounts.get_full_account(id)
     render(conn, :show, account: account)
   end
 
-  def update(conn, %{"account" => account_params}) do
-    IO.puts("IN UPDATE")
-    account = Accounts.get_account!(account_params["id"])
-
-    with {:ok, %Account{} = account} <- Accounts.update_account(account, account_params) do
-      render(conn, :show, account: account)
+  def update(%{assigns: %{account: %Account{} = account}} = conn, %{"current_hash" => current_hash ,"account" => account_params}) do
+    if Guardian.validate_password(current_hash, account.hash_password) do
+      {:ok, updated_account} = Accounts.update_account(account, account_params)
+      conn
+      |> render(:show, account: updated_account)
+    else
+      raise ErrorResponse.Unauthorized, message: "Password incorrect"
     end
   end
 
