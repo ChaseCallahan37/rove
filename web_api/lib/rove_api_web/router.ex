@@ -70,6 +70,8 @@ defmodule RoveApiWeb.Router do
     # authenticated, should be able to sign out
     get "/accounts/sign-out", AccountController, :sign_out
     get "/accounts/refresh-session", AccountController, :refresh_session
+
+    put "/users/update", UserController, :update
   end
 
   # Other scopes may use custom stacks.

@@ -4,6 +4,10 @@ defmodule RoveApiWeb.UserController do
   alias RoveApi.Users
   alias RoveApi.Users.User
 
+  import RoveApiWeb.Auth.AuthorizedPlug
+
+  plug :is_authorized when action in [:update, :delete]
+
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
@@ -25,11 +29,10 @@ defmodule RoveApiWeb.UserController do
     render(conn, :show, user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, :show, user: user)
+  def update(%{assigns: %{account: %{user: user}}} = conn, %{"user" => user_params}) do
+    with {:ok, %User{} = updated_user} <- Users.update_user(user, user_params) do
+      conn
+      |> render(:show, user: updated_user)
     end
   end
 

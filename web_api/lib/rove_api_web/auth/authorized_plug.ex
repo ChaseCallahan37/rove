@@ -11,4 +11,14 @@ defmodule RoveApiWeb.Auth.AuthorizedPlug do
     end
   end
 
+
+  def is_authorized(%{params: %{"user" => %{"id" => user_id}}} = conn, _opts) do
+    IO.puts("IN is authorized")
+    if conn.assigns.account.user.id == user_id do
+      conn
+    else
+      raise ErrorResponse.Forbidden
+    end
+  end
+
 end
