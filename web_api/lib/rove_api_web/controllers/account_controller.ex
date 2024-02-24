@@ -30,35 +30,32 @@ defmodule RoveApiWeb.AccountController do
 
   def create(conn, %{"account" => account_params}) do
     with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
-          {:ok, token, _claims} <- Guardian.encode_and_sign(account),
           {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
       conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/accounts/#{account}")
-      |> render(:show, %{account: account, token: token})
+      # We want to call authorize account with the hash password that the caller gives us
+      # We do not want to use the hash of the hash when authorizing account, since
+      # authorize_account will apply the hash to the password that is passed in
+      |> authorize_account(account.email, account_params['hash_password'])
     end
   end
 
   def refresh_session(conn, %{}) do
-    old_token = Guardian.Plug.current_token(conn)
-    case Guardian.decode_and_verify(old_token) do
-      {:ok, claims} ->
-        case Guardian.resource_from_claims(claims) do
-          {:ok, account} ->
-            {:ok, _old, {new_token, _new_claims}} = Guardian.refresh(old_token)
-            conn
-            |> Plug.Conn.put_session(:account_id, account.id)
-            |> put_status(:ok)
-            |> render(:show, %{account: account, token: new_token})
-          {:error, _reason} ->
-            ErrorResponse.NotFound
-        end
-      {:error, _reason} ->
-        raise ErrorResponse.NotFound
-    end
+    token = Guardian.Plug.current_token(conn)
+    {:ok, account, token} = Guardian.authenticate(token)
+
+    conn
+    |> Plug.Conn.put_session(:account_id, account.id)
+    |> put_status(:ok)
+    |> render(:index, %{account: account, token: token})
+
   end
 
   def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
+    conn
+    |> authorize_account(email, hash_password)
+  end
+
+  defp authorize_account(conn, email, hash_password) do
     case Guardian.authenticate(email, hash_password) do
       {:ok, account, token} ->
         conn

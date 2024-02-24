@@ -27,19 +27,38 @@ defmodule RoveApiWeb.Auth.Guardian do
       nil -> {:error, :unauthorized}
       account ->
         case validate_password(password, account.hash_password) do
-          true -> create_token(account)
+          true -> create_token(account, :access)
           false -> {:error, :unauthorized}
         end
     end
+  end
+
+  def authenticate(token) do
+    with {:ok, claims} <- decode_and_verify(token),
+          {:ok, account} <- resource_from_claims(claims),
+          {:ok, _old_token, {new_token, _claims}} <- refresh(token) do
+
+        {:ok, account, new_token}
+      end
   end
 
   defp validate_password(password, hash_password) do
     Bcrypt.verify_pass(password, hash_password)
   end
 
-  defp create_token(account) do
-    {:ok, token, _claims} = encode_and_sign(account)
+  defp create_token(account, type) do
+    # set creation of token to be access and expire in 2 hours after creation
+    {:ok, token, _claims} = encode_and_sign(account, %{}, token_options(type))
     {:ok, account, token}
+  end
+
+  defp token_options(type) do
+    case type do
+      :access -> [token_type: "access", ttl: {2, :hour}]
+      :reset -> [token_type: "reset", ttl: {15, :minute}]
+      :refresh -> [token_type: "admin", ttl: {90, :day}]
+
+    end
   end
 
   def after_encode_and_sign(resource, claims, token, _options) do
