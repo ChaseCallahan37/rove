@@ -1,7 +1,7 @@
 import { Button, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 
-import tw from "twrnc";
+import {style as tw} from "twrnc";
 import useApi from "../../hooks/useApi";
 import { signIn } from "../../api/account/account";
 import { useEffect } from "react";
@@ -16,17 +16,18 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   const { user, logIn, logOut } = useAuth();
   const credentials = { email: "", password: "" };
   return (
-    <View>
-      <Text style={tw.style(["text-black"])}>Login Screen</Text>
+    <View style={tw(['px-3', 'mt-6', 'bg-red-800'])}>
 
-      <InputGroup label={{ text: "Email", size: "sm" }}>
+      <View style={tw(['bg-pink-500'])}>
+
+      <InputGroup label={{ text: "Email", size: "1/5" }}>
         <AppTextInput
           updateValue={(newValue) => {
             credentials.email = newValue;
           }}
         />
       </InputGroup>
-      <InputGroup label={{ text: "Password", size: "sm" }}>
+      <InputGroup label={{ text: "Password", size: "1/5" }}>
         <AppTextInput
           updateValue={(newValue) => {
             credentials.password = newValue;
@@ -38,6 +39,8 @@ function LoginScreen({ navigation }: LoginScreenProps) {
         onPress={() => logIn(credentials.email, credentials.password)}
       ></Button>
       {user && <Text>{JSON.stringify(user)}</Text>}
+
+      </View>
     </View>
   );
 }
