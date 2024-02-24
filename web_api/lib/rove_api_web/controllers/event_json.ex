@@ -12,6 +12,8 @@ defmodule RoveApiWeb.EventJSON do
   Renders a single event.
   """
   def show(%{event: event}) do
+    IO.puts("IN SHOW")
+    IO.inspect(event)
     %{data: data(event)}
   end
 

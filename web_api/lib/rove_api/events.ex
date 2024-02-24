@@ -37,6 +37,14 @@ defmodule RoveApi.Events do
   """
   def get_event!(id), do: Repo.get!(Event, id)
 
+  def get_event_by_id(id) when is_bitstring(id) do
+    case Event
+      |> Repo.get(id) do
+      %Event{} = event -> {:ok, event}
+      nil -> {:error, :not_found}
+    end
+  end
+
   @doc """
   Creates a event.
 

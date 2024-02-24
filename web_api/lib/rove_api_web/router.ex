@@ -51,28 +51,43 @@ defmodule RoveApiWeb.Router do
   scope "/api", RoveApiWeb do
     pipe_through :api
 
-    get "/events", EventController, :index
-    get "/events/:id", EventController, :show
-    post "/events", EventController, :create
-
 
     post "/accounts/create", AccountController, :create
     post "/accounts/sign-in", AccountController, :sign_in
   end
 
-  scope "/api", RoveApiWeb do
+  scope "/api/events", RoveApiWeb do
+    pipe_through :api
+
+    get "/", EventController, :index
+    get "/:id", EventController, :show
+  end
+
+  scope "/api/events", RoveApiWeb do
     pipe_through [:api, :auth]
 
-    get "/accounts/current", AccountController, :show
-    get "/accounts", AccountController, :index
-    put "/accounts", AccountController, :update
+    post "/", EventController, :create
+  end
+
+  scope "/api/accounts", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    get "/", AccountController, :index
+    put "/", AccountController, :update
+    get "/current", AccountController, :show
     # We add the sign-out endpoint here because only accounts that are
     # authenticated, should be able to sign out
-    get "/accounts/sign-out", AccountController, :sign_out
-    get "/accounts/refresh-session", AccountController, :refresh_session
+    get "/sign-out", AccountController, :sign_out
+    get "/refresh-session", AccountController, :refresh_session
 
-    put "/users/update", UserController, :update
-    get "/users/current", UserController, :show
+
+  end
+
+  scope "/api/users", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    put "/update", UserController, :update
+    get "/current", UserController, :show
   end
 
   # Other scopes may use custom stacks.

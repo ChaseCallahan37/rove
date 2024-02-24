@@ -1,6 +1,7 @@
 defmodule RoveApiWeb.EventController do
   use RoveApiWeb, :controller
 
+  alias RoveApiWeb.Controllers.ErrorResponse
   alias RoveApi.Events
   alias RoveApi.Events.Event
 
@@ -21,8 +22,14 @@ defmodule RoveApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    event = Events.get_event!(id)
-    render(conn, :show, event: event)
+    case Events.get_event_by_id(id) do
+      {:ok, event} ->
+        conn
+        |> put_status(:ok)
+        |> render(:show, event: event)
+      {:error, _reason} ->
+        raise ErrorResponse.NotFound
+    end
   end
 
   def update(conn, %{"id" => id, "event" => event_params}) do
