@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, SafeAreaView, Button, Alert } from "react-native";
 import useApi from "../../hooks/useApi";
-import { Event, createEvent } from "../../api/events/event";
+import { createEvent } from "../../api/events/event";
 import AppDatePicker from "../../components/AppDatePicker";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";

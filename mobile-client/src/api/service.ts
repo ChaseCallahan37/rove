@@ -2,23 +2,24 @@ import Config from "react-native-config";
 
 const url = Config.WEB_API_URL;
 
-async function get(resource: string) {
-  const res = fetch(url + resource);
+async function get(resource: string, headers?: any) {
+  const res = fetch(url + resource, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+  });
 
   return res;
 }
 
-async function getOne(resource: string, id: string) {
-  const res = fetch(url + resource + `/${id}`);
-
-  return res;
-}
-
-async function post<T>(resource: string, payload: T) {
+async function post<T>(resource: string, payload: T, headers?: any) {
   const res = fetch(url + resource, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
     body: JSON.stringify(payload),
   });
@@ -28,6 +29,5 @@ async function post<T>(resource: string, payload: T) {
 
 export default {
   get,
-  getOne,
   post,
 };

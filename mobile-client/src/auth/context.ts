@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-const AuthContext = createContext(null)
-AuthContext.displayName = "AuthContext"
+const AuthContext = createContext(null);
+AuthContext.displayName = "AuthContext";
 
-export default AuthContext
+export default AuthContext;
