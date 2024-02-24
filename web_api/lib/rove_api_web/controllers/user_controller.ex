@@ -6,7 +6,7 @@ defmodule RoveApiWeb.UserController do
 
   import RoveApiWeb.Auth.AuthorizedPlug
 
-  plug :is_authorized when action in [:show, :update, :delete]
+  plug :is_authorized when action in [:update, :delete]
 
   action_fallback RoveApiWeb.FallbackController
 
@@ -24,8 +24,7 @@ defmodule RoveApiWeb.UserController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+  def show(%{assigns: %{account: %{user: user}}} = conn, _params) do
     render(conn, :show, user: user)
   end
 

@@ -73,9 +73,9 @@ defmodule RoveApiWeb.AccountController do
     |> render(:show, account: account)
   end
 
-  def show(conn, %{"id" => id}) do
-    account = Accounts.get_full_account(id)
-    render(conn, :show, account: account)
+  def show(%{assigns: %{account: account}} = conn, _params) do
+    conn
+    |> render(:show, account: account)
   end
 
   def update(%{assigns: %{account: %Account{} = account}} = conn, %{"current_hash" => current_hash ,"account" => account_params}) do

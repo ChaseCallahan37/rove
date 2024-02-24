@@ -63,7 +63,7 @@ defmodule RoveApiWeb.Router do
   scope "/api", RoveApiWeb do
     pipe_through [:api, :auth]
 
-    get "/accounts/get-by-id/:id", AccountController, :show
+    get "/accounts/current", AccountController, :show
     get "/accounts", AccountController, :index
     put "/accounts", AccountController, :update
     # We add the sign-out endpoint here because only accounts that are
@@ -72,7 +72,7 @@ defmodule RoveApiWeb.Router do
     get "/accounts/refresh-session", AccountController, :refresh_session
 
     put "/users/update", UserController, :update
-    get "/users/get-by-id/:id", UserController, :show
+    get "/users/current", UserController, :show
   end
 
   # Other scopes may use custom stacks.
