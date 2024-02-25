@@ -11,7 +11,7 @@ export async function storeToken(token: string) {
 }
 
 export async function retrieveToken() {
-  return await asyncSecureRetrieval(key);
+  return (await asyncSecureRetrieval(key)) as string | undefined;
 }
 
 export async function removeToken() {

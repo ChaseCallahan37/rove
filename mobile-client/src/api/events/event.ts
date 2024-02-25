@@ -1,4 +1,4 @@
-import service from "../service";
+import service, { unpackResponse } from "../service";
 
 export type Event = {
   id: string;
@@ -13,13 +13,17 @@ const resourceName = "events";
 export async function retrieveEvents() {
   const res = await service.get(resourceName);
 
-  return res;
+  const { data: events } = await unpackResponse<{ data: Event[] }>(res);
+
+  return events;
 }
 
 export async function retrieveEvent(id: string) {
-  const res = await service.getOne(resourceName, id);
+  const res = await service.get(resourceName + "/" + id);
 
-  return res;
+  const { data: event } = await unpackResponse<{ data: Event }>(res);
+
+  return event;
 }
 
 export async function createEvent(newEvent: Event) {
@@ -27,5 +31,7 @@ export async function createEvent(newEvent: Event) {
     event: newEvent,
   });
 
-  return res;
+  const { data: createdEvent } = await unpackResponse<{ data: Event }>(res);
+
+  return createdEvent;
 }

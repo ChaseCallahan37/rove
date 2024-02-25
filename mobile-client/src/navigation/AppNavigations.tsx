@@ -8,6 +8,7 @@ import EventDetailsScreen, {
 } from "./screens/EventDetailsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import AccountScreen from "./screens/AccountScreen";
+import CreateAccountScreen from "./screens/CreateAccountScreen";
 
 export type AppNavigationProp<
   T extends
@@ -17,6 +18,7 @@ export type AppNavigationProp<
     | "EventDetails"
     | "Login"
     | "Account"
+    | "CreateAccount"
 > = NavigationProp<
   {
     Home: undefined;
@@ -25,6 +27,7 @@ export type AppNavigationProp<
     EventDetails: EventDetailsScreenParams;
     Login: undefined;
     Account: undefined;
+    CreateAccount: undefined;
   },
   T
 >;
@@ -42,6 +45,7 @@ function AppNavigation() {
         <Stack.Screen name={"EventDetails"} component={EventDetailsScreen} />
         <Stack.Screen name={"Login"} component={LoginScreen} />
         <Stack.Screen name={"Account"} component={AccountScreen} />
+        <Stack.Screen name={"CreateAccount"} component={CreateAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
 import AppPillContainer from "../../components/AppPillContainer";
@@ -8,10 +8,17 @@ type AccountScreenProps = {
 };
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   return (
     <View>
       <AppPillContainer>{user && <Text>{user.email}</Text>}</AppPillContainer>
+      <Button
+        title="Sign Out"
+        onPress={() => {
+          signOut();
+          navigation.navigate("Home");
+        }}
+      />
     </View>
   );
 }

@@ -8,11 +8,11 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import InputGroup from "../../components/InputGroup";
 import AppTextInput from "../../components/AppTextInput";
-type LoginScreenProps = {
-  navigation: AppNavigationProp<"Login">;
+type CreateAccountScreenProps = {
+  navigation: AppNavigationProp<"CreateAccount">;
 };
 
-function LoginScreen({ navigation }: LoginScreenProps) {
+function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   const { user, signIn } = useAuth();
   const credentials = { email: "", password: "" };
   return (
@@ -42,4 +42,4 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   );
 }
 
-export default LoginScreen;
+export default CreateAccountScreen;

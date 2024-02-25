@@ -16,30 +16,29 @@ export default function useAuth() {
   }
 
   async function restoreUser() {
+    if (!authContext) return;
+
     const token = await retrieveToken();
 
     if (!token) return;
 
-    //@ts-ignore
-    const userInfo = await accountApi.getAccountInfo(token);
-
-    if (!userInfo) return;
-
-    if (userInfo) {
-      // @ts-ignore
+    try {
+      const userInfo = await accountApi.getAccountInfo(token);
+      if (!userInfo) return;
       authContext.setUser(userInfo);
-      // @ts-ignore
-      setError(null);
+    } catch (e) {
+      console.log(e);
+      removeToken();
     }
   }
 
-  async function logOut() {
+  async function signOut() {
     // @ts-ignore
     authContext.setUser(null);
     removeToken();
   }
 
-  async function logIn(email: string, password: string) {
+  async function signIn(email: string, password: string) {
     try {
       const { account, token } = await accountApi.signIn(email, password);
 
@@ -51,11 +50,8 @@ export default function useAuth() {
 
       // @ts-ignore
       authContext.setUser(account);
-      // @ts-ignore
-      setError(null);
     } catch (e) {
       // @ts-ignore
-      setError(e.message);
       console.log(e);
 
       // @ts-ignore
@@ -66,8 +62,8 @@ export default function useAuth() {
   return {
     user: authContext.user,
     setUser: authContext.setUser,
-    logIn,
-    logOut,
+    signIn,
+    signOut,
     restoreUser,
   };
 }

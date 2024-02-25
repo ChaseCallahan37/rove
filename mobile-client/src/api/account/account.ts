@@ -18,19 +18,24 @@ export async function signIn(email: string, hashPassword: string) {
     hash_password: hashPassword,
   });
 
-  const {data: {account, token}} = await unpackResponse<{data: {account: Account, token: string}}>(res)
+  const {
+    data: { account, token },
+  } = await unpackResponse<{ data: { account: Account; token: string } }>(res);
 
   return { token, account };
 }
 
 export async function getAccountInfo(token: string) {
+  console.log(createAuthHeader(token));
+
   const res = await service.get(
     resourceName + "/current",
     createAuthHeader(token)
   );
 
-  const {data: {account}} = await unpackResponse<{data: {account: Account}}>(res)
-
+  const {
+    data: { account },
+  } = await unpackResponse<{ data: { account: Account } }>(res);
 
   return account;
 }

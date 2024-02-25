@@ -24,7 +24,11 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         onPress={() => navigation.navigate("EventCreate")}
       />
       {!user ? (
+        <>
+
         <Button title="Login" onPress={() => navigation.navigate("Login")} />
+        <Button title="Create Account" onPress={() => navigation.navigate("CreateAccount")} />
+        </>
       ) : (
         <Button
           title="Account"
