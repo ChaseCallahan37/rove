@@ -58,9 +58,14 @@ defmodule RoveApi.Accounts do
     nil
   """
 def get_account_by_email(email) do
-  Account
-  |> where(email: ^email)
-  |> Repo.one()
+  # We do not care about the casing of the email when matching
+  with email_lower <- String.downcase(email) do
+    Account
+    |> where(email: ^email_lower)
+    |> preload([:user])
+    |> Repo.one()
+  end
+
 end
 
   @doc """

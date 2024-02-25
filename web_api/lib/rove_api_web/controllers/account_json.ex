@@ -37,11 +37,9 @@ defmodule RoveApiWeb.AccountJSON do
     }
   end
   def data(%Account{} = account, token) do
-    Map.merge(
       %{
-        token: token
-      },
-      data(account)
-    )
+        token: token,
+        account: data(account)
+      }
   end
 end
