@@ -14,9 +14,13 @@ export async function signIn(email: string, hashPassword: string) {
     hash_password: hashPassword,
   });
 
+  const json = await res.json();
+
+  if (json.errors) throw new Error(json.errors);
+
   const {
     data: { token, account },
-  } = await res.json();
+  } = json;
 
   return { token, account };
 }

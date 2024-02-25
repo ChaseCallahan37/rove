@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../auth/context";
 import useApi from "./useApi";
 import { signIn } from "../api/account/account";
 import accountApi from "../api/account";
 import { removeToken, retrieveToken, storeToken } from "../auth/token";
+import { Alert } from "react-native";
 
 export default function useAuth() {
   // @ts-ignore
   const { user, setUser } = useContext(AuthContext);
+  const [error, setError] = useState(false);
 
   if (!user) {
     restoreUser();
@@ -24,7 +26,11 @@ export default function useAuth() {
     if (!userInfo) return;
 
     // @ts-ignore
-    if (userInfo) setUser(userInfo);
+    if (userInfo) {
+      setUser(userInfo);
+      // @ts-ignore
+      setError(null);
+    }
   }
 
   async function logOut() {
@@ -33,14 +39,27 @@ export default function useAuth() {
   }
 
   async function logIn(email: string, password: string) {
-    const { account, token } = await accountApi.signIn(email, password);
+    try {
+      const { account, token } = await accountApi.signIn(email, password);
 
-    if (!account || !token) return;
+      if (!account || !token) {
+        throw new Error("Unable to sign in");
+      }
 
-    await storeToken(token);
+      await storeToken(token);
 
-    setUser(account);
+      setUser(account);
+      // @ts-ignore
+      setError(null);
+    } catch (e) {
+      // @ts-ignore
+      setError(e.message);
+      console.log(e);
+
+      // @ts-ignore
+      Alert.alert(e.message);
+    }
   }
 
-  return { user, setUser, logIn, logOut, restoreUser };
+  return { user, setUser, logIn, logOut, restoreUser, error };
 }

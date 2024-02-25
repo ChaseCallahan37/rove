@@ -23,8 +23,14 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         title="Create new Event"
         onPress={() => navigation.navigate("EventCreate")}
       />
-      <Button title="Login" onPress={() => navigation.navigate("Login")} />
-      {user && <Text>{JSON.stringify(user)}</Text>}
+      {!user ? (
+        <Button title="Login" onPress={() => navigation.navigate("Login")} />
+      ) : (
+        <Button
+          title="Account"
+          onPress={() => navigation.navigate("Account")}
+        />
+      )}
     </View>
   );
 }
