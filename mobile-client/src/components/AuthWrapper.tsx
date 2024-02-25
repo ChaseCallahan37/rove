@@ -2,12 +2,15 @@ import { useState } from "react";
 import AuthContext from "../auth/context";
 import { retrieveToken } from "../auth/token";
 import accountApi from "../api/account";
+import { Account } from "../api/account/account";
 
-// @ts-ignore
-function AuthWrapper({ children }) {
-  const [user, setUser] = useState(null);
+type AuthWrapperProps = {
+  children: React.ReactNode;
+}
 
-  // @ts-ignore
+function AuthWrapper({ children }: AuthWrapperProps) {
+  const [user, setUser] = useState<Account | null>(null);
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}

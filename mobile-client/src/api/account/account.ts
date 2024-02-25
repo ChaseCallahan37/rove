@@ -4,6 +4,10 @@ import service from "../service";
 export type Account = {
   id: string;
   email: string;
+  user: {
+    id: string;
+    user_name: string;
+  };
 };
 
 const resourceName = "accounts";
