@@ -6,7 +6,7 @@ import { Account } from "../api/account/account";
 
 type AuthWrapperProps = {
   children: React.ReactNode;
-}
+};
 
 function AuthWrapper({ children }: AuthWrapperProps) {
   const [user, setUser] = useState<Account | null>(null);

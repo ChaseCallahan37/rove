@@ -1,5 +1,5 @@
 import createAuthHeader from "../../utils/createAuthHeader";
-import service from "../service";
+import service, { RequestResponse, unpackResponse } from "../service";
 
 export type Account = {
   id: string;
@@ -18,13 +18,7 @@ export async function signIn(email: string, hashPassword: string) {
     hash_password: hashPassword,
   });
 
-  const json = await res.json();
-
-  if (json.errors) throw new Error(json.errors);
-
-  const {
-    data: { token, account },
-  } = json;
+  const {data: {account, token}} = await unpackResponse<{data: {account: Account, token: string}}>(res)
 
   return { token, account };
 }
@@ -35,7 +29,8 @@ export async function getAccountInfo(token: string) {
     createAuthHeader(token)
   );
 
-  const { data: account } = await res.json();
+  const {data: {account}} = await unpackResponse<{data: {account: Account}}>(res)
+
 
   return account;
 }

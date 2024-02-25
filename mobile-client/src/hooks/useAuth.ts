@@ -7,11 +7,11 @@ import { removeToken, retrieveToken, storeToken } from "../auth/token";
 import { Alert } from "react-native";
 
 export default function useAuth() {
-  // @ts-ignore
-  const { user, setUser } = useContext(AuthContext);
-  const [error, setError] = useState(false);
+  const authContext = useContext(AuthContext);
 
-  if (!user) {
+  if (!authContext) throw new Error("Issue creting auth context");
+
+  if (!authContext?.user) {
     restoreUser();
   }
 
@@ -25,16 +25,17 @@ export default function useAuth() {
 
     if (!userInfo) return;
 
-    // @ts-ignore
     if (userInfo) {
-      setUser(userInfo);
+      // @ts-ignore
+      authContext.setUser(userInfo);
       // @ts-ignore
       setError(null);
     }
   }
 
   async function logOut() {
-    setUser(null);
+    // @ts-ignore
+    authContext.setUser(null);
     removeToken();
   }
 
@@ -48,7 +49,8 @@ export default function useAuth() {
 
       await storeToken(token);
 
-      setUser(account);
+      // @ts-ignore
+      authContext.setUser(account);
       // @ts-ignore
       setError(null);
     } catch (e) {
@@ -61,5 +63,11 @@ export default function useAuth() {
     }
   }
 
-  return { user, setUser, logIn, logOut, restoreUser, error };
+  return {
+    user: authContext.user,
+    setUser: authContext.setUser,
+    logIn,
+    logOut,
+    restoreUser,
+  };
 }

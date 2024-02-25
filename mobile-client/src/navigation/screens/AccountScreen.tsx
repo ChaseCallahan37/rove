@@ -8,12 +8,10 @@ type AccountScreenProps = {
 };
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
-  const {user} = useAuth()
+  const { user } = useAuth();
   return (
     <View>
-    <AppPillContainer>
-        <Text>{user.email}</Text>
-    </AppPillContainer>
+      <AppPillContainer>{user && <Text>{user.email}</Text>}</AppPillContainer>
     </View>
   );
 }
