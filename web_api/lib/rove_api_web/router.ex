@@ -5,13 +5,13 @@ defmodule RoveApiWeb.Router do
   # These need to be handled with the Plug.ErrorHandler abvoe
   defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
     conn
-    |> json(%{errors: message})
+    |> json(%{error: message})
     |> halt()
   end
 
   defp handle_errors(conn, %{reason: %{message: message}}) do
     conn
-    |> json(%{errors: message})
+    |> json(%{error: message})
     |> halt()
   end
 
@@ -19,7 +19,7 @@ defmodule RoveApiWeb.Router do
     IO.inspect(body)
 
     conn
-    |> json(%{errors: "request failed see logs"})
+    |> json(%{error: "request failed see logs"})
     |> halt()
   end
 

@@ -1,11 +1,13 @@
 defmodule RoveApi.Accounts do
-  @moduledoc """
+
+@moduledoc """
   The Accounts context.
   """
 
   import Ecto.Query, warn: false
   alias RoveApi.Repo
 
+  alias RoveApi.Utils
   alias RoveApi.Accounts.Account
 
   @doc """
@@ -82,7 +84,7 @@ end
   """
   def create_account(attrs \\ %{}) do
     %Account{}
-    |> Account.changeset(attrs)
+    |> Account.changeset(Utils.Maps.fields_lower(attrs, [:email]))
     |> Repo.insert()
   end
 
