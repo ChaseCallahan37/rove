@@ -8,6 +8,8 @@ defmodule RoveApi.Events do
 
   alias RoveApi.Events.Event
 
+  alias RoveApi.Users.User
+
   @doc """
   Returns the list of events.
 
@@ -57,8 +59,11 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_event(attrs \\ %{}) do
-    %Event{}
+  def create_event(%User{} = user, attrs \\ %{}) do
+    IO.puts("Top of create even")
+    user
+    |> Ecto.build_assoc(:events)
+    |> IO.inspect()
     |> Event.changeset(attrs)
     |> Repo.insert()
   end

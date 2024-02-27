@@ -12,11 +12,12 @@ defmodule RoveApiWeb.EventController do
     render(conn, :index, events: events)
   end
 
-  def create(conn, %{"event" => event_params}) do
-    with {:ok, %Event{} = event} <- Events.create_event(event_params) do
+  def create(%{assigns: %{account: %{user: user}}} = conn, %{"event" => event_params}) do
+    IO.inspect(user)
+    with {:ok, %Event{} = event} <- Events.create_event(user, event_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/events/#{event}")
+      |> put_resp_header("location", ~p"/api/events/#{event.id}")
       |> render(:show, event: event)
     end
   end
