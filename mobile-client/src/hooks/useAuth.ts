@@ -43,8 +43,16 @@ export default function useAuth() {
       if (!account || !token) {
         throw new Error("Unable to sign in");
       }
+      console.log("HI");
+
+      console.log(account);
+      console.log(token);
 
       await storeToken(token);
+
+      console.log("CONtext");
+      console.log(account);
+      console.log(authContext);
 
       authContext?.setAccount(account);
 

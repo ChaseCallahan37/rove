@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, SafeAreaView, Button, Alert } from "react-native";
+import { Text, SafeAreaView, Button, Alert, View, ScrollView } from "react-native";
 import useApi from "../../hooks/useApi";
 import { createEvent } from "../../api/events/event";
 import AppDatePicker from "../../components/AppDatePicker";
@@ -11,6 +11,7 @@ import useToggle from "../../hooks/useToggle";
 import useAuth from "../../hooks/useAuth";
 
 import { style as tw } from "twrnc";
+import { retrieveToken } from "../../auth/token";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -24,7 +25,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     longitude: number;
   }>();
 
-  const { request } = useApi(createEvent);
+  const { request } = useApi(createEvent, true);
 
   const { isToggled, toggle } = useToggle(false);
 
@@ -54,7 +55,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     const succeeded = await request(myEvent);
 
     // @ts-ignore
-    if (!succeeded) {
+    if (succeeded) {
       return Alert.alert("Your request failed, please try again");
     }
     navigation.navigate("Home");
@@ -86,8 +87,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
           )}
         </>
       ) : (
-        <>
-          {" "}
+        <ScrollView>
           <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
           <InputGroup label={{ size: "1/5", text: "Event Title" }}>
             <AppTextInput
@@ -101,7 +101,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               updateDate={(date) => setEventDate(date)}
             />
           </InputGroup>
-          <InputGroup>
+          <View>
             <Button title="Choose Location" onPress={toggle} />
 
             {isToggled && (
@@ -111,9 +111,9 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
                 pins={eventCoordinate && [eventCoordinate]}
               />
             )}
-          </InputGroup>
-          <Button title="Submit" onPress={() => handleSubmit()} />{" "}
-        </>
+          <Button title="Submit" onPress={() => handleSubmit()} />
+          </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );

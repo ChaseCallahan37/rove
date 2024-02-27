@@ -1,3 +1,4 @@
+import createAuthHeader from "../../utils/createAuthHeader";
 import service, { unpackResponse } from "../service";
 
 export type Event = {
@@ -26,10 +27,10 @@ export async function retrieveEvent(id: string) {
   return event;
 }
 
-export async function createEvent(newEvent: Event) {
+export async function createEvent(token: string, newEvent: Event) {
   const res = await service.post<{ event: Event }>(resourceName, {
     event: newEvent,
-  });
+  }, createAuthHeader(token));
 
   const { data: createdEvent } = await unpackResponse<{ data: Event }>(res);
 
