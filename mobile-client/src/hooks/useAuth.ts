@@ -9,31 +9,31 @@ import { Alert } from "react-native";
 export default function useAuth() {
   const authContext = useContext(AuthContext);
 
-  if (!authContext) throw new Error("Issue creting auth context");
-
-  if (!authContext?.account) {
-    restoreUser();
-  }
-
-  async function restoreUser() {
-    if (!authContext) return;
-
+  async function restoreAccountInfo() {
     const token = await retrieveToken();
 
     if (!token) return;
 
     try {
       const accountInfo = await accountApi.getAccountInfo(token);
-      authContext?.setAccount(accountInfo);
+      return accountInfo;
     } catch (e) {
       console.log(e);
       removeToken();
+      return false;
     }
   }
 
   async function signOut() {
-    authContext?.setAccount(null);
-    removeToken();
+    try {
+      authContext?.setAccount(null);
+      removeToken();
+
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   }
 
   async function signIn(email: string, password: string) {
@@ -47,39 +47,45 @@ export default function useAuth() {
       await storeToken(token);
 
       authContext?.setAccount(account);
+
+      return true;
     } catch (e) {
       console.log(e);
 
-      // @ts-ignore
-      Alert.alert(e.message);
+      return false;
     }
   }
 
-  async function createAccount(accountInfo: {email: string, password: string, userName: string}) {
-    try{
-      const {createdAccount, token} = await accountApi.createAccount(accountInfo)
-      
-      if(!createdAccount || !token) throw new Error("Account was not succesfully created")
+  async function createAccount(accountInfo: {
+    email: string;
+    password: string;
+    userName: string;
+  }) {
+    try {
+      const { createdAccount, token } = await accountApi.createAccount(
+        accountInfo
+      );
 
-      await storeToken(token)
+      if (!createdAccount || !token)
+        throw new Error("Account was not succesfully created");
 
-      authContext?.setAccount(createdAccount)
+      await storeToken(token);
 
-      return true
+      authContext?.setAccount(createdAccount);
 
-    } catch(e){
+      return true;
+    } catch (e) {
       console.log(e);
-      return false
+      return false;
     }
-    
   }
 
   return {
-    account: authContext.account,
-    setAccount: authContext.setAccount,
+    account: authContext?.account,
+    setAccount: authContext?.setAccount,
     signIn,
     signOut,
     createAccount,
-    restoreUser,
+    restoreAccountInfo,
   };
 }

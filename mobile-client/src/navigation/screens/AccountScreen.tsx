@@ -11,7 +11,9 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
   const { account, signOut } = useAuth();
   return (
     <View>
-      <AppPillContainer>{account && <Text>{account.email}</Text>}</AppPillContainer>
+      <AppPillContainer>
+        {account && <Text>{account.email}</Text>}
+      </AppPillContainer>
       <Button
         title="Sign Out"
         onPress={() => {

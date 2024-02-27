@@ -14,7 +14,9 @@ function HomeScreen({ navigation }: HomeScreenProps) {
   const { account } = useAuth();
   return (
     <View>
-      <Text style={tw.style(["text-black"])}>Home Screen {account && `Hello ${account.user.user_name}`}</Text>
+      <Text style={tw.style(["text-black"])}>
+        Home Screen {account && `Hello ${account.user.user_name}`}
+      </Text>
       <Button
         title="Go To Events"
         onPress={() => navigation.navigate("EventMap")}
@@ -25,9 +27,11 @@ function HomeScreen({ navigation }: HomeScreenProps) {
       />
       {!account ? (
         <>
-
-        <Button title="Login" onPress={() => navigation.navigate("Login")} />
-        <Button title="Create Account" onPress={() => navigation.navigate("CreateAccount")} />
+          <Button title="Login" onPress={() => navigation.navigate("Login")} />
+          <Button
+            title="Create Account"
+            onPress={() => navigation.navigate("CreateAccount")}
+          />
         </>
       ) : (
         <Button

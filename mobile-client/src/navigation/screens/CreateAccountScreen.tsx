@@ -14,18 +14,18 @@ type CreateAccountScreenProps = {
 };
 
 function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
-  const {createAccount} = useAuth()
+  const { createAccount } = useAuth();
 
   const accountInfo = { email: "", userName: "", password: "" };
 
   const handleCreateAccount = async () => {
-    const isSuccess = await createAccount(accountInfo)
-    if(isSuccess){
-      return navigation.navigate("Home")
-    } else{
-      Alert.alert("Failed to create account")
+    const isSuccess = await createAccount(accountInfo);
+    if (isSuccess) {
+      return navigation.navigate("Home");
+    } else {
+      Alert.alert("Failed to create account");
     }
-  }
+  };
 
   return (
     <View style={tw(["px-3", "mt-6", "bg-red-800"])}>
@@ -51,11 +51,8 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
             }}
           />
         </InputGroup>
-        
-        <Button
-          title="Create"
-          onPress={handleCreateAccount}
-        ></Button>
+
+        <Button title="Create" onPress={handleCreateAccount}></Button>
       </View>
     </View>
   );

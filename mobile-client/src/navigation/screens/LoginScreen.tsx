@@ -1,4 +1,4 @@
-import { Button, Text, View } from "react-native";
+import { Alert, Button, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 
 import { style as tw } from "twrnc";
@@ -14,7 +14,18 @@ type LoginScreenProps = {
 
 function LoginScreen({ navigation }: LoginScreenProps) {
   const { account, signIn } = useAuth();
+
   const credentials = { email: "", password: "" };
+
+  const handleSignIn = async () => {
+    const success = await signIn(credentials.email, credentials.password);
+
+    if (success) {
+      navigation.navigate("Home");
+    } else {
+      Alert.alert("Failed to sign in, please try again");
+    }
+  };
   return (
     <View style={tw(["px-3", "mt-6", "bg-red-800"])}>
       <View style={tw(["bg-pink-500"])}>
@@ -32,10 +43,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
             }}
           />
         </InputGroup>
-        <Button
-          title="Login"
-          onPress={() => signIn(credentials.email, credentials.password)}
-        ></Button>
+        <Button title="Login" onPress={handleSignIn}></Button>
         {account && <Text>{JSON.stringify(account)}</Text>}
       </View>
     </View>
