@@ -3,11 +3,13 @@ defmodule RoveApi.Events.Event do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "events" do
     field :date, :date
     field :title, :string
     field :latitude, :float
     field :longitude, :float
+    belongs_to :event, RoveApi.Events.Event
 
     timestamps(type: :utc_datetime)
   end

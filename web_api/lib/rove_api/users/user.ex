@@ -7,6 +7,7 @@ defmodule RoveApi.Users.User do
   schema "users" do
     field :user_name, :string
     belongs_to :account, RoveApi.Accounts.Account
+    has_many :events, RoveApi.Events.Event
 
     timestamps(type: :utc_datetime)
   end
