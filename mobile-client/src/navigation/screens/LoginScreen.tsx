@@ -13,7 +13,7 @@ type LoginScreenProps = {
 };
 
 function LoginScreen({ navigation }: LoginScreenProps) {
-  const { user, signIn } = useAuth();
+  const { account, signIn } = useAuth();
   const credentials = { email: "", password: "" };
   return (
     <View style={tw(["px-3", "mt-6", "bg-red-800"])}>
@@ -36,7 +36,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
           title="Login"
           onPress={() => signIn(credentials.email, credentials.password)}
         ></Button>
-        {user && <Text>{JSON.stringify(user)}</Text>}
+        {account && <Text>{JSON.stringify(account)}</Text>}
       </View>
     </View>
   );

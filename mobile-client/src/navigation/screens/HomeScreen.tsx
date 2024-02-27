@@ -11,10 +11,10 @@ type HomeScreenProps = {
 };
 
 function HomeScreen({ navigation }: HomeScreenProps) {
-  const { user } = useAuth();
+  const { account } = useAuth();
   return (
     <View>
-      <Text style={tw.style(["text-black"])}>Home Screen</Text>
+      <Text style={tw.style(["text-black"])}>Home Screen {account && `Hello ${account.user.user_name}`}</Text>
       <Button
         title="Go To Events"
         onPress={() => navigation.navigate("EventMap")}
@@ -23,7 +23,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         title="Create new Event"
         onPress={() => navigation.navigate("EventCreate")}
       />
-      {!user ? (
+      {!account ? (
         <>
 
         <Button title="Login" onPress={() => navigation.navigate("Login")} />

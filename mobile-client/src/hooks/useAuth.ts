@@ -11,7 +11,7 @@ export default function useAuth() {
 
   if (!authContext) throw new Error("Issue creting auth context");
 
-  if (!authContext?.user) {
+  if (!authContext?.account) {
     restoreUser();
   }
 
@@ -23,9 +23,8 @@ export default function useAuth() {
     if (!token) return;
 
     try {
-      const userInfo = await accountApi.getAccountInfo(token);
-      if (!userInfo) return;
-      authContext.setUser(userInfo);
+      const accountInfo = await accountApi.getAccountInfo(token);
+      authContext?.setAccount(accountInfo);
     } catch (e) {
       console.log(e);
       removeToken();
@@ -33,8 +32,7 @@ export default function useAuth() {
   }
 
   async function signOut() {
-    // @ts-ignore
-    authContext.setUser(null);
+    authContext?.setAccount(null);
     removeToken();
   }
 
@@ -48,10 +46,8 @@ export default function useAuth() {
 
       await storeToken(token);
 
-      // @ts-ignore
-      authContext.setUser(account);
+      authContext?.setAccount(account);
     } catch (e) {
-      // @ts-ignore
       console.log(e);
 
       // @ts-ignore
@@ -59,11 +55,31 @@ export default function useAuth() {
     }
   }
 
+  async function createAccount(accountInfo: {email: string, password: string, userName: string}) {
+    try{
+      const {createdAccount, token} = await accountApi.createAccount(accountInfo)
+      
+      if(!createdAccount || !token) throw new Error("Account was not succesfully created")
+
+      await storeToken(token)
+
+      authContext?.setAccount(createdAccount)
+
+      return true
+
+    } catch(e){
+      console.log(e);
+      return false
+    }
+    
+  }
+
   return {
-    user: authContext.user,
-    setUser: authContext.setUser,
+    account: authContext.account,
+    setAccount: authContext.setAccount,
     signIn,
     signOut,
+    createAccount,
     restoreUser,
   };
 }

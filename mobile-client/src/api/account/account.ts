@@ -39,3 +39,17 @@ export async function getAccountInfo(token: string) {
 
   return account;
 }
+
+export async function createAccount({email, password, userName}: {email: string, password: string, userName: string}){
+  const res = await service.post(resourceName + "/create", {
+    account: {
+      email,
+      hash_password: password,
+      user_name: userName
+    }
+  })
+
+  const {data: {account: createdAccount, token}} = await unpackResponse<{data: {token: string, account: Account}}>(res)
+
+  return {createdAccount, token}
+}

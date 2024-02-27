@@ -9,10 +9,10 @@ type AuthWrapperProps = {
 };
 
 function AuthWrapper({ children }: AuthWrapperProps) {
-  const [user, setUser] = useState<Account | null>(null);
+  const [account, setAccount] = useState<Account | null>(null);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ account, setAccount}}>
       {children}
     </AuthContext.Provider>
   );

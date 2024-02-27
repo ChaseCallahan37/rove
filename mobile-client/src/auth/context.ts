@@ -2,8 +2,8 @@ import { createContext, useState } from "react";
 import { Account } from "../api/account/account";
 
 const AuthContext = createContext<{
-  user: Account | null;
-  setUser: React.Dispatch<React.SetStateAction<Account | null>>;
+  account: Account | null;
+  setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
 } | null>(null);
 AuthContext.displayName = "AuthContext";
 
