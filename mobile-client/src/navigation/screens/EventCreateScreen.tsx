@@ -8,6 +8,9 @@ import InputGroup from "../../components/InputGroup";
 import { AppNavigationProp } from "../AppNavigations";
 import AppMapView from "../../components/AppMapView";
 import useToggle from "../../hooks/useToggle";
+import useAuth from "../../hooks/useAuth";
+
+import { style as tw } from "twrnc";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -24,6 +27,10 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const { request } = useApi(createEvent);
 
   const { isToggled, toggle } = useToggle(false);
+
+  const { account } = useAuth();
+
+  console.log(account);
 
   const handleUpdateCoordinate = (coordinate: {
     latitude: number;
@@ -46,6 +53,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
 
     const succeeded = await request(myEvent);
 
+    // @ts-ignore
     if (!succeeded) {
       return Alert.alert("Your request failed, please try again");
     }
@@ -54,33 +62,59 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
 
   return (
     <SafeAreaView>
-      <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
-      <InputGroup label={{ size: "sm", text: "Event Title" }}>
-        <AppTextInput
-          updateValue={(text) => setEventTitle(text)}
-          value={eventTitle}
-        />
-      </InputGroup>
+      {!account ? (
+        <>
+          <Text style={tw(["text-black"])}>
+            Please Sign in to create an event
+          </Text>
+          {!account ? (
+            <>
+              <Button
+                title="Login"
+                onPress={() => navigation.navigate("Login")}
+              />
+              <Button
+                title="Create Account"
+                onPress={() => navigation.navigate("CreateAccount")}
+              />
+            </>
+          ) : (
+            <Button
+              title="Account"
+              onPress={() => navigation.navigate("Account")}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          {" "}
+          <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
+          <InputGroup label={{ size: "1/5", text: "Event Title" }}>
+            <AppTextInput
+              updateValue={(text) => setEventTitle(text)}
+              value={eventTitle}
+            />
+          </InputGroup>
+          <InputGroup label={{ text: "Event Date", size: "2/5" }}>
+            <AppDatePicker
+              date={eventDate}
+              updateDate={(date) => setEventDate(date)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <Button title="Choose Location" onPress={toggle} />
 
-      <InputGroup label={{ text: "Event Date", size: "sm" }}>
-        <AppDatePicker
-          date={eventDate}
-          updateDate={(date) => setEventDate(date)}
-        />
-      </InputGroup>
-
-      <InputGroup>
-        <Button title="Choose Location" onPress={toggle} />
-
-        {isToggled && (
-          <AppMapView
-            onDoublePress={handleUpdateCoordinate}
-            onLongPress={handleUpdateCoordinate}
-            pins={eventCoordinate && [eventCoordinate]}
-          />
-        )}
-      </InputGroup>
-      <Button title="Submit" onPress={() => handleSubmit()} />
+            {isToggled && (
+              <AppMapView
+                onDoublePress={handleUpdateCoordinate}
+                onLongPress={handleUpdateCoordinate}
+                pins={eventCoordinate && [eventCoordinate]}
+              />
+            )}
+          </InputGroup>
+          <Button title="Submit" onPress={() => handleSubmit()} />{" "}
+        </>
+      )}
     </SafeAreaView>
   );
 }

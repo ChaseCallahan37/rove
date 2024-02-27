@@ -5,6 +5,7 @@ import eventApi from "../../api/events";
 import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
+import useAuth from "../../hooks/useAuth";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
