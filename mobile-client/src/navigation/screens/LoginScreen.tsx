@@ -18,7 +18,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   const credentials = { email: "", password: "" };
 
   const handleSignIn = async () => {
-    const success = await signIn(credentials.email, credentials.password);
+    const success = await signIn(credentials);
 
     if (success) {
       navigation.navigate("Home");

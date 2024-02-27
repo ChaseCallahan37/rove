@@ -12,10 +12,16 @@ export type Account = {
 
 const resourceName = "accounts";
 
-export async function signIn(email: string, hashPassword: string) {
+export async function signIn({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const res = await service.post(resourceName + "/sign-in", {
     email,
-    hash_password: hashPassword,
+    hash_password: password,
   });
 
   const {

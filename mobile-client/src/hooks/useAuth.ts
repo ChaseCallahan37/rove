@@ -36,9 +36,9 @@ export default function useAuth() {
     }
   }
 
-  async function signIn(email: string, password: string) {
+  async function signIn(credentials: { email: string; password: string }) {
     try {
-      const { account, token } = await accountApi.signIn(email, password);
+      const { account, token } = await accountApi.signIn(credentials);
 
       if (!account || !token) {
         throw new Error("Unable to sign in");
