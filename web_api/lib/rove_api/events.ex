@@ -19,8 +19,10 @@ defmodule RoveApi.Events do
       [%Event{}, ...]
 
   """
-  def list_events do
-    Repo.all(Event)
+  def list_events_full do
+    Event
+    |> preload([:user])
+    |> Repo.all()
   end
 
   @doc """
@@ -41,9 +43,10 @@ defmodule RoveApi.Events do
 
   def get_event_by_id(id) when is_bitstring(id) do
     case Event
+      |> preload([:user])
       |> Repo.get(id) do
-      %Event{} = event -> {:ok, event}
-      nil -> {:error, :not_found}
+        %Event{} = event -> {:ok, event}
+        nil -> {:error, :not_found}
     end
   end
 

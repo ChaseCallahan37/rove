@@ -1,4 +1,6 @@
 defmodule RoveApiWeb.EventJSON do
+  alias RoveApi.Users.User
+  alias RoveApiWeb.UserJSON
   alias RoveApi.Events.Event
 
   @doc """
@@ -12,12 +14,23 @@ defmodule RoveApiWeb.EventJSON do
   Renders a single event.
   """
   def show(%{event: event}) do
-    IO.puts("IN SHOW")
-    IO.inspect(event)
-    %{data: data(event)}
+    %{
+      data: data(event)
+    }
   end
 
-  defp data(%Event{} = event) do
+  def data(%Event{user: %User{} = user} = event) do
+    %{
+      id: event.id,
+      title: event.title,
+      date: event.date,
+      latitude: event.latitude,
+      longitude: event.longitude,
+      user: UserJSON.data(user)
+    }
+  end
+
+  def data(%Event{} = event) do
     %{
       id: event.id,
       title: event.title,
@@ -26,4 +39,5 @@ defmodule RoveApiWeb.EventJSON do
       longitude: event.longitude
     }
   end
+
 end
