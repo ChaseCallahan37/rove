@@ -88,6 +88,8 @@ defmodule RoveApiWeb.Router do
 
     put "/update", UserController, :update
     get "/current", UserController, :show
+
+    get "/", UserController, :index
   end
 
   # Other scopes may use custom stacks.

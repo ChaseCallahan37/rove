@@ -17,8 +17,10 @@ defmodule RoveApi.Users do
       [%User{}, ...]
 
   """
-  def list_user do
-    Repo.all(User)
+  def list_user_full do
+    User
+    |> preload(([:events]))
+    |> Repo.all()
   end
 
   @doc """

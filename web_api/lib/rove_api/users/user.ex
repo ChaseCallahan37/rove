@@ -2,10 +2,15 @@ defmodule RoveApi.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
     field :user_name, :string
+    field :dob, :date
+    field :first_name, :string
+    field :last_name, :string
+    field :gender, Ecto.Enum, values: [:male, :female, :other]
     belongs_to :account, RoveApi.Accounts.Account
     has_many :events, RoveApi.Events.Event
 
@@ -22,8 +27,10 @@ defmodule RoveApi.Users.User do
         ) :: Ecto.Changeset.t()
   @doc false
   def changeset(user, attrs) do
+    IO.inspect(user)
+    IO.inspect(attrs)
     user
-    |> cast(attrs, [:account_id, :user_name])
+    |> cast(attrs, [:account_id, :user_name, :dob, :first_name, :last_name, :gender])
     |> validate_required([:account_id])
   end
 end

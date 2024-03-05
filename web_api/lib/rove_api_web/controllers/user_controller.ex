@@ -11,7 +11,7 @@ defmodule RoveApiWeb.UserController do
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
-    user = Users.list_user()
+    user = Users.list_user_full()
     render(conn, :index, user: user)
   end
 
