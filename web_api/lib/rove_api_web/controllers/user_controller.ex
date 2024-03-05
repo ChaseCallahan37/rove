@@ -24,7 +24,8 @@ defmodule RoveApiWeb.UserController do
   end
 
   def show(%{assigns: %{account: %{user: user}}} = conn, _params) do
-    render(conn, :show, user: user)
+    full_user = Users.get_user_full(user)
+    render(conn, :show, user: full_user)
   end
 
   def update(%{assigns: %{account: %{user: user}}} = conn, %{"user" => user_params}) do

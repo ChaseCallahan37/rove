@@ -47,4 +47,17 @@ defmodule RoveApiWeb.EventController do
       send_resp(conn, :no_content, "")
     end
   end
+
+
+  def join(conn, %{"id" => event_id}) do
+    %{assigns: %{account: %{user: %{id: user_id}}}} = conn
+
+    Events.get_event_by_id(event_id)
+    |> Events.update_event(%{owner_id: user_id})
+
+
+
+
+
+  end
 end

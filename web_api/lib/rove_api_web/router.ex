@@ -66,6 +66,7 @@ defmodule RoveApiWeb.Router do
     pipe_through [:api, :auth]
 
     post "/", EventController, :create
+    post "/join/:id", EventController, :join
   end
 
   scope "/api/accounts", RoveApiWeb do

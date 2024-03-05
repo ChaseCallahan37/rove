@@ -81,7 +81,7 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_event(%Event{} = event, attrs) do
+  def update_event(event, attrs) do
     event
     |> Event.changeset(attrs)
     |> Repo.update()

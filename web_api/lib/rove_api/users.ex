@@ -39,6 +39,12 @@ defmodule RoveApi.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_full(user) do
+    User
+    |> preload([:events_created])
+    |> Repo.get(user.id)
+  end
+
   @doc """
   Creates a user.
 
