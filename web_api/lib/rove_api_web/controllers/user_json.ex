@@ -16,14 +16,11 @@ defmodule RoveApiWeb.UserJSON do
     %{data: data(user)}
   end
 
-  def data(%User{events: events} = user) when is_list(events) do
-    {events, popped_user} = Map.pop(user, :events)
-    IO.inspect(popped_user)
-       Map.merge(
-        data(popped_user),
-        %{events: for(event <- events, do: IO.inspect(event) |> EventJSON.data())}
-        )
+  def data(%User{events_created: events} = user) when is_list(events) do
+    {events, popped_user} = Map.pop(user, :events_created)
 
+    data(popped_user)
+    |> Map.merge(%{events: for(event <- events, do: EventJSON.data(event))})
   end
 
   def data(%User{} = user) do
@@ -32,5 +29,4 @@ defmodule RoveApiWeb.UserJSON do
       user_name: user.user_name
     }
   end
-
 end

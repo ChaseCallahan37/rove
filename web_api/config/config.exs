@@ -23,8 +23,8 @@ config :rove_api, RoveApiWeb.Endpoint,
   live_view: [signing_salt: "EFkA29Oz"]
 
 config :rove_api, RoveApiWeb.Auth.Guardian,
-    issuer: "rove_api",
-    secret_key: "458wrmzHh6cpi8EBdgwmS7ESUSdNs2eIJhi+eQTRKSJPTje4MkAVA0c/iiulGcKt"
+  issuer: "rove_api",
+  secret_key: "458wrmzHh6cpi8EBdgwmS7ESUSdNs2eIJhi+eQTRKSJPTje4MkAVA0c/iiulGcKt"
 
 # Configures the mailer
 #

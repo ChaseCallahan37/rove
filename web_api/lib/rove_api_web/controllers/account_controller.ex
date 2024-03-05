@@ -13,7 +13,6 @@ defmodule RoveApiWeb.AccountController do
 
   action_fallback RoveApiWeb.FallbackController
 
-
   def index(conn, _params) do
     account = Accounts.list_account()
     render(conn, :index, account: account)
@@ -21,7 +20,7 @@ defmodule RoveApiWeb.AccountController do
 
   def create(conn, %{"account" => %{"hash_password" => hash_password} = account_params}) do
     with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
-          {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
+         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
       conn
       # We want to call authorize account with the hash password that the caller gives us
       # We do not want to use the hash of the hash when authorizing account, since
@@ -38,7 +37,6 @@ defmodule RoveApiWeb.AccountController do
     |> Plug.Conn.put_session(:account_id, account.id)
     |> put_status(:ok)
     |> render(:index, %{account: account, token: token})
-
   end
 
   def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
@@ -47,15 +45,15 @@ defmodule RoveApiWeb.AccountController do
   end
 
   defp authorize_account(conn, email, hash_password) do
-    IO.puts("Authorize account")
-    IO.inspect(%{email: email, hash_password: hash_password})
     case Guardian.authenticate(email, hash_password) do
       {:ok, account, token} ->
         conn
         |> Plug.Conn.put_session(:account_id, account.id)
         |> put_status(:ok)
         |> render(:show, account: account, token: token)
-      {:error, :unauthorized} -> raise ErrorResponse.Unauthorized, message: "Email or password incorrect."
+
+      {:error, :unauthorized} ->
+        raise ErrorResponse.Unauthorized, message: "Email or password incorrect."
     end
   end
 
@@ -63,6 +61,7 @@ defmodule RoveApiWeb.AccountController do
     account = conn.assigns[:account]
     token = Guardian.Plug.current_token(conn)
     Guardian.revoke(token)
+
     conn
     |> Plug.Conn.clear_session()
     |> put_status(:ok)
@@ -80,9 +79,13 @@ defmodule RoveApiWeb.AccountController do
     |> render(:show, account: account)
   end
 
-  def update(%{assigns: %{account: %Account{} = account}} = conn, %{"current_hash" => current_hash ,"account" => account_params}) do
+  def update(%{assigns: %{account: %Account{} = account}} = conn, %{
+        "current_hash" => current_hash,
+        "account" => account_params
+      }) do
     if Guardian.validate_password(current_hash, account.hash_password) do
       {:ok, updated_account} = Accounts.update_account(account, account_params)
+
       conn
       |> render(:show, account: updated_account)
     else

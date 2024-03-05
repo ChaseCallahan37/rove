@@ -19,15 +19,11 @@ defmodule RoveApiWeb.EventJSON do
     }
   end
 
-  def data(%Event{user: %User{} = user} = event) do
-    %{
-      id: event.id,
-      title: event.title,
-      date: event.date,
-      latitude: event.latitude,
-      longitude: event.longitude,
-      user: UserJSON.data(user)
-    }
+  def data(%Event{owner: %User{}} = event) do
+    {owner, popped_event} = Map.pop(event, :owner)
+
+    data(popped_event)
+    |> Map.merge(%{owner: UserJSON.data(owner)})
   end
 
   def data(%Event{} = event) do
@@ -39,5 +35,4 @@ defmodule RoveApiWeb.EventJSON do
       longitude: event.longitude
     }
   end
-
 end

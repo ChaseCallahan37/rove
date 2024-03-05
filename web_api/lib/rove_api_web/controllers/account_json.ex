@@ -21,25 +21,24 @@ defmodule RoveApiWeb.AccountJSON do
     %{data: data(account)}
   end
 
-  defp data(%Account{user: %User{} = user} = account) do
+  def data(%Account{user: %User{}} = account) do
+    {user, popped_account} = Map.pop(account, :user)
+
+    data(popped_account)
+    |> Map.merge(%{user: UserJSON.data(user)})
+  end
+
+  def data(%Account{} = account) do
     %{
       id: account.id,
-      email: account.email,
-      user: UserJSON.data(user)
+      email: account.email
     }
   end
 
-
-  defp data(%Account{} = account) do
-    %{
-      id: account.id,
-      email: account.email,
-    }
-  end
   def data(%Account{} = account, token) do
-      %{
-        token: token,
-        account: data(account)
-      }
+    %{
+      token: token,
+      account: data(account)
+    }
   end
 end

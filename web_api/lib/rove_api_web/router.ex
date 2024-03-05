@@ -51,7 +51,6 @@ defmodule RoveApiWeb.Router do
   scope "/api", RoveApiWeb do
     pipe_through :api
 
-
     post "/accounts/create", AccountController, :create
     post "/accounts/sign-in", AccountController, :sign_in
   end
@@ -79,8 +78,6 @@ defmodule RoveApiWeb.Router do
     # authenticated, should be able to sign out
     get "/sign-out", AccountController, :sign_out
     get "/refresh-session", AccountController, :refresh_session
-
-
   end
 
   scope "/api/users", RoveApiWeb do

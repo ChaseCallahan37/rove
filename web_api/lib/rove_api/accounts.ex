@@ -1,6 +1,5 @@
 defmodule RoveApi.Accounts do
-
-@moduledoc """
+  @moduledoc """
   The Accounts context.
   """
 
@@ -59,16 +58,15 @@ defmodule RoveApi.Accounts do
     iex> get_account_by_email("no_account@email.com")
     nil
   """
-def get_account_by_email(email) do
-  # We do not care about the casing of the email when matching
-  with email_lower <- String.downcase(email) do
-    Account
-    |> where(email: ^email_lower)
-    |> preload([:user])
-    |> Repo.one()
+  def get_account_by_email(email) do
+    # We do not care about the casing of the email when matching
+    with email_lower <- String.downcase(email) do
+      Account
+      |> where(email: ^email_lower)
+      |> preload([:user])
+      |> Repo.one()
+    end
   end
-
-end
 
   @doc """
   Creates a account.

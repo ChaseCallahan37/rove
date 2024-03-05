@@ -9,7 +9,7 @@ defmodule RoveApi.Events.Event do
     field :title, :string
     field :latitude, :float
     field :longitude, :float
-    belongs_to :user, RoveApi.Users.User, type: :binary_id
+    belongs_to :owner, RoveApi.Users.User, foreign_key: :owner_id, type: :binary_id
 
     timestamps(type: :utc_datetime)
   end
@@ -17,8 +17,9 @@ defmodule RoveApi.Events.Event do
   @doc false
   def changeset(event, attrs) do
     IO.puts("IN change set")
+
     event
-    |> cast(attrs, [:title, :date, :latitude, :longitude, :user_id])
-    |> validate_required([:title, :date, :latitude, :longitude, :user_id])
+    |> cast(attrs, [:title, :date, :latitude, :longitude, :owner_id])
+    |> validate_required([:title, :date, :latitude, :longitude, :owner_id])
   end
 end

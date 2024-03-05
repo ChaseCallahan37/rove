@@ -12,7 +12,7 @@ defmodule RoveApiWeb.Telemetry do
       # Telemetry poller will execute the given period measurements
       # every 10_000ms. Learn more here: https://hexdocs.pm/telemetry_metrics
       {:telemetry_poller, measurements: periodic_measurements(), period: 10_000},
-      {Guardian.DB.Token.SweeperServer, []},
+      {Guardian.DB.Token.SweeperServer, []}
       # Add reporters as children of your supervision tree.
       # {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
     ]

@@ -21,7 +21,7 @@ defmodule RoveApi.Events do
   """
   def list_events_full do
     Event
-    |> preload([:user])
+    |> preload([:owner])
     |> Repo.all()
   end
 
@@ -43,10 +43,10 @@ defmodule RoveApi.Events do
 
   def get_event_by_id(id) when is_bitstring(id) do
     case Event
-      |> preload([:user])
-      |> Repo.get(id) do
-        %Event{} = event -> {:ok, event}
-        nil -> {:error, :not_found}
+         |> preload([:owner])
+         |> Repo.get(id) do
+      %Event{} = event -> {:ok, event}
+      nil -> {:error, :not_found}
     end
   end
 
@@ -63,10 +63,8 @@ defmodule RoveApi.Events do
 
   """
   def create_event(%User{} = user, attrs \\ %{}) do
-    IO.puts("Top of create even")
     user
-    |> Ecto.build_assoc(:events)
-    |> IO.inspect()
+    |> Ecto.build_assoc(:events_created)
     |> Event.changeset(attrs)
     |> Repo.insert()
   end

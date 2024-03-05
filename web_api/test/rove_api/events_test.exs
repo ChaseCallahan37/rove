@@ -21,7 +21,12 @@ defmodule RoveApi.EventsTest do
     end
 
     test "create_event/1 with valid data creates a event" do
-      valid_attrs = %{date: ~D[2024-02-02], title: "some title", latitude: 120.5, longitude: 120.5}
+      valid_attrs = %{
+        date: ~D[2024-02-02],
+        title: "some title",
+        latitude: 120.5,
+        longitude: 120.5
+      }
 
       assert {:ok, %Event{} = event} = Events.create_event(valid_attrs)
       assert event.date == ~D[2024-02-02]
@@ -36,7 +41,13 @@ defmodule RoveApi.EventsTest do
 
     test "update_event/2 with valid data updates the event" do
       event = event_fixture()
-      update_attrs = %{date: ~D[2024-02-03], title: "some updated title", latitude: 456.7, longitude: 456.7}
+
+      update_attrs = %{
+        date: ~D[2024-02-03],
+        title: "some updated title",
+        latitude: 456.7,
+        longitude: 456.7
+      }
 
       assert {:ok, %Event{} = event} = Events.update_event(event, update_attrs)
       assert event.date == ~D[2024-02-03]

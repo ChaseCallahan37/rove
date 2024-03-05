@@ -19,7 +19,7 @@ defmodule RoveApi.Users do
   """
   def list_user_full do
     User
-    |> preload(([:events]))
+    |> preload([:events_created])
     |> Repo.all()
   end
 
