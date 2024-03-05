@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Text, SafeAreaView, Button, Alert, View, ScrollView } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  Button,
+  Alert,
+  View,
+  ScrollView,
+} from "react-native";
 import useApi from "../../hooks/useApi";
 import { createEvent } from "../../api/events/event";
 import AppDatePicker from "../../components/AppDatePicker";
@@ -111,7 +118,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
                 pins={eventCoordinate && [eventCoordinate]}
               />
             )}
-          <Button title="Submit" onPress={() => handleSubmit()} />
+            <Button title="Submit" onPress={() => handleSubmit()} />
           </View>
         </ScrollView>
       )}

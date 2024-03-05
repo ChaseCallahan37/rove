@@ -16,13 +16,13 @@ function useApi(apiCall: Function, needsToken = false) {
     try {
       setLoading(true);
 
-      let result
+      let result;
 
-      if(needsToken){
-        const token = await retrieveToken()
-        result = await apiCall(token, ...args)
-      } else{
-        result = await apiCall(...args)
+      if (needsToken) {
+        const token = await retrieveToken();
+        result = await apiCall(token, ...args);
+      } else {
+        result = await apiCall(...args);
       }
 
       setLoading(false);

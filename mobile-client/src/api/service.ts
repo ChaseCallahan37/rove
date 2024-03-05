@@ -13,8 +13,8 @@ async function get(resource: string, headers?: any) {
     },
   });
 
-  console.log(res)
-  
+  console.log(res);
+
   return res;
 }
 
@@ -29,7 +29,6 @@ async function post<T>(resource: string, payload: T, headers?: any) {
   });
 
   console.log(res);
-  
 
   return res;
 }

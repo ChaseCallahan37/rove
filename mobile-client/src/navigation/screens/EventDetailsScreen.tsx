@@ -30,6 +30,8 @@ function EventDetailsScreen({
     getEvent(eventID);
   }, []);
 
+  console.log(event);
+
   return (
     <View style={tw(["flex-1", "bg-slate-100", "py-8", "px-2"])}>
       {loading ? (
@@ -60,6 +62,23 @@ function EventDetailsScreen({
               }
             </View>
 
+            {event.owner && (
+              <View
+                style={tw([
+                  "bg-sky-200",
+                  "rounded-full",
+                  "p-2",
+                  "flex",
+                  "flex-row",
+                  "items-center",
+                  "justify-around",
+                ])}
+              >
+                <Text style={tw(["text-black", "font-bold", "text-lg"])}>
+                  Created By: {event.owner.user_name}
+                </Text>
+              </View>
+            )}
             <View style={tw(["mt-16", "rounded", "bg-slate-200"])}>
               <Image
                 style={tw(["w-full", "h-72", "rounded-t"])}
