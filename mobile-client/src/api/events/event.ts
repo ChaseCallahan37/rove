@@ -44,7 +44,13 @@ export async function createEvent(token: string, newEvent: Event) {
 }
 
 export async function joinEvent(token: string, eventId: string) {
-  const res = await service.post(`resourceName/join/${eventId}}`, {
+  await service.post(`${resourceName}/join`, {
     headers: createAuthHeader(token),
+    payload: {
+      event: {
+        id: eventId
+      }
+    }
   });
+
 }

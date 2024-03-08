@@ -21,8 +21,6 @@ function LoginScreen({ navigation }: LoginScreenProps) {
     const success = await signIn(credentials);
 
     if (success) {
-      console.log(success);
-
       navigation.goBack();
     } else {
       Alert.alert("Failed to sign in, please try again");

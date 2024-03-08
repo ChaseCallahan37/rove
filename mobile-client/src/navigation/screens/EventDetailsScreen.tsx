@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Button, Image, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 import { Event, retrieveEvent } from "../../api/events/event";
 import useApi from "../../hooks/useApi";
@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { style as tw } from "twrnc";
 import format from "../../utils/format";
+import eventApi from "../../api/events";
 
 export type EventDetailsScreenParams = {
   eventID: string;
@@ -25,10 +26,15 @@ function EventDetailsScreen({
   },
 }: EventDetailsScreenProps) {
   const { loading, error, data, request: getEvent } = useApi(retrieveEvent);
+  const { request: joinEvent } = useApi(eventApi.joinEvent, true);
   const event = data as Event | undefined | null;
   useEffect(() => {
     getEvent(eventID);
   }, []);
+
+  const handleOnJoin = () => {
+    joinEvent(event?.id);
+  };
 
   console.log(event);
 
@@ -94,6 +100,7 @@ function EventDetailsScreen({
                 </Text>
               </View>
             </View>
+            <Button title="Join Event" onPress={handleOnJoin} />
           </View>
         )
       )}

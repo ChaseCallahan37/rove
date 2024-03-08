@@ -38,8 +38,6 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
 
   const { account } = useAuth();
 
-  console.log(account);
-
   const handleUpdateCoordinate = (coordinate: {
     latitude: number;
     longitude: number;

@@ -34,8 +34,6 @@ export async function signIn({
 }
 
 export async function getAccountInfo(token: string) {
-  console.log(createAuthHeader(token));
-
   const res = await service.get(
     resourceName + "/current",
     createAuthHeader(token)
