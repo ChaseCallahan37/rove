@@ -53,4 +53,5 @@ export async function joinEvent(token: string, eventId: string) {
     }
   });
 
+  return true
 }

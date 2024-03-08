@@ -33,6 +33,7 @@ function useApi(apiCall: Function, needsToken = false) {
 
       setError(false);
       setData(result);
+      return result
     } catch (e: any) {
       setError(e.message);
       setLoading(false);

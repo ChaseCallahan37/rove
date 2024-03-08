@@ -35,14 +35,13 @@ function EventDetailsScreen({
   const handleOnJoin = async () => {
     const success = await joinEvent(event?.id);
 
+    // @ts-ignore
     if(success){
       Alert.alert("Successfully joined event!")
     } else{
       Alert.alert("Unable to join event, please try again")
     }
   };
-
-  console.log(event);
 
   return (
     <View style={tw(["flex-1", "bg-slate-100", "py-8", "px-2"])}>
