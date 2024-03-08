@@ -24,10 +24,17 @@ defmodule RoveApiWeb.UserController do
   end
 
   def show(%{assigns: %{account: %{user: user}}} = conn, _params) do
-    full_user = Users.get_user_full(user)
+    conn
+    |> render(:show, user: user)
+  end
+
+  def show_events(%{assigns: %{account: %{user: user}}} = conn, _params) do
+    user_events =
+      user
+      |> Users.get_user_events()
 
     conn
-    |> render(:show, user: full_user)
+    |> render(:show, user: user_events)
   end
 
   def update(%{assigns: %{account: %{user: user}}} = conn, %{"user" => user_params}) do

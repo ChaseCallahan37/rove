@@ -1,6 +1,7 @@
 defmodule RoveApiWeb.UserJSON do
-  alias RoveApiWeb.EventJSON
   alias RoveApi.Users.User
+  alias RoveApi.Users.User
+  alias RoveApiWeb.EventJSON
 
   @doc """
   Renders a list of user.
@@ -16,24 +17,32 @@ defmodule RoveApiWeb.UserJSON do
     %{data: data(user)}
   end
 
-  def data(%User{events_created: events} = user) when is_list(events) do
+  def data(%{events_created: events} = user) when is_list(events) do
     {events, popped_user} = Map.pop(user, :events_created)
 
     data(popped_user)
     |> Map.merge(%{events_created: for(event <- events, do: EventJSON.data(event))})
   end
 
-  def data(%User{attendances: attendances} = user) when is_list(attendances) do
+  def data(%{attendances: attendances} = user) when is_list(attendances) do
     {attendances, popped_user} = Map.pop(user, :attendances)
 
     data(popped_user)
-    |> Map.merge(%{attendances: for(attendance <- attendances, do: EventJSON.data(attendance.event))})
+    |> Map.merge(%{
+      attendances: for(attendance <- attendances, do: EventJSON.data(attendance.event))
+    })
   end
 
   def data(%User{} = user) do
     %{
       id: user.id,
-      user_name: user.user_name
+      user_name: user.user_name,
+      dob: user.dob,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      gender: user.gender,
     }
   end
+
+  def data(%{}), do: %{}
 end

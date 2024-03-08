@@ -91,9 +91,11 @@ defmodule RoveApi.Accounts do
         {:ok, account} ->
           case Users.create_user(account, attrs) do
             {:ok, user} -> {account, user}
-            {:error, user_error} ->  Repo.rollback(user_error)
+            {:error, user_error} -> Repo.rollback(user_error)
           end
-        {:error, account_error} -> Repo.rollback(account_error)
+
+        {:error, account_error} ->
+          Repo.rollback(account_error)
       end
     end)
   end

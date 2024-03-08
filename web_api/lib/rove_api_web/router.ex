@@ -84,10 +84,10 @@ defmodule RoveApiWeb.Router do
   scope "/api/users", RoveApiWeb do
     pipe_through [:api, :auth]
 
+    get "/", UserController, :index
     put "/update", UserController, :update
     get "/current", UserController, :show
-
-    get "/", UserController, :index
+    get "/current/events", UserController, :show_events
   end
 
   # Other scopes may use custom stacks.
