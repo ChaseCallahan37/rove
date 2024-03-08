@@ -43,7 +43,6 @@ defmodule RoveApi.Users do
   def get_user(user_id) when is_bitstring(user_id) do
     User
     |> Repo.get(user_id)
-
   end
 
   def get_user_full(user) do

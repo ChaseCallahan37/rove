@@ -40,7 +40,7 @@ defmodule RoveApiWeb.UserJSON do
       dob: user.dob,
       first_name: user.first_name,
       last_name: user.last_name,
-      gender: user.gender,
+      gender: user.gender
     }
   end
 
