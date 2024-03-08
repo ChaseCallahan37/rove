@@ -12,7 +12,6 @@ defmodule RoveApi.Repo.Migrations.AddEventsAttendees do
 
     create index(:event_attendances, [:attendee_id])
     create index(:event_attendances, [:event_id])
-
-    create unique_index(:event_attendances, [:attendee_id, :event_id])
+    create unique_index(:event_attendances, [:attendee_id, :event_id], name: :unique_event_attendance)
   end
 end

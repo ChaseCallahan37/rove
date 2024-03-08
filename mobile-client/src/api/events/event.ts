@@ -9,7 +9,7 @@ export type Event = {
   latitude: number;
   longitude: number;
   owner?: User;
-  attendees?: User[]
+  attendees?: User[];
 };
 
 const resourceName = "events";
@@ -31,21 +31,20 @@ export async function retrieveEvent(id: string) {
 }
 
 export async function createEvent(token: string, newEvent: Event) {
-  const res = await service.post<{ event: Event }>(
-    resourceName,
-    {
+  const res = await service.post<{ event: Event }>(resourceName, {
+    payload: {
       event: newEvent,
     },
-    createAuthHeader(token)
-  );
+    headers: createAuthHeader(token),
+  });
 
   const { data: createdEvent } = await unpackResponse<{ data: Event }>(res);
 
   return createdEvent;
 }
 
-
 export async function joinEvent(token: string, eventId: string) {
-
+  const res = await service.post(`resourceName/join/${eventId}}`, {
+    headers: createAuthHeader(token),
+  });
 }
-

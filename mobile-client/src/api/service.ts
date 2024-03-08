@@ -18,7 +18,10 @@ async function get(resource: string, headers?: any) {
   return res;
 }
 
-async function post<T>(resource: string, payload?: T, headers?: any) {
+async function post<T>(
+  resource: string,
+  { headers, payload }: { payload?: T; headers?: any }
+) {
   const res = fetch(url + resource, {
     method: "POST",
     headers: {

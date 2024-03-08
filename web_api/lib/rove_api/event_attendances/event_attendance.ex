@@ -23,5 +23,6 @@ defmodule RoveApi.EventAttendances.EventAttendance do
     event
     |> cast(attrs, [:attendee_id, :event_id])
     |> validate_required([:attendee_id, :event_id])
+    |> unique_constraint([:attendee_id, :event_id])
   end
 end

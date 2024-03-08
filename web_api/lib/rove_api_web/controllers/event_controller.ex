@@ -50,7 +50,17 @@ defmodule RoveApiWeb.EventController do
     end
   end
 
-  def join(conn, %{"id" => event_id}) do
+  @spec join(
+          %{
+            :assigns => %{
+              :account => %{:user => map(), optional(any()) => any()},
+              optional(any()) => any()
+            },
+            optional(any()) => any()
+          },
+          map()
+        ) :: any()
+  def join(conn, %{"event" => %{"id" => event_id}}) do
     %{assigns: %{account: %{user: %{id: attendee_id}}}} = conn
 
     with {:ok, %EventAttendance{} = _event_attendance} <-

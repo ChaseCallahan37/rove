@@ -20,8 +20,10 @@ export async function signIn({
   password: string;
 }) {
   const res = await service.post(resourceName + "/sign-in", {
-    email,
-    hash_password: password,
+    payload: {
+      email,
+      hash_password: password,
+    },
   });
 
   const {
@@ -56,10 +58,12 @@ export async function createAccount({
   userName: string;
 }) {
   const res = await service.post(resourceName + "/create", {
-    account: {
-      email,
-      hash_password: password,
-      user_name: userName,
+    payload: {
+      account: {
+        email,
+        hash_password: password,
+        user_name: userName,
+      },
     },
   });
 
