@@ -9,6 +9,7 @@ export type Event = {
   latitude: number;
   longitude: number;
   owner?: User;
+  attendees?: User[]
 };
 
 const resourceName = "events";
@@ -42,3 +43,9 @@ export async function createEvent(token: string, newEvent: Event) {
 
   return createdEvent;
 }
+
+
+export async function joinEvent(token: string, eventId: string) {
+
+}
+
