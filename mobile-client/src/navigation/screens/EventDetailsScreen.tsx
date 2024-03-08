@@ -1,4 +1,4 @@
-import { Button, Image, Text, View } from "react-native";
+import { Alert, Button, Image, Text, View } from "react-native";
 import { AppNavigationProp } from "../AppNavigations";
 import { Event, retrieveEvent } from "../../api/events/event";
 import useApi from "../../hooks/useApi";
@@ -32,8 +32,14 @@ function EventDetailsScreen({
     getEvent(eventID);
   }, []);
 
-  const handleOnJoin = () => {
-    joinEvent(event?.id);
+  const handleOnJoin = async () => {
+    const success = await joinEvent(event?.id);
+
+    if(success){
+      Alert.alert("Successfully joined event!")
+    } else{
+      Alert.alert("Unable to join event, please try again")
+    }
   };
 
   console.log(event);
