@@ -23,6 +23,9 @@ defmodule RoveApi.EventAttendances.EventAttendance do
     event
     |> cast(attrs, [:attendee_id, :event_id])
     |> validate_required([:attendee_id, :event_id])
-    |> unique_constraint([:attendee_id, :event_id], name: :unique_event_attendance, message: "User has already signed up for this event")
+    |> unique_constraint([:attendee_id, :event_id],
+      name: :unique_event_attendance,
+      message: "User has already signed up for this event"
+    )
   end
 end

@@ -19,5 +19,6 @@ defmodule RoveApi.Events.Event do
     event
     |> cast(attrs, [:title, :date, :latitude, :longitude, :owner_id])
     |> validate_required([:title, :date, :latitude, :longitude, :owner_id])
+    |> unique_constraint([:date, :title, :owner_id], name: :unique_date_title_owner, message: "User has already created an event on this date with that title")
   end
 end
