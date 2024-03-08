@@ -10,14 +10,12 @@ defmodule RoveApi.Events.Event do
     field :latitude, :float
     field :longitude, :float
     belongs_to :owner, RoveApi.Users.User, foreign_key: :owner_id, type: :binary_id
-
+    has_many :attendees, RoveApi.EventAttendances.EventAttendance, foreign_key: :event_id
     timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(event, attrs) do
-    IO.puts("IN change set")
-
     event
     |> cast(attrs, [:title, :date, :latitude, :longitude, :owner_id])
     |> validate_required([:title, :date, :latitude, :longitude, :owner_id])

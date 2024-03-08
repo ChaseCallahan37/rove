@@ -12,7 +12,7 @@ defmodule RoveApi.Users.User do
     field :gender, Ecto.Enum, values: [:male, :female, :other]
     belongs_to :account, RoveApi.Accounts.Account, foreign_key: :account_id, type: :binary_id
     has_many :events_created, RoveApi.Events.Event, foreign_key: :owner_id
-
+    has_many :attendances, RoveApi.EventAttendances.EventAttendance, foreign_key: :attendee_id
     timestamps(type: :utc_datetime)
   end
 

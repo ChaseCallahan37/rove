@@ -25,6 +25,8 @@ defmodule RoveApiWeb.UserController do
 
   def show(%{assigns: %{account: %{user: user}}} = conn, _params) do
     full_user = Users.get_user_full(user)
+    IO.puts("LOOK HERE")
+    IO.inspect(full_user)
     render(conn, :show, user: full_user)
   end
 

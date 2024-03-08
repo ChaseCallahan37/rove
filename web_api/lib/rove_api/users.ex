@@ -4,6 +4,7 @@ defmodule RoveApi.Users do
   """
 
   import Ecto.Query, warn: false
+  alias RoveApi.EventAttendances.EventAttendance
   alias RoveApi.Repo
 
   alias RoveApi.Users.User
@@ -19,7 +20,7 @@ defmodule RoveApi.Users do
   """
   def list_user_full do
     User
-    |> preload([:events_created])
+    |> preload([:events_created, :attendances])
     |> Repo.all()
   end
 
@@ -39,10 +40,16 @@ defmodule RoveApi.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  # def get_user_full(user_id) when is_bitstring(user_id) do
+  #   from(u in User, where: u.user_id == ^user_id, select: u.user_name)
+  #   |> Repo.all()
+
+  # end
   def get_user_full(user) do
+
     User
-    |> preload([:events_created])
-    |> Repo.get(user.id)
+    |> Repo.get!(user.id)
+    |> Repo.preload([:events_created, attendances: [:event]])
   end
 
   @doc """

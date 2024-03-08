@@ -69,6 +69,7 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def current_account(%{assigns: %{account: account}} = conn, %{}) do
+    IO.inspect(account)
     conn
     |> put_status(:ok)
     |> render(:show, account: account)

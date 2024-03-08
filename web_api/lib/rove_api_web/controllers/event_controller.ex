@@ -1,6 +1,8 @@
 defmodule RoveApiWeb.EventController do
   use RoveApiWeb, :controller
 
+  alias RoveApi.EventAttendances.EventAttendance
+  alias RoveApi.EventAttendances
   alias RoveApiWeb.Controllers.ErrorResponse
   alias RoveApi.Events
   alias RoveApi.Events.Event
@@ -48,16 +50,14 @@ defmodule RoveApiWeb.EventController do
     end
   end
 
-
   def join(conn, %{"id" => event_id}) do
-    %{assigns: %{account: %{user: %{id: user_id}}}} = conn
+    %{assigns: %{account: %{user: %{id: attendee_id}}}} = conn
 
-    Events.get_event_by_id(event_id)
-    |> Events.update_event(%{owner_id: user_id})
-
-
-
-
-
+    with {:ok, %EventAttendance{} = _event_attendance} <-
+           EventAttendances.create_attendance(%{attendee_id: attendee_id, event_id: event_id}) do
+      conn
+      |> put_status(:ok)
+      |> send_resp(:no_content, "")
+    end
   end
 end
