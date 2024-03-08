@@ -4,6 +4,11 @@ defmodule RoveApi.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Mix.Ecto
+  alias Phoenix.Ecto
+  alias Mix.Ecto
+  alias ElixirSense.Plugins.Ecto
+  alias RoveApi.Users
   alias RoveApi.Repo
 
   alias RoveApi.Utils
@@ -81,6 +86,19 @@ defmodule RoveApi.Accounts do
 
   """
   def create_account(attrs \\ %{}) do
+    Repo.transaction(fn ->
+      case execute_create_account(attrs) do
+        {:ok, account} ->
+          case Users.create_user(account, attrs) do
+            {:ok, user} -> {account, user}
+            {:error, user_error} ->  Repo.rollback(user_error)
+          end
+        {:error, account_error} -> Repo.rollback(account_error)
+      end
+    end)
+  end
+
+  defp execute_create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(Utils.Maps.fields_lower(attrs, [:email]))
     |> Repo.insert()

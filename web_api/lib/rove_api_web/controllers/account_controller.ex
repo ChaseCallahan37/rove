@@ -19,8 +19,7 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def create(conn, %{"account" => %{"hash_password" => hash_password} = account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
-         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
+    with {:ok, {%Account{} = account, %User{} = _user}} <- Accounts.create_account(account_params) do
       conn
       # We want to call authorize account with the hash password that the caller gives us
       # We do not want to use the hash of the hash when authorizing account, since
@@ -69,7 +68,6 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def current_account(%{assigns: %{account: account}} = conn, %{}) do
-    IO.inspect(account)
     conn
     |> put_status(:ok)
     |> render(:show, account: account)

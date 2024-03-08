@@ -20,5 +20,6 @@ defmodule RoveApi.Users.User do
     user
     |> cast(attrs, [:account_id, :user_name, :dob, :first_name, :last_name, :gender])
     |> validate_required([:account_id])
+    |> unique_constraint([:user_name])
   end
 end

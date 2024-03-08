@@ -14,6 +14,6 @@ defmodule RoveApi.Repo.Migrations.CreateUser do
 
     create index(:users, [:account_id, :user_name])
 
-    create index(:users, [:user_name])
+    create unique_index(:users, [:user_name])
   end
 end
