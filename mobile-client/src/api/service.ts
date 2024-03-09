@@ -1,33 +1,52 @@
 import Config from "react-native-config";
 
+export type RequestResponse<T> = T | { error: string } | undefined;
+
 const url = Config.WEB_API_URL;
 
-async function get(resource: string) {
-  const res = fetch(url + resource);
+async function get(resource: string, headers?: any) {
+  const res = fetch(url + resource, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+  });
+
+  console.log(res);
 
   return res;
 }
 
-async function getOne(resource: string, id: string) {
-  const res = fetch(url + resource + `/${id}`);
-
-  return res;
-}
-
-async function post<T>(resource: string, payload: T) {
+async function post<T>(
+  resource: string,
+  { headers, payload }: { payload?: T; headers?: any }
+) {
   const res = fetch(url + resource, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload ? payload : {}),
   });
+
+  console.log(res);
 
   return res;
 }
 
+export async function unpackResponse<T extends object>(res: Response) {
+  const json = (await res.json()) as RequestResponse<T>;
+
+  if (!json) throw new Error("Error with request");
+
+  if ("error" in json) throw new Error(json.error);
+
+  return json as T;
+}
+
 export default {
   get,
-  getOne,
   post,
 };

@@ -1,5 +1,27 @@
 defmodule RoveApiWeb.Router do
   use RoveApiWeb, :router
+  use Plug.ErrorHandler
+
+  # These need to be handled with the Plug.ErrorHandler abvoe
+  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+    conn
+    |> json(%{error: message})
+    |> halt()
+  end
+
+  defp handle_errors(conn, %{reason: %{message: message}}) do
+    conn
+    |> json(%{error: message})
+    |> halt()
+  end
+
+  defp handle_errors(conn, body) do
+    IO.inspect(body)
+
+    conn
+    |> json(%{error: "request failed see logs"})
+    |> halt()
+  end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,21 +34,60 @@ defmodule RoveApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
     plug CORSPlug, origin: "*"
+  end
+
+  pipeline :auth do
+    plug RoveApiWeb.Auth.Pipeline
+    plug RoveApiWeb.Auth.SetAccount
   end
 
   scope "/", RoveApiWeb do
     pipe_through :browser
-
     get "/", PageController, :home
   end
 
   scope "/api", RoveApiWeb do
     pipe_through :api
 
-    get "/events", EventController, :index
-    get "/events/:id", EventController, :show
-    post "/events", EventController, :create
+    post "/accounts/create", AccountController, :create
+    post "/accounts/sign-in", AccountController, :sign_in
+  end
+
+  scope "/api/events", RoveApiWeb do
+    pipe_through :api
+
+    get "/", EventController, :index
+    get "/:id", EventController, :show
+  end
+
+  scope "/api/events", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    post "/", EventController, :create
+    post "/join", EventController, :join
+  end
+
+  scope "/api/accounts", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    get "/", AccountController, :index
+    put "/", AccountController, :update
+    get "/current", AccountController, :show
+    # We add the sign-out endpoint here because only accounts that are
+    # authenticated, should be able to sign out
+    get "/sign-out", AccountController, :sign_out
+    get "/refresh-session", AccountController, :refresh_session
+  end
+
+  scope "/api/users", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    get "/", UserController, :index
+    put "/update", UserController, :update
+    get "/current", UserController, :show
+    get "/current/events", UserController, :show_events
   end
 
   # Other scopes may use custom stacks.

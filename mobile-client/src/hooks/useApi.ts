@@ -1,39 +1,40 @@
 import { useState } from "react";
 
-function useApi(apiCall: Function) {
-  const [data, setData] = useState(null);
+import { retrieveToken } from "../auth/token";
+
+function useApi<T>(
+  apiCall: (...args: any[]) => Promise<T>,
+  needsToken = false
+) {
+  const [data, setData] = useState<T | null>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [progress, setProgress] = useState();
+  const [error, setError] = useState<any>(false);
+  const [progress, setProgress] = useState<number | null>(null);
 
   // We want to return true or false to indicate whether
   // the request fails or succeeds
-  // @ts-ignore
-  const request = async (...args) => {
-    let result;
-
+  const request = async (...args: any[]) => {
     try {
       setLoading(true);
 
-      result = await apiCall(...args);
-      setLoading(false);
-      // @ts-ignore
-      setProgress(null);
-      if (!result.ok) {
-        setError(true);
+      let result: T;
+
+      if (needsToken) {
+        const token = await retrieveToken();
+        result = await apiCall(token, ...args);
+      }
+      {
+        result = await apiCall(...args);
       }
 
-      const { data } = await result.json();
+      setLoading(false);
+      setData(result);
 
-      setError(false);
-      setData(data);
-    } catch (e) {
-      setError(true);
+      return result;
+    } catch (e: any) {
+      setError(e.message);
       setLoading(false);
       console.log(e);
-    } finally {
-      const responseSucceeded = result?.status < 300;
-      return responseSucceeded;
     }
   };
 

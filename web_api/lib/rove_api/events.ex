@@ -4,9 +4,10 @@ defmodule RoveApi.Events do
   """
 
   import Ecto.Query, warn: false
-  alias RoveApi.Repo
 
+  alias RoveApi.Repo
   alias RoveApi.Events.Event
+  alias RoveApi.Users.User
 
   @doc """
   Returns the list of events.
@@ -17,25 +18,18 @@ defmodule RoveApi.Events do
       [%Event{}, ...]
 
   """
-  def list_events do
-    Repo.all(Event)
+  def list_events(include \\ []) do
+    Event
+    |> preload(^include)
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single event.
-
-  Raises `Ecto.NoResultsError` if the Event does not exist.
-
-  ## Examples
-
-      iex> get_event!(123)
-      %Event{}
-
-      iex> get_event!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_event!(id), do: Repo.get!(Event, id)
+  def get_event(criteria, include \\ []) do
+    Event
+    |> where(^criteria)
+    |> preload(^include)
+    |> Repo.one()
+  end
 
   @doc """
   Creates a event.
@@ -49,8 +43,9 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_event(attrs \\ %{}) do
-    %Event{}
+  def create_event(%User{} = user, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:events_created)
     |> Event.changeset(attrs)
     |> Repo.insert()
   end
@@ -67,7 +62,7 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_event(%Event{} = event, attrs) do
+  def update_event(event, attrs) do
     event
     |> Event.changeset(attrs)
     |> Repo.update()

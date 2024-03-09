@@ -20,7 +20,11 @@ config :rove_api, RoveApiWeb.Endpoint,
     layout: false
   ],
   pubsub_server: RoveApi.PubSub,
-  live_view: [signing_salt: "EFkA29Oz"]
+  live_view: [signing_salt: System.get_env("SIGNING_SALT")]
+
+config :rove_api, RoveApiWeb.Auth.Guardian,
+  issuer: "rove_api",
+  secret_key: System.get_env("GUARDIAN_SECRET_KEY")
 
 # Configures the mailer
 #
@@ -60,6 +64,12 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :guardian, Guardian.DB,
+  repo: RoveApi.Repo,
+  schema_name: "guardian_tokens",
+  # Expired tokens will be removed every 60 minutes
+  sweep_interval: 60
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

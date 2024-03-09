@@ -4,8 +4,8 @@ defmodule RoveApi.Users do
   """
 
   import Ecto.Query, warn: false
-  alias RoveApi.Repo
 
+  alias RoveApi.Repo
   alias RoveApi.Users.User
 
   @doc """
@@ -17,25 +17,18 @@ defmodule RoveApi.Users do
       [%User{}, ...]
 
   """
-  def list_user do
-    Repo.all(User)
+  def list_user(include \\ []) do
+    User
+    |> preload(^include)
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single user.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(criteria, include \\ []) do
+    User
+    |> where(^criteria)
+    |> preload(^include)
+    |> Repo.one()
+  end
 
   @doc """
   Creates a user.
@@ -49,8 +42,9 @@ defmodule RoveApi.Users do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
+  def create_user(account, attrs \\ %{}) do
+    account
+    |> Ecto.build_assoc(:user)
     |> User.changeset(attrs)
     |> Repo.insert()
   end

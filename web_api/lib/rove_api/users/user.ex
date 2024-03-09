@@ -3,25 +3,23 @@ defmodule RoveApi.Users.User do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  schema "user" do
+  @foreign_key_type :binary_id
+  schema "users" do
     field :user_name, :string
-    belongs_to :account, RoveApi.Accounts.Account
-
+    field :dob, :date
+    field :first_name, :string
+    field :last_name, :string
+    field :gender, Ecto.Enum, values: [:male, :female, :other]
+    belongs_to :account, RoveApi.Accounts.Account, foreign_key: :account_id, type: :binary_id
+    has_many :events_created, RoveApi.Events.Event, foreign_key: :owner_id
+    has_many :attendances, RoveApi.EventAttendances.EventAttendance, foreign_key: :attendee_id
     timestamps(type: :utc_datetime)
   end
 
-  @spec changeset(
-          {map(), map()}
-          | %{
-              :__struct__ => atom() | %{:__changeset__ => map(), optional(any()) => any()},
-              optional(atom()) => any()
-            },
-          :invalid | %{optional(:__struct__) => none(), optional(atom() | binary()) => any()}
-        ) :: Ecto.Changeset.t()
-  @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:account_id, :user_name])
+    |> cast(attrs, [:account_id, :user_name, :dob, :first_name, :last_name, :gender])
     |> validate_required([:account_id])
+    |> unique_constraint([:user_name])
   end
 end

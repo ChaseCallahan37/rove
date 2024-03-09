@@ -1,4 +1,6 @@
-import service from "../service";
+import createAuthHeader from "../../utils/createAuthHeader";
+import service, { unpackResponse } from "../service";
+import { User } from "../user/user";
 
 export type Event = {
   id: string;
@@ -6,6 +8,8 @@ export type Event = {
   date: Date;
   latitude: number;
   longitude: number;
+  owner?: User;
+  attendees?: User[];
 };
 
 const resourceName = "events";
@@ -13,19 +17,41 @@ const resourceName = "events";
 export async function retrieveEvents() {
   const res = await service.get(resourceName);
 
-  return res;
+  const { data: events } = await unpackResponse<{ data: Event[] }>(res);
+
+  return events;
 }
 
 export async function retrieveEvent(id: string) {
-  const res = await service.getOne(resourceName, id);
+  const res = await service.get(resourceName + "/" + id);
 
-  return res;
+  const { data: event } = await unpackResponse<{ data: Event }>(res);
+
+  return event;
 }
 
-export async function createEvent(newEvent: Event) {
+export async function createEvent(token: string, newEvent: Event) {
   const res = await service.post<{ event: Event }>(resourceName, {
-    event: newEvent,
+    payload: {
+      event: newEvent,
+    },
+    headers: createAuthHeader(token),
   });
 
-  return res;
+  const { data: createdEvent } = await unpackResponse<{ data: Event }>(res);
+
+  return createdEvent;
+}
+
+export async function joinEvent(token: string, eventId: string) {
+  await service.post(`${resourceName}/join`, {
+    headers: createAuthHeader(token),
+    payload: {
+      event: {
+        id: eventId,
+      },
+    },
+  });
+
+  return true;
 }

@@ -51,7 +51,10 @@ defmodule RoveApi.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:guardian, "~> 2.3"},
+      {:guardian_db, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"}
     ]
   end
 

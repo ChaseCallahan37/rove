@@ -11,6 +11,5 @@ defmodule RoveApi.Repo.Migrations.CreateAccount do
     end
 
     create unique_index(:accounts, [:email])
-
   end
 end

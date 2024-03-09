@@ -1,4 +1,6 @@
 defmodule RoveApiWeb.EventJSON do
+  alias RoveApi.Users.User
+  alias RoveApiWeb.UserJSON
   alias RoveApi.Events.Event
 
   @doc """
@@ -12,10 +14,19 @@ defmodule RoveApiWeb.EventJSON do
   Renders a single event.
   """
   def show(%{event: event}) do
-    %{data: data(event)}
+    %{
+      data: data(event)
+    }
   end
 
-  defp data(%Event{} = event) do
+  def data(%Event{owner: %User{}} = event) do
+    {owner, popped_event} = Map.pop(event, :owner)
+
+    data(popped_event)
+    |> Map.merge(%{owner: UserJSON.data(owner)})
+  end
+
+  def data(%Event{} = event) do
     %{
       id: event.id,
       title: event.title,

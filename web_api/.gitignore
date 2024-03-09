@@ -35,3 +35,5 @@ rove_api-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Added by dev team
+.env

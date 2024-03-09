@@ -4,8 +4,10 @@ defmodule RoveApi.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias RoveApi.Users
   alias RoveApi.Repo
 
+  alias RoveApi.Utils
   alias RoveApi.Accounts.Account
 
   @doc """
@@ -17,25 +19,18 @@ defmodule RoveApi.Accounts do
       [%Account{}, ...]
 
   """
-  def list_account do
-    Repo.all(Account)
+  def list_account(include \\ []) do
+    Account
+    |> preload(^include)
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single account.
-
-  Raises `Ecto.NoResultsError` if the Account does not exist.
-
-  ## Examples
-
-      iex> get_account!(123)
-      %Account{}
-
-      iex> get_account!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_account!(id), do: Repo.get!(Account, id)
+  def get_account(criteria, include \\ []) do
+    Account
+    |> where(^criteria)
+    |> preload(^include)
+    |> Repo.one()
+  end
 
   @doc """
   Creates a account.
@@ -50,8 +45,23 @@ defmodule RoveApi.Accounts do
 
   """
   def create_account(attrs \\ %{}) do
+    Repo.transaction(fn ->
+      case execute_create_account(attrs) do
+        {:ok, account} ->
+          case Users.create_user(account, attrs) do
+            {:ok, user} -> {account, user}
+            {:error, user_error} -> Repo.rollback(user_error)
+          end
+
+        {:error, account_error} ->
+          Repo.rollback(account_error)
+      end
+    end)
+  end
+
+  defp execute_create_account(attrs \\ %{}) do
     %Account{}
-    |> Account.changeset(attrs)
+    |> Account.changeset(Utils.Maps.fields_lower(attrs, [:email]))
     |> Repo.insert()
   end
 
