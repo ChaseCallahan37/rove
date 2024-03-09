@@ -1,13 +1,11 @@
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { RequestResponse, unpackResponse } from "../service";
+import { User } from "../user/user";
 
 export type Account = {
   id: string;
   email: string;
-  user: {
-    id: string;
-    user_name: string;
-  };
+  user: User 
 };
 
 const resourceName = "accounts";
