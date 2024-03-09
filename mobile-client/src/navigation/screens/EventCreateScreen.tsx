@@ -81,7 +81,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               />
               <Button
                 title="Create Account"
-                onPress={() => navigation.navigate("CreateAccount")}
+                onPress={() => navigation.navigate("AccountCreate")}
               />
             </>
           ) : (

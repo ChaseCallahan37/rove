@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Text, View } from "react-native";
 import { style as tw } from "twrnc";

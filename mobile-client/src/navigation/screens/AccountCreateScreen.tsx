@@ -9,11 +9,11 @@ import useAuth from "../../hooks/useAuth";
 import InputGroup from "../../components/InputGroup";
 import AppTextInput from "../../components/AppTextInput";
 import accountApi from "../../api/account";
-type CreateAccountScreenProps = {
-  navigation: AppNavigationProp<"CreateAccount">;
+type AccountCreateScreenProps = {
+  navigation: AppNavigationProp<"AccountCreate">;
 };
 
-function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
+function AccountCreateScreen({ navigation }: AccountCreateScreenProps) {
   const { createAccount } = useAuth();
 
   const accountInfo = { email: "", userName: "", password: "" };
@@ -58,4 +58,4 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   );
 }
 
-export default CreateAccountScreen;
+export default AccountCreateScreen;

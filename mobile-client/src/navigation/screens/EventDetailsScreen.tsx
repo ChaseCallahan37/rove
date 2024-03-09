@@ -24,7 +24,12 @@ function EventDetailsScreen({
     params: { eventId },
   },
 }: EventDetailsScreenProps) {
-  const { loading, error, data: event, request: getEvent } = useApi(retrieveEvent);
+  const {
+    loading,
+    error,
+    data: event,
+    request: getEvent,
+  } = useApi(retrieveEvent);
   const { request: joinEvent } = useApi(eventApi.joinEvent, true);
 
   useEffect(() => {
