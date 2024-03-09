@@ -1,12 +1,20 @@
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { RequestResponse, unpackResponse } from "../service";
-import { User } from "../user/user";
+import { User, parseUser } from "../user/user";
 
 export type Account = {
   id: string;
   email: string;
   user?: User;
 };
+
+export function parseAccount(obj: any){
+  return {
+
+    ...obj,
+    user: obj.user ? parseUser(obj.user) : null,
+  }
+}
 
 const resourceName = "accounts";
 
@@ -27,8 +35,8 @@ export async function signIn({
   const {
     data: { account, token },
   } = await unpackResponse<{ data: { account: Account; token: string } }>(res);
-
-  return { token, account };
+  
+  return { token, account: parseAccount(account) };
 }
 
 export async function getAccountInfo(token: string) {
@@ -41,7 +49,7 @@ export async function getAccountInfo(token: string) {
     data: { account },
   } = await unpackResponse<{ data: { account: Account } }>(res);
 
-  return account;
+  return parseAccount(account);
 }
 
 export async function createAccount({
@@ -67,5 +75,5 @@ export async function createAccount({
     data: { account: createdAccount, token },
   } = await unpackResponse<{ data: { token: string; account: Account } }>(res);
 
-  return { createdAccount, token };
+  return { createdAccount: parseAccount(createdAccount), token };
 }

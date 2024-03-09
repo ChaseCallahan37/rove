@@ -36,6 +36,32 @@ async function post<T>(
   return res;
 }
 
+async function put<T>(
+  resource: string,
+  { headers, payload }: { payload?: T; headers?: any }
+) {
+  const putUrl = url + resource
+  const putInit = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+    body: JSON.stringify(payload ? payload : {}),
+  }
+  console.log(`PUT ${putUrl}`);
+  console.log(payload);
+  
+  console.log(putInit);
+  
+  
+  const res = fetch(url + resource,putInit );
+
+  console.log(res);
+
+  return res;
+}
+
 export async function unpackResponse<T extends object>(res: Response) {
   const json = (await res.json()) as RequestResponse<T>;
 
@@ -49,4 +75,5 @@ export async function unpackResponse<T extends object>(res: Response) {
 export default {
   get,
   post,
+  put
 };

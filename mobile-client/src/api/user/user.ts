@@ -1,5 +1,5 @@
 import createAuthHeader from "../../utils/createAuthHeader";
-import service from "../service";
+import service, { unpackResponse } from "../service";
 
 export type User = {
   id: string;
@@ -9,6 +9,10 @@ export type User = {
   dob?: Date;
   gender?: string;
 };
+
+export function parseUser(obj: any){
+  return {...obj, dob: new Date(obj.dob)}
+}
 
 const resourceName = "users";
 
@@ -21,12 +25,16 @@ export async function updateUserProfile(
     gender: string;
   }
 ) {
-  await service.post(resourceName, {
+  
+  
+  const res = await service.put(`${resourceName}/update`, {
     headers: createAuthHeader(token),
     payload: {
       user: updatedFields,
     },
   });
 
-  return true;
+  const { data: user} = await unpackResponse<{data: User}>(res)
+
+  return parseUser(user) 
 }
