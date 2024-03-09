@@ -19,7 +19,6 @@ export type EventDetailsScreenProps = {
 };
 
 function EventDetailsScreen({
-  navigation,
   route: {
     params: { eventId },
   },

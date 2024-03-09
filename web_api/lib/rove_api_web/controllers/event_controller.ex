@@ -23,7 +23,7 @@ defmodule RoveApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    case Events.get_event([id: id]) do
+    case Events.get_event(id: id) do
       {:ok, event} ->
         conn
         |> put_status(:ok)
@@ -35,7 +35,7 @@ defmodule RoveApiWeb.EventController do
   end
 
   def update(conn, %{"id" => id, "event" => event_params}) do
-    event = Events.get_event([id: id])
+    event = Events.get_event(id: id)
 
     with {:ok, %Event{} = event} <- Events.update_event(event, event_params) do
       render(conn, :show, event: event)
@@ -43,7 +43,7 @@ defmodule RoveApiWeb.EventController do
   end
 
   def delete(conn, %{"id" => id}) do
-    event = Events.get_event([id: id])
+    event = Events.get_event(id: id)
 
     with {:ok, %Event{}} <- Events.delete_event(event) do
       send_resp(conn, :no_content, "")

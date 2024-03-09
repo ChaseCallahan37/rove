@@ -1,11 +1,9 @@
 import { Button, Text, View } from "react-native";
-import { AppNavigationProp } from "../AppNavigations";
-
 import tw from "twrnc";
-import useApi from "../../hooks/useApi";
-import { signIn } from "../../api/account/account";
-import { useEffect } from "react";
+
+import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
+
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
 };

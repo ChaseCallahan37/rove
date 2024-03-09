@@ -25,7 +25,6 @@ defmodule RoveApi.Accounts do
     |> Repo.all()
   end
 
-
   def get_account(criteria, include \\ []) do
     Account
     |> where(^criteria)

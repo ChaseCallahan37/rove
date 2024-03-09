@@ -43,7 +43,7 @@ defmodule RoveApiWeb.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+    user = Users.get_user(id: id)
 
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")

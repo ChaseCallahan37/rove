@@ -1,13 +1,12 @@
 import { Alert, Button, Text, View } from "react-native";
-import { AppNavigationProp } from "../AppNavigations";
-
 import { style as tw } from "twrnc";
-import useApi from "../../hooks/useApi";
-import { signIn } from "../../api/account/account";
-import { useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
-import InputGroup from "../../components/InputGroup";
+
+import { AppNavigationProp } from "../AppNavigations";
 import AppTextInput from "../../components/AppTextInput";
+import InputGroup from "../../components/InputGroup";
+
+import useAuth from "../../hooks/useAuth";
+
 type LoginScreenProps = {
   navigation: AppNavigationProp<"Login">;
 };

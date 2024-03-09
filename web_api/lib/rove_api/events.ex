@@ -24,7 +24,6 @@ defmodule RoveApi.Events do
     |> Repo.all()
   end
 
-
   def get_event(criteria, include \\ []) do
     Event
     |> where(^criteria)
