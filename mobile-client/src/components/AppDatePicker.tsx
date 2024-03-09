@@ -4,13 +4,17 @@ import DatePicker from "react-native-date-picker";
 import format from "../utils/format";
 
 type AppDatePickerProps = {
-  date: Date;
+  date?: Date;
   updateDate: (updatedDate: Date) => void;
 };
 
 function AppDatePicker({ date, updateDate }: AppDatePickerProps) {
   const { isToggled: showDatePicker, toggle: toggleDatePicker } =
     useToggle(false);
+
+    if(!date){
+      date = new Date()
+    }
 
   const handleOnConfirm = (date: Date) => {
     updateDate(date);
