@@ -4,9 +4,8 @@ defmodule RoveApi.Users do
   """
 
   import Ecto.Query, warn: false
-  alias Hex.API.User
-  alias RoveApi.Repo
 
+  alias RoveApi.Repo
   alias RoveApi.Users.User
 
   @doc """

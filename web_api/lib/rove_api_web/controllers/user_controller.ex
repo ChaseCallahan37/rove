@@ -11,7 +11,7 @@ defmodule RoveApiWeb.UserController do
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
-    user = Users.list_user_full()
+    user = Users.list_user()
     render(conn, :index, user: user)
   end
 
@@ -29,9 +29,7 @@ defmodule RoveApiWeb.UserController do
   end
 
   def show_events(%{assigns: %{account: %{user: user}}} = conn, _params) do
-    user_events =
-      user
-      |> Users.get_user_events()
+    user_events = Users.get_user([id: user.id], [:events_created, :attendances])
 
     conn
     |> render(:show, user: user_events)

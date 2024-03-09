@@ -14,7 +14,6 @@ defmodule RoveApi.Utils.Maps do
     end
   end
 
-  @spec fields_lower(map(), maybe_improper_list()) :: any()
   def fields_lower(%{} = map, fields) when is_list(fields) do
     fields =
       case map_type(map) do
