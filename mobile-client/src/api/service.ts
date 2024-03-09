@@ -41,8 +41,7 @@ export async function unpackResponse<T extends object>(res: Response) {
 
   if (!json) throw new Error("Error with request");
 
-  // @ts-ignore
-  if (json.error) throw new Error(json.error);
+  if ('error' in json) throw new Error(json.error);
 
   return json as T;
 }
