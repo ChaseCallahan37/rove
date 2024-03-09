@@ -48,10 +48,10 @@ export async function joinEvent(token: string, eventId: string) {
     headers: createAuthHeader(token),
     payload: {
       event: {
-        id: eventId
-      }
-    }
+        id: eventId,
+      },
+    },
   });
 
-  return true
+  return true;
 }

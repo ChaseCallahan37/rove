@@ -13,7 +13,7 @@ async function get(resource: string, headers?: any) {
     },
   });
 
-  console.log(res)
+  console.log(res);
 
   return res;
 }
@@ -22,7 +22,6 @@ async function post<T>(
   resource: string,
   { headers, payload }: { payload?: T; headers?: any }
 ) {
-  
   const res = fetch(url + resource, {
     method: "POST",
     headers: {
@@ -33,7 +32,7 @@ async function post<T>(
   });
 
   console.log(res);
-  
+
   return res;
 }
 

@@ -36,10 +36,10 @@ function EventDetailsScreen({
     const success = await joinEvent(event?.id);
 
     // @ts-ignore
-    if(success){
-      Alert.alert("Successfully joined event!")
-    } else{
-      Alert.alert("Unable to join event, please try again")
+    if (success) {
+      Alert.alert("Successfully joined event!");
+    } else {
+      Alert.alert("Unable to join event, please try again");
     }
   };
 
