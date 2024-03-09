@@ -4,10 +4,9 @@ defmodule RoveApi.Events do
   """
 
   import Ecto.Query, warn: false
+
   alias RoveApi.Repo
-
   alias RoveApi.Events.Event
-
   alias RoveApi.Users.User
 
   @doc """
@@ -19,35 +18,17 @@ defmodule RoveApi.Events do
       [%Event{}, ...]
 
   """
-  def list_events_full do
+  def list_events(include \\ []) do
     Event
-    |> preload([:owner])
+    |> preload(^include)
     |> Repo.all()
   end
 
-  @doc """
-  Gets a single event.
 
-  Raises `Ecto.NoResultsError` if the Event does not exist.
-
-  ## Examples
-
-      iex> get_event!(123)
-      %Event{}
-
-      iex> get_event!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_event!(id), do: Repo.get!(Event, id)
-
-  def get_event_by_id(id) when is_bitstring(id) do
-    case Event
-         |> preload([:owner])
-         |> Repo.get(id) do
-      %Event{} = event -> {:ok, event}
-      nil -> {:error, :not_found}
-    end
+  def get_event(criteria, include \\ []) do
+    Event
+    |> preload(^include)
+    |> Repo.get(criteria)
   end
 
   @doc """

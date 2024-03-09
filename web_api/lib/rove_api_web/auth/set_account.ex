@@ -14,7 +14,7 @@ defmodule RoveApiWeb.Auth.SetAccount do
 
       if account_id == nil, do: raise(ErrorResponse.Unauthorized)
 
-      account = Accounts.get_full_account(account_id)
+      account = Accounts.get_account([id: account_id], :user)
 
       cond do
         account_id && account -> assign(conn, :account, account)

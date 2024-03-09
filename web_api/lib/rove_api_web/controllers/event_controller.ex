@@ -10,7 +10,7 @@ defmodule RoveApiWeb.EventController do
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
-    events = Events.list_events_full()
+    events = Events.list_events()
     render(conn, :index, events: events)
   end
 
