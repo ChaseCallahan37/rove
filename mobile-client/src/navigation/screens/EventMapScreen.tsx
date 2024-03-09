@@ -5,7 +5,6 @@ import eventApi from "../../api/events";
 import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
-import useAuth from "../../hooks/useAuth";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -30,8 +29,8 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
       <Text style={{ color: "blue" }}>EVENT MAP SCREEN</Text>
       <View style={{ flex: 1 }}>
         <AppMapView
-          onPinPress={({ eventID }) =>
-            navigation.navigate("EventDetails", { eventID })
+          onPinPress={({ eventID: eventId }) =>
+            navigation.navigate("EventDetails", { eventId })
           }
           ref={mapRef}
           // @ts-ignore

@@ -10,8 +10,6 @@ type HomeScreenProps = {
 
 function HomeScreen({ navigation }: HomeScreenProps) {
   const { account } = useAuth();
-  console.log(account);
-  
   return (
     <View>
       <Text style={tw.style(["text-black"])}>
