@@ -3,7 +3,7 @@ defmodule RoveApiWeb.AccountController do
 
   alias Hex.API.User
   alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
-  alias RoveApi.{Accounts, Accounts.Account, Users, Users.User}
+  alias RoveApi.{Accounts, Accounts.Account, Users.User}
 
   import RoveApiWeb.Auth.AuthorizedPlug
 
@@ -93,7 +93,7 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def delete(conn, %{"id" => id}) do
-    account = Accounts.get_account!(id)
+    account = Accounts.get_account([id: id])
 
     with {:ok, %Account{}} <- Accounts.delete_account(account) do
       send_resp(conn, :no_content, "")
