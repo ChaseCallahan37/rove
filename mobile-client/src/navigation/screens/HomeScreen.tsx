@@ -10,10 +10,12 @@ type HomeScreenProps = {
 
 function HomeScreen({ navigation }: HomeScreenProps) {
   const { account } = useAuth();
+  console.log(account);
+  
   return (
     <View>
       <Text style={tw.style(["text-black"])}>
-        Home Screen {account && `Hello ${account.user.user_name}`}
+        Home Screen {account && `Hello ${account.user?.user_name}`}
       </Text>
       <Button
         title="Go To Events"

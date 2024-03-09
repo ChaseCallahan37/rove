@@ -5,7 +5,7 @@ import { User } from "../user/user";
 export type Account = {
   id: string;
   email: string;
-  user: User;
+  user?: User;
 };
 
 const resourceName = "accounts";
