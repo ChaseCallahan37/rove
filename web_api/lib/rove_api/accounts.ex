@@ -23,50 +23,12 @@ defmodule RoveApi.Accounts do
     Repo.all(Account)
   end
 
-  @doc """
-  Gets a single account.
 
-  Raises `Ecto.NoResultsError` if the Account does not exist.
-
-  ## Examples
-
-      iex> get_account!(123)
-      %Account{}
-
-      iex> get_account!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_account!(id) when is_bitstring(id), do: Repo.get!(Account, id)
-
-  def get_full_account(id) do
+  def get_account(criteria, include \\ []) do
     Account
-    |> where(id: ^id)
-    |> preload([:user])
+    |> where(^criteria)
+    |> preload(^include)
     |> Repo.one()
-  end
-
-  @doc """
-  Gets a single account.any()
-
-  Returns `nil` if the account does not exist.
-
-  ##  Examples
-
-    iex> get_account_by_email("test@email.com")
-    %Account{}
-
-    iex> get_account_by_email("no_account@email.com")
-    nil
-  """
-  def get_account_by_email(email) do
-    # We do not care about the casing of the email when matching
-    with email_lower <- String.downcase(email) do
-      Account
-      |> where(email: ^email_lower)
-      |> preload([:user])
-      |> Repo.one()
-    end
   end
 
   @doc """

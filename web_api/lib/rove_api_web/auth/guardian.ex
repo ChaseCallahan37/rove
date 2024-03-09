@@ -12,7 +12,7 @@ defmodule RoveApiWeb.Auth.Guardian do
   end
 
   def resource_from_claims(%{"sub" => id}) do
-    case Accounts.get_account!(id) do
+    case Accounts.get_account([id: id]) do
       nil -> {:error, :not_found}
       resource -> {:ok, resource}
     end
@@ -23,7 +23,7 @@ defmodule RoveApiWeb.Auth.Guardian do
   end
 
   def authenticate(email, password) do
-    case Accounts.get_account_by_email(email) do
+    case Accounts.get_account([email: email]) do
       nil ->
         {:error, :unauthorized}
 
