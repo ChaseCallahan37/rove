@@ -24,6 +24,7 @@ function AccountCreateScreen({ navigation }: AccountCreateScreenProps) {
     }
     const isSuccess = await createAccount(accountInfo);
     if (isSuccess) {
+      Alert.alert("Account succesfully created!")
       return navigation.navigate("Home");
     } else {
       Alert.alert("Failed to create account");
