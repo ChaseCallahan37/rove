@@ -36,7 +36,9 @@ export async function asyncSecureRemoval(key: string) {
     const succesful = await resetGenericPassword({ service: key });
 
     if (!succesful) throw new Error(`Unable to remove payload for ${key}`);
+    return true
   } catch (error) {
     console.log(error);
+    return false
   }
 }
