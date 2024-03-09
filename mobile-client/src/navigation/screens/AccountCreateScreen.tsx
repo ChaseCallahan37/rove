@@ -1,14 +1,11 @@
-import { Alert, Button, Text, View } from "react-native";
-import { AppNavigationProp } from "../AppNavigations";
-
+import { Alert, Button, View } from "react-native";
 import { style as tw } from "twrnc";
-import useApi from "../../hooks/useApi";
-import { signIn } from "../../api/account/account";
-import { useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
-import InputGroup from "../../components/InputGroup";
+
+import { AppNavigationProp } from "../AppNavigations";
 import AppTextInput from "../../components/AppTextInput";
-import accountApi from "../../api/account";
+import InputGroup from "../../components/InputGroup";
+import useAuth from "../../hooks/useAuth";
+
 type AccountCreateScreenProps = {
   navigation: AppNavigationProp<"AccountCreate">;
 };
@@ -24,7 +21,7 @@ function AccountCreateScreen({ navigation }: AccountCreateScreenProps) {
     }
     const isSuccess = await createAccount(accountInfo);
     if (isSuccess) {
-      Alert.alert("Account succesfully created!")
+      Alert.alert("Account succesfully created!");
       return navigation.navigate("Home");
     } else {
       Alert.alert("Failed to create account");

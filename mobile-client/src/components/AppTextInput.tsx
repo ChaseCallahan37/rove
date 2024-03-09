@@ -6,6 +6,7 @@ import {
   View,
 } from "react-native";
 import { style as tw } from "twrnc";
+
 import useToggle from "../hooks/useToggle";
 
 export type AppTextInputProps = {

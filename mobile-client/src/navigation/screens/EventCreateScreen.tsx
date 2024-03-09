@@ -7,18 +7,18 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import useApi from "../../hooks/useApi";
-import { createEvent } from "../../api/events/event";
+import { style as tw } from "twrnc";
+
 import AppDatePicker from "../../components/AppDatePicker";
+import AppMapView from "../../components/AppMapView";
+import { AppNavigationProp } from "../AppNavigations";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
-import { AppNavigationProp } from "../AppNavigations";
-import AppMapView from "../../components/AppMapView";
-import useToggle from "../../hooks/useToggle";
-import useAuth from "../../hooks/useAuth";
 
-import { style as tw } from "twrnc";
-import { retrieveToken } from "../../auth/token";
+import { createEvent } from "../../api/events/event";
+import useApi from "../../hooks/useApi";
+import useAuth from "../../hooks/useAuth";
+import useToggle from "../../hooks/useToggle";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -59,10 +59,11 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
 
     const succeeded = await request(myEvent);
 
-    // @ts-ignore
-    if (succeeded) {
+    if (!succeeded) {
       return Alert.alert("Your request failed, please try again");
     }
+
+    Alert.alert("Event succesrully cretaed");
     navigation.navigate("Home");
   };
 
