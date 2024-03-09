@@ -18,41 +18,17 @@ defmodule RoveApi.Users do
       [%User{}, ...]
 
   """
-  def list_user_full do
+  def list_user(include \\ []) do
     User
-    |> preload([:events_created, :attendances])
+    |> preload(^include)
     |> Repo.all()
   end
 
-  @doc """
-  Gets a single user.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_user!(id), do: Repo.get!(User, id)
-
-  def get_user(user_id) when is_bitstring(user_id) do
+  def get_user(criteria, include \\ []) do
     User
-    |> Repo.get(user_id)
-  end
-
-  def get_user_full(user) do
-    user
-    |> Repo.preload([:events_created, attendances: [:event]])
-  end
-
-  def get_user_events(user) do
-    user
-    |> Repo.preload([:events_created, attendances: [:event]])
+    |> where(^criteria)
+    |> preload(^include)
+    |> Repo.one()
   end
 
   @doc """

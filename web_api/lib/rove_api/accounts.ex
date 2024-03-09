@@ -19,8 +19,10 @@ defmodule RoveApi.Accounts do
       [%Account{}, ...]
 
   """
-  def list_account do
-    Repo.all(Account)
+  def list_account(include \\ []) do
+    Account
+    |> preload(^include)
+    |> Repo.all()
   end
 
 

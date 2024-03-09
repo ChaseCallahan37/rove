@@ -27,8 +27,9 @@ defmodule RoveApi.Events do
 
   def get_event(criteria, include \\ []) do
     Event
+    |> where(^criteria)
     |> preload(^include)
-    |> Repo.get(criteria)
+    |> Repo.one()
   end
 
   @doc """
