@@ -11,6 +11,7 @@ import deepCopy from "../../utils/deepCopy";
 import AppDatePicker from "../../components/AppDatePicker";
 import { Account } from "../../api/account/account";
 import { User } from "../../api/user/user";
+import AppDropdown from "../../components/AppDropdown";
 
 type AccountUpdateScreenProps = {
   navigation: AppNavigationProp<"AccountCreate">;
@@ -59,13 +60,22 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
             defaultValue={updatedUser.last_name}
           />
         </InputGroup>
-        <InputGroup label={{ text: "Gender", size: "1/5" }}>
+        <InputGroup>
+          <AppDropdown
+            data={[
+              { label: "Male", value: "male" },
+              { label: "Female", value: "female" },
+              { label: "Other", value: "other" },
+            ]}
+            onChange={(newGender) => (updatedUser.gender = newGender)}
+          />
+          {/* <InputGroup label={{ text: "Gender", size: "1/5" }}>
           <AppTextInput
             updateValue={(newValue) => {
               updatedUser.gender = newValue;
             }}
             defaultValue={updatedUser.gender}
-          />
+          /> */}
         </InputGroup>
 
         <InputGroup label={{ text: "Date of Birth", size: "1/5" }}>

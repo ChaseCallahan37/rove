@@ -3,6 +3,7 @@ import tw from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
+import AppDropdown from "../../components/AppDropdown";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;

@@ -17,12 +17,6 @@ function AppDatePicker({ date: initialDate, updateDate }: AppDatePickerProps) {
   const { isToggled: showDatePicker, toggle: toggleDatePicker } =
     useToggle(false);
 
-  console.log("DATE PICKER");
-
-  console.log(date);
-
-  console.log(typeof date);
-
   const handleOnConfirm = (date: Date) => {
     setDate(date);
     updateDate(date);
