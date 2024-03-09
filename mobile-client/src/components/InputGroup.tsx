@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+
 import React from "react";
+import { Text, View } from "react-native";
 import { style as tw } from "twrnc";
+
 import AppPillContainer from "./AppPillContainer";
 
 type InputGroupProps = {
@@ -29,11 +31,5 @@ function InputGroup({ label, children, style }: InputGroupProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "gray",
-  },
-});
 
 export default InputGroup;
