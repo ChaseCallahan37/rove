@@ -20,7 +20,6 @@ export default function useAuth() {
     } catch (e) {
       console.log(e);
       removeToken();
-      return false;
     }
   }
 
@@ -32,7 +31,6 @@ export default function useAuth() {
       return true;
     } catch (e) {
       console.log(e);
-      return false;
     }
   }
 
@@ -51,8 +49,6 @@ export default function useAuth() {
       return true;
     } catch (e) {
       console.log(e);
-
-      return false;
     }
   }
 
@@ -76,7 +72,6 @@ export default function useAuth() {
       return true;
     } catch (e) {
       console.log(e);
-      return false;
     }
   }
 
