@@ -4,10 +4,6 @@ defmodule RoveApi.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias Mix.Ecto
-  alias Phoenix.Ecto
-  alias Mix.Ecto
-  alias ElixirSense.Plugins.Ecto
   alias RoveApi.Users
   alias RoveApi.Repo
 
