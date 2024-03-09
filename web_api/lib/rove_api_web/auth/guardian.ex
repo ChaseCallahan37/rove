@@ -23,7 +23,7 @@ defmodule RoveApiWeb.Auth.Guardian do
   end
 
   def authenticate(email, password) do
-    case Accounts.get_account(email: email) do
+    case Accounts.get_account(email: String.downcase(email)) do
       nil ->
         {:error, :unauthorized}
 
