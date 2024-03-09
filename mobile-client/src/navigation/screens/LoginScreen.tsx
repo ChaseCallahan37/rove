@@ -41,6 +41,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
             updateValue={(newValue) => {
               credentials.password = newValue;
             }}
+            secureTextEntry={true}
           />
         </InputGroup>
         <Button title="Login" onPress={handleSignIn}></Button>

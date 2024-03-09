@@ -50,8 +50,6 @@ async function put<T>(
     body: JSON.stringify(payload ? payload : {}),
   }
   console.log(`PUT ${putUrl}`);
-  console.log(payload);
-  
   console.log(putInit);
   
   

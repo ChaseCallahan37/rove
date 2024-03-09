@@ -1,4 +1,6 @@
-function shortDate(date: Date) {
+function shortDate(date: Date | string) {
+  date = new Date(date)
+  
   return date.toLocaleDateString("en-us", {
     weekday: "long",
     year: "numeric",
@@ -7,7 +9,9 @@ function shortDate(date: Date) {
   });
 }
 
-function dateTime(date: Date) {
+function dateTime(date: Date | string) {
+  date = new Date(date)
+  
   return date.toLocaleDateString("en-us", {
     weekday: "long",
     year: "numeric",

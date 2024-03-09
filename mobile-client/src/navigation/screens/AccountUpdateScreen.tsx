@@ -8,27 +8,37 @@ import useAuth from "../../hooks/useAuth";
 import useApi from "../../hooks/useApi";
 import userApi from "../../api/user";
 import deepCopy from "../../utils/deepCopy";
+import AppDatePicker from "../../components/AppDatePicker";
+import { Account } from "../../api/account/account";
+import { User } from "../../api/user/user";
 
 type  AccountUpdateScreenProps= {
   navigation: AppNavigationProp<"AccountCreate">;
 };
 
 function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
-  const { createAccount, account } = useAuth();
-
-  const {request: updateUserProfile} = useApi(userApi.updateUserProfile)
+  const { account, updateUser } = useAuth();
 
     if(!account?.user) return
 
-  const updatedUser = deepCopy(account?.user);
+  const updatedUser = deepCopy<User>(account?.user);
+
+  console.log("UPDATE");
+  console.log(updatedUser);
+  
+  
 
   const handleCreateAccount = async () => {
-    const isSuccess = await updateUserProfile(updatedUser);
+    console.log("PAGE");
+    console.log(updatedUser);
+    
+    
+    const isSuccess = await updateUser(updatedUser);
     if (isSuccess) {
-      Alert.alert("Account succesfully created!");
-      return navigation.navigate("Home");
+      Alert.alert("Profile Updated!");
+      return navigation.navigate("Account");
     } else {
-      Alert.alert("Failed to create account");
+      Alert.alert("Failed to update account");
     }
   };
 
@@ -41,7 +51,7 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
             updateValue={(newValue) => {
               updatedUser.first_name = newValue;
             }}
-            value={updatedUser.first_name}
+            defaultValue={updatedUser.first_name}
           />
         </InputGroup>
         <InputGroup label={{ text: "Last Name", size: "1/5" }}>
@@ -49,6 +59,7 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
             updateValue={(newValue) => {
               updatedUser.last_name = newValue;
             }}
+            defaultValue={updatedUser.last_name}
           />
         </InputGroup>
         <InputGroup label={{ text: "Gender", size: "1/5" }}>
@@ -56,20 +67,15 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
             updateValue={(newValue) => {
               updatedUser.gender = newValue;
             }}
-            secureTextEntry={true}
+            defaultValue={updatedUser.gender}
           />
         </InputGroup>
 
         <InputGroup label={{ text: "Date of Birth", size: "1/5" }}>
-          <AppTextInput
-            updateValue={(newValue) => {
-              updatedUser.dob = new Date(newValue);
-            }}
-            secureTextEntry={true}
-          />
+          <AppDatePicker date={updatedUser.dob}  updateDate={(updatedDate) => updatedUser.dob = updatedDate}/>
         </InputGroup>
 
-        <Button title="Create" onPress={handleCreateAccount}></Button>
+        <Button title="Update" onPress={handleCreateAccount}></Button>
       </View>
     </View>
   );
