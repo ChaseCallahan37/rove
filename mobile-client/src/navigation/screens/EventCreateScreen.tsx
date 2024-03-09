@@ -103,6 +103,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
           </InputGroup>
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
+              mode="datetime"
               date={eventDate}
               updateDate={(date) => setEventDate(date)}
             />

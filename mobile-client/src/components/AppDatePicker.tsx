@@ -7,9 +7,14 @@ import { useState } from "react";
 type AppDatePickerProps = {
   date?: Date;
   updateDate: (updatedDate: Date) => void;
+  mode: "datetime" | "date" | "time";
 };
 
-function AppDatePicker({ date: initialDate, updateDate }: AppDatePickerProps) {
+function AppDatePicker({
+  date: initialDate,
+  updateDate,
+  mode,
+}: AppDatePickerProps) {
   const [date, setDate] = useState<Date>(
     initialDate ? new Date(initialDate) : new Date()
   );
@@ -27,6 +32,7 @@ function AppDatePicker({ date: initialDate, updateDate }: AppDatePickerProps) {
       <Button title={format.dateTime(date)} onPress={toggleDatePicker} />
       <DatePicker
         modal
+        mode={mode}
         open={showDatePicker}
         date={date}
         onConfirm={handleOnConfirm}

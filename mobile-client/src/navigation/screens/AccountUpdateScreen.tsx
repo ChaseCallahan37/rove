@@ -69,17 +69,11 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
             ]}
             onChange={(newGender) => (updatedUser.gender = newGender)}
           />
-          {/* <InputGroup label={{ text: "Gender", size: "1/5" }}>
-          <AppTextInput
-            updateValue={(newValue) => {
-              updatedUser.gender = newValue;
-            }}
-            defaultValue={updatedUser.gender}
-          /> */}
         </InputGroup>
 
         <InputGroup label={{ text: "Date of Birth", size: "1/5" }}>
           <AppDatePicker
+            mode="date"
             date={updatedUser.dob}
             updateDate={(updatedDate) => (updatedUser.dob = updatedDate)}
           />
