@@ -33,7 +33,6 @@ defmodule RoveApi.Events do
     rescue
       Ecto.Query.CastError -> {:error, :cast_failed}
     end
-
   end
 
   @doc """

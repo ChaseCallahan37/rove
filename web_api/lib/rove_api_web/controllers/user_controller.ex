@@ -29,7 +29,7 @@ defmodule RoveApiWeb.UserController do
   end
 
   def show_events(%{assigns: %{account: %{user: user}}} = conn, _params) do
-    user_events = Users.get_user([id: user.id], [:events_created, :attendances])
+    user_events = Users.get_user([id: user.id], [:events_created, attendances: [:event]])
 
     conn
     |> render(:show, user: user_events)

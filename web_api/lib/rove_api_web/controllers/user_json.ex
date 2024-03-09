@@ -16,23 +16,23 @@ defmodule RoveApiWeb.UserJSON do
   Renders a single user.
   """
   def show(%{user: user}) do
+    IO.puts("IN SHOw")
+    IO.inspect(user)
     %{data: data(user)}
   end
 
-  def data(%{events_created: [%Event{}] = events} = user) when is_list(events) do
+  def data(%{events_created: events} = user) when is_list(events) do
     {events, popped_user} = Map.pop(user, :events_created)
 
-    data(popped_user)
-    |> Map.merge(%{events_created: for(event <- events, do: EventJSON.data(event))})
+    %{events_created: for(event <- events, do: EventJSON.data(event))}
+    |> Map.merge(data(popped_user))
   end
 
-  def data(%{attendances: [%EventAttendance{}] = attendances} = user) when is_list(attendances) do
+  def data(%{attendances: attendances} = user) when is_list(attendances) do
     {attendances, popped_user} = Map.pop(user, :attendances)
 
-    data(popped_user)
-    |> Map.merge(%{
-      attendances: for(attendance <- attendances, do: EventJSON.data(attendance.event))
-    })
+    %{attendances: for(attendance <- attendances, do: EventJSON.data(attendance.event))}
+    |> Map.merge(data(popped_user))
   end
 
   def data(%User{} = user) do
