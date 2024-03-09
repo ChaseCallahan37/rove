@@ -28,7 +28,6 @@ export async function asyncSecureRetrieval<T>(key: string) {
     return JSON.parse(credentials.password) as T;
   } catch (error) {
     console.log(error);
-    return null;
   }
 }
 
