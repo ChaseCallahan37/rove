@@ -59,7 +59,7 @@ defmodule RoveApi.Accounts do
     end)
   end
 
-  defp execute_create_account(attrs \\ %{}) do
+  defp execute_create_account(attrs) do
     %Account{}
     |> Account.changeset(Utils.Maps.fields_lower(attrs, [:email]))
     |> Repo.insert()
