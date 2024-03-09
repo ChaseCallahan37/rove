@@ -30,7 +30,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
           <Button title="Login" onPress={() => navigation.navigate("Login")} />
           <Button
             title="Create Account"
-            onPress={() => navigation.navigate("CreateAccount")}
+            onPress={() => navigation.navigate("AccountCreate")}
           />
         </>
       ) : (

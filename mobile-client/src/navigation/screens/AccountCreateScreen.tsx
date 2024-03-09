@@ -16,9 +16,12 @@ type AccountCreateScreenProps = {
 function AccountCreateScreen({ navigation }: AccountCreateScreenProps) {
   const { createAccount } = useAuth();
 
-  const accountInfo = { email: "", userName: "", password: "" };
+  const accountInfo = { email: "", userName: "", password: "", rePassword: "" };
 
   const handleCreateAccount = async () => {
+    if (accountInfo.password !== accountInfo.rePassword) {
+      Alert.alert("Passwords must match");
+    }
     const isSuccess = await createAccount(accountInfo);
     if (isSuccess) {
       return navigation.navigate("Home");
@@ -49,6 +52,16 @@ function AccountCreateScreen({ navigation }: AccountCreateScreenProps) {
             updateValue={(newValue) => {
               accountInfo.password = newValue;
             }}
+            secureTextEntry={true}
+          />
+        </InputGroup>
+
+        <InputGroup label={{ text: "Re-Password", size: "1/5" }}>
+          <AppTextInput
+            updateValue={(newValue) => {
+              accountInfo.rePassword = newValue;
+            }}
+            secureTextEntry={true}
           />
         </InputGroup>
 
