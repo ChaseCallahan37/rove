@@ -25,9 +25,9 @@ function EventDetailsScreen({
     params: { eventID },
   },
 }: EventDetailsScreenProps) {
-  const { loading, error, data, request: getEvent } = useApi(retrieveEvent);
+  const { loading, error, data: event, request: getEvent } = useApi(retrieveEvent);
   const { request: joinEvent } = useApi(eventApi.joinEvent, true);
-  const event = data as Event | undefined | null;
+
   useEffect(() => {
     getEvent(eventID);
   }, []);

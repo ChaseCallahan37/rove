@@ -1,22 +1,20 @@
 import { useState } from "react";
-import { RequestResponse } from "../api/service";
+
 import { retrieveToken } from "../auth/token";
 
-function useApi(apiCall: Function, needsToken = false) {
-  const [data, setData] = useState(null);
+function useApi<T>(apiCall: (...args: any[]) => Promise<T>, needsToken = false) {
+  const [data, setData] = useState<T | null>();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<any>(false);
   const [progress, setProgress] = useState<number | null>(null);
 
   // We want to return true or false to indicate whether
   // the request fails or succeeds
   const request = async (...args: any[]) => {
-    let result;
-
     try {
       setLoading(true);
 
-      let result;
+      let result: T;
 
       if (needsToken) {
         const token = await retrieveToken();
@@ -26,14 +24,10 @@ function useApi(apiCall: Function, needsToken = false) {
       }
 
       setLoading(false);
-      setProgress(null);
-      if (!result.ok) {
-        setError(true);
-      }
-
-      setError(false);
       setData(result);
+
       return result;
+
     } catch (e: any) {
       setError(e.message);
       setLoading(false);
