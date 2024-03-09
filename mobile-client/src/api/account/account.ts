@@ -8,12 +8,11 @@ export type Account = {
   user?: User;
 };
 
-export function parseAccount(obj: any){
+export function parseAccount(obj: any) {
   return {
-
     ...obj,
     user: obj.user ? parseUser(obj.user) : null,
-  }
+  };
 }
 
 const resourceName = "accounts";
@@ -35,7 +34,7 @@ export async function signIn({
   const {
     data: { account, token },
   } = await unpackResponse<{ data: { account: Account; token: string } }>(res);
-  
+
   return { token, account: parseAccount(account) };
 }
 

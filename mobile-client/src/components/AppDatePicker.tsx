@@ -10,21 +10,21 @@ type AppDatePickerProps = {
 };
 
 function AppDatePicker({ date: initialDate, updateDate }: AppDatePickerProps) {
-  const [date, setDate] = useState<Date>(initialDate ? new Date(initialDate) : new Date())
+  const [date, setDate] = useState<Date>(
+    initialDate ? new Date(initialDate) : new Date()
+  );
 
   const { isToggled: showDatePicker, toggle: toggleDatePicker } =
     useToggle(false);
 
-    console.log("DATE PICKER");
-    
-    console.log(date);
+  console.log("DATE PICKER");
 
-    console.log(typeof date);
-    
-    
+  console.log(date);
+
+  console.log(typeof date);
 
   const handleOnConfirm = (date: Date) => {
-    setDate(date)
+    setDate(date);
     updateDate(date);
     toggleDatePicker();
   };

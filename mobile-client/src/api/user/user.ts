@@ -10,8 +10,8 @@ export type User = {
   gender?: string;
 };
 
-export function parseUser(obj: any){
-  return {...obj, dob: new Date(obj.dob)}
+export function parseUser(obj: any) {
+  return { ...obj, dob: new Date(obj.dob) };
 }
 
 const resourceName = "users";
@@ -25,8 +25,6 @@ export async function updateUserProfile(
     gender: string;
   }
 ) {
-  
-  
   const res = await service.put(`${resourceName}/update`, {
     headers: createAuthHeader(token),
     payload: {
@@ -34,7 +32,7 @@ export async function updateUserProfile(
     },
   });
 
-  const { data: user} = await unpackResponse<{data: User}>(res)
+  const { data: user } = await unpackResponse<{ data: User }>(res);
 
-  return parseUser(user) 
+  return parseUser(user);
 }

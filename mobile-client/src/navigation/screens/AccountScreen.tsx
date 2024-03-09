@@ -14,13 +14,15 @@ type AccountScreenProps = {
 export default function AccountScreen({ navigation }: AccountScreenProps) {
   const { account, signOut } = useAuth();
   console.log(typeof account?.user?.dob);
-  
+
   return (
     <View>
       <View style={tw(["bg-slate-500", "p-2"])}>
         <View style={tw(["flex", "flex-row", "justify-between"])}>
           <Text>Account Info</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("AccountUpdate")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AccountUpdate")}
+          >
             <Text>Edit</Text>
           </TouchableOpacity>
         </View>

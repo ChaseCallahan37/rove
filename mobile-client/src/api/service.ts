@@ -40,7 +40,7 @@ async function put<T>(
   resource: string,
   { headers, payload }: { payload?: T; headers?: any }
 ) {
-  const putUrl = url + resource
+  const putUrl = url + resource;
   const putInit = {
     method: "PUT",
     headers: {
@@ -48,12 +48,11 @@ async function put<T>(
       ...headers,
     },
     body: JSON.stringify(payload ? payload : {}),
-  }
+  };
   console.log(`PUT ${putUrl}`);
   console.log(putInit);
-  
-  
-  const res = fetch(url + resource,putInit );
+
+  const res = fetch(url + resource, putInit);
 
   console.log(res);
 
@@ -73,5 +72,5 @@ export async function unpackResponse<T extends object>(res: Response) {
 export default {
   get,
   post,
-  put
+  put,
 };

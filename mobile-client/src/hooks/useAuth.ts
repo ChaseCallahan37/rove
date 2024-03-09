@@ -79,22 +79,24 @@ export default function useAuth() {
     }
   }
 
-  async function updateUser(updatedFields: any){
-    const token = await retrieveToken()
+  async function updateUser(updatedFields: any) {
+    const token = await retrieveToken();
 
-    if(!token) return
+    if (!token) return;
 
-    try{
-      const updatedUser = await userApi.updateUserProfile(token, updatedFields)
+    try {
+      const updatedUser = await userApi.updateUserProfile(token, updatedFields);
 
-      const copiedAccount = deepCopy<Account>(authContext?.account ? authContext?.account : {}) 
+      const copiedAccount = deepCopy<Account>(
+        authContext?.account ? authContext?.account : {}
+      );
 
-      copiedAccount.user = updatedUser
+      copiedAccount.user = updatedUser;
 
-      authContext?.setAccount(copiedAccount)
+      authContext?.setAccount(copiedAccount);
 
-      return true
-    } catch(e: any){
+      return true;
+    } catch (e: any) {
       console.log(e);
     }
   }

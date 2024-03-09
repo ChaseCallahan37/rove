@@ -12,27 +12,24 @@ import AppDatePicker from "../../components/AppDatePicker";
 import { Account } from "../../api/account/account";
 import { User } from "../../api/user/user";
 
-type  AccountUpdateScreenProps= {
+type AccountUpdateScreenProps = {
   navigation: AppNavigationProp<"AccountCreate">;
 };
 
 function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
   const { account, updateUser } = useAuth();
 
-    if(!account?.user) return
+  if (!account?.user) return;
 
   const updatedUser = deepCopy<User>(account?.user);
 
   console.log("UPDATE");
   console.log(updatedUser);
-  
-  
 
   const handleCreateAccount = async () => {
     console.log("PAGE");
     console.log(updatedUser);
-    
-    
+
     const isSuccess = await updateUser(updatedUser);
     if (isSuccess) {
       Alert.alert("Profile Updated!");
@@ -44,7 +41,7 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
 
   return (
     <View style={tw(["px-3", "mt-6", "bg-red-800"])}>
-        <Text>UPDATE</Text>
+      <Text>UPDATE</Text>
       <View style={tw(["bg-pink-500"])}>
         <InputGroup label={{ text: "First Name", size: "1/5" }}>
           <AppTextInput
@@ -72,7 +69,10 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
         </InputGroup>
 
         <InputGroup label={{ text: "Date of Birth", size: "1/5" }}>
-          <AppDatePicker date={updatedUser.dob}  updateDate={(updatedDate) => updatedUser.dob = updatedDate}/>
+          <AppDatePicker
+            date={updatedUser.dob}
+            updateDate={(updatedDate) => (updatedUser.dob = updatedDate)}
+          />
         </InputGroup>
 
         <Button title="Update" onPress={handleCreateAccount}></Button>
