@@ -1,9 +1,10 @@
+import React from "react";
 import { View } from "react-native";
 import { style as tw } from "twrnc";
 
 type AppPillContainerProps = {
   style?: string[];
-  children: React.ReactNode;
+  children: React.ReactNode[] | React.ReactNode;
 };
 
 export default function AppPillContainer({
