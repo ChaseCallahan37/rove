@@ -20,11 +20,11 @@ config :rove_api, RoveApiWeb.Endpoint,
     layout: false
   ],
   pubsub_server: RoveApi.PubSub,
-  live_view: [signing_salt: "EFkA29Oz"]
+  live_view: [signing_salt: System.get_env("SIGNING_SALT")]
 
 config :rove_api, RoveApiWeb.Auth.Guardian,
   issuer: "rove_api",
-  secret_key: "458wrmzHh6cpi8EBdgwmS7ESUSdNs2eIJhi+eQTRKSJPTje4MkAVA0c/iiulGcKt"
+  secret_key: System.get_env("GUARDIAN_SECRET_KEY")
 
 # Configures the mailer
 #
