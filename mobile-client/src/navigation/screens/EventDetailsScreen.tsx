@@ -1,15 +1,14 @@
 import { Alert, Button, Image, Text, View } from "react-native";
-import { AppNavigationProp } from "../AppNavigations";
-import { Event, retrieveEvent } from "../../api/events/event";
-import useApi from "../../hooks/useApi";
-import { useEffect } from "react";
-
 import { style as tw } from "twrnc";
-import format from "../../utils/format";
+
+import { AppNavigationProp } from "../AppNavigations";
+import { retrieveEvent } from "../../api/events/event";
 import eventApi from "../../api/events";
+import { useEffect } from "react";
+import useApi from "../../hooks/useApi";
 
 export type EventDetailsScreenParams = {
-  eventID: string;
+  eventId: string;
 };
 
 export type EventDetailsScreenProps = {
@@ -22,14 +21,14 @@ export type EventDetailsScreenProps = {
 function EventDetailsScreen({
   navigation,
   route: {
-    params: { eventID },
+    params: { eventId },
   },
 }: EventDetailsScreenProps) {
   const { loading, error, data: event, request: getEvent } = useApi(retrieveEvent);
   const { request: joinEvent } = useApi(eventApi.joinEvent, true);
 
   useEffect(() => {
-    getEvent(eventID);
+    getEvent(eventId);
   }, []);
 
   const handleOnJoin = async () => {

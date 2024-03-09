@@ -28,6 +28,7 @@ export async function asyncSecureRetrieval<T>(key: string) {
     return JSON.parse(credentials.password) as T;
   } catch (error) {
     console.log(error);
+    return null;
   }
 }
 
@@ -36,9 +37,7 @@ export async function asyncSecureRemoval(key: string) {
     const succesful = await resetGenericPassword({ service: key });
 
     if (!succesful) throw new Error(`Unable to remove payload for ${key}`);
-    return true
   } catch (error) {
     console.log(error);
-    return false
   }
 }

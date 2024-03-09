@@ -13,13 +13,13 @@ function useApi<T>(apiCall: (...args: any[]) => Promise<T>, needsToken = false) 
   const request = async (...args: any[]) => {
     try {
       setLoading(true);
+      
+      let result: T
 
-      let result: T;
-
-      if (needsToken) {
-        const token = await retrieveToken();
-        result = await apiCall(token, ...args);
-      } else {
+      if(needsToken){
+        const token = await retrieveToken()
+        result = await apiCall(token, ...args)
+      }{
         result = await apiCall(...args);
       }
 
