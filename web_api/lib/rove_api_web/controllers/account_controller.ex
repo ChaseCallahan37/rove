@@ -93,7 +93,7 @@ defmodule RoveApiWeb.AccountController do
   end
 
   def delete(conn, %{"id" => id}) do
-    account = Accounts.get_account([id: id])
+    account = Accounts.get_account(id: id)
 
     with {:ok, %Account{}} <- Accounts.delete_account(account) do
       send_resp(conn, :no_content, "")

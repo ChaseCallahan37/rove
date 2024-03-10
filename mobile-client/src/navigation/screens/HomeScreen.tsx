@@ -3,6 +3,7 @@ import tw from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
+import AppDropdown from "../../components/AppDropdown";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -13,7 +14,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
   return (
     <View>
       <Text style={tw.style(["text-black"])}>
-        Home Screen {account && `Hello ${account.user.user_name}`}
+        Home Screen {account && `Hello ${account.user?.user_name}`}
       </Text>
       <Button
         title="Go To Events"

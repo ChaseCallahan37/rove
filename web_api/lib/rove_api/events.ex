@@ -25,10 +25,14 @@ defmodule RoveApi.Events do
   end
 
   def get_event(criteria, include \\ []) do
-    Event
-    |> where(^criteria)
-    |> preload(^include)
-    |> Repo.one()
+    try do
+      Event
+      |> where(^criteria)
+      |> preload(^include)
+      |> Repo.one()
+    rescue
+      Ecto.Query.CastError -> {:error, :cast_failed}
+    end
   end
 
   @doc """

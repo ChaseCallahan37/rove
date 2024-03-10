@@ -7,6 +7,7 @@
 if [ $? -eq 0 ]; then
     echo "Database started successfully. Starting Phoenix server..."
     # Run the Phoenix server
+    source ./.env
     mix phx.server
 else
     echo "Failed to start database. Aborting..."

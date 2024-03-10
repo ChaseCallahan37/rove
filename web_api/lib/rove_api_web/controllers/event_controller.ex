@@ -23,13 +23,13 @@ defmodule RoveApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    case Events.get_event(id: id) do
-      {:ok, event} ->
+    case Events.get_event([id: id], [:attendees, :owner]) do
+      %Event{} = event ->
         conn
         |> put_status(:ok)
         |> render(:show, event: event)
 
-      {:error, _reason} ->
+      _error ->
         raise ErrorResponse.NotFound
     end
   end

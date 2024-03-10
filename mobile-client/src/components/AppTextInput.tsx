@@ -16,6 +16,7 @@ export type AppTextInputProps = {
   keyboardType?: KeyboardTypeOptions | undefined;
   secureTextEntry?: boolean;
   updateValue: (updatedValue: string) => void;
+  defaultValue?: string;
 };
 
 function AppTextInput({
@@ -25,6 +26,7 @@ function AppTextInput({
   style,
   keyboardType,
   secureTextEntry,
+  defaultValue,
 }: AppTextInputProps) {
   const { isToggled, toggle } = useToggle(!!secureTextEntry);
 
@@ -41,6 +43,7 @@ function AppTextInput({
         keyboardType={keyboardType}
         secureTextEntry={isToggled}
         onChange={({ nativeEvent: { text } }) => handleOnChange(text)}
+        defaultValue={defaultValue}
       />
       {secureTextEntry && (
         <TouchableOpacity onPress={() => toggle()}>

@@ -26,10 +26,14 @@ defmodule RoveApi.Accounts do
   end
 
   def get_account(criteria, include \\ []) do
-    Account
-    |> where(^criteria)
-    |> preload(^include)
-    |> Repo.one()
+    try do
+      Account
+      |> where(^criteria)
+      |> preload(^include)
+      |> Repo.one()
+    rescue
+      Ecto.Query.CastError -> {:error, :cast_failed}
+    end
   end
 
   @doc """

@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import AuthContext from "../auth/context";
 import useApi from "./useApi";
-import { signIn } from "../api/account/account";
+import { Account, signIn } from "../api/account/account";
 import accountApi from "../api/account";
 import { removeToken, retrieveToken, storeToken } from "../auth/token";
 import { Alert } from "react-native";
+import userApi from "../api/user";
+import deepCopy from "../utils/deepCopy";
 
 export default function useAuth() {
   const authContext = useContext(AuthContext);
@@ -75,6 +77,28 @@ export default function useAuth() {
     }
   }
 
+  async function updateUser(updatedFields: any) {
+    const token = await retrieveToken();
+
+    if (!token) return;
+
+    try {
+      const updatedUser = await userApi.updateUserProfile(token, updatedFields);
+
+      const copiedAccount = deepCopy<Account>(
+        authContext?.account ? authContext?.account : {}
+      );
+
+      copiedAccount.user = updatedUser;
+
+      authContext?.setAccount(copiedAccount);
+
+      return true;
+    } catch (e: any) {
+      console.log(e);
+    }
+  }
+
   return {
     account: authContext?.account,
     setAccount: authContext?.setAccount,
@@ -82,5 +106,6 @@ export default function useAuth() {
     signOut,
     createAccount,
     restoreAccountInfo,
+    updateUser,
   };
 }

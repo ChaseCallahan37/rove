@@ -1,7 +1,6 @@
 defmodule RoveApiWeb.AccountJSON do
   alias RoveApiWeb.UserJSON
   alias RoveApi.Accounts.Account
-  alias RoveApi.Users.User
 
   @doc """
   Renders a list of account.
@@ -21,11 +20,11 @@ defmodule RoveApiWeb.AccountJSON do
     %{data: data(account)}
   end
 
-  def data(%Account{user: %User{}} = account) do
+  def data(%Account{user: _user} = account) do
     {user, popped_account} = Map.pop(account, :user)
 
-    data(popped_account)
-    |> Map.merge(%{user: UserJSON.data(user)})
+    %{user: UserJSON.data(user)}
+    |> Map.merge(data(popped_account))
   end
 
   def data(%Account{} = account) do
@@ -41,4 +40,6 @@ defmodule RoveApiWeb.AccountJSON do
       account: data(account)
     }
   end
+
+  def data(%{}), do: %{}
 end
