@@ -37,8 +37,6 @@ export default function useAuth() {
   }
 
   async function signIn(credentials: { email: string; password: string }) {
-    console.log(`Heres sign in ${credentials.email} ${credentials.password}`);
-
     try {
       const { account, token } = await accountApi.signIn(credentials);
 

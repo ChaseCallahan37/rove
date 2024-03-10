@@ -13,8 +13,6 @@ type AccountScreenProps = {
 
 export default function AccountScreen({ navigation }: AccountScreenProps) {
   const { account, signOut } = useAuth();
-  console.log(typeof account?.user?.dob);
-
   return (
     <View>
       <View style={tw(["bg-slate-500", "p-2"])}>

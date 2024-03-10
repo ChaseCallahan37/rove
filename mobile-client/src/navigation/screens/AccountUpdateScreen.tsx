@@ -24,13 +24,7 @@ function AccountUpadateScreen({ navigation }: AccountUpdateScreenProps) {
 
   const updatedUser = deepCopy<User>(account?.user);
 
-  console.log("UPDATE");
-  console.log(updatedUser);
-
   const handleCreateAccount = async () => {
-    console.log("PAGE");
-    console.log(updatedUser);
-
     const isSuccess = await updateUser(updatedUser);
     if (isSuccess) {
       Alert.alert("Profile Updated!");

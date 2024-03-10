@@ -5,14 +5,13 @@ export type RequestResponse<T> = T | { error: string } | undefined;
 const url = Config.WEB_API_URL;
 
 async function get(resource: string, headers?: any) {
-  
   const getUrl = url + resource;
   const getInit = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       ...headers,
-    }
+    },
   };
 
   console.log(`GET ${getUrl}`);
