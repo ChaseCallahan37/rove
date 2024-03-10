@@ -23,7 +23,6 @@ defmodule RoveApiWeb.EventJSON do
   def data(%Event{owner: _owner} = event) do
     {owner, popped_event} = Map.pop(event, :owner)
 
-
     %{owner: UserJSON.data(owner)}
     |> Map.merge(data(popped_event))
   end

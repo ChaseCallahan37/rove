@@ -24,10 +24,14 @@ defmodule RoveApi.Users do
   end
 
   def get_user(criteria, include \\ []) do
-    User
-    |> where(^criteria)
-    |> preload(^include)
-    |> Repo.one()
+    try do
+      User
+      |> where(^criteria)
+      |> preload(^include)
+      |> Repo.one()
+    rescue
+      Ecto.Query.CastError -> {:error, :cast_failed}
+    end
   end
 
   @doc """
