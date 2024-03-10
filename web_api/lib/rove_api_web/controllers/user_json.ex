@@ -16,8 +16,6 @@ defmodule RoveApiWeb.UserJSON do
   Renders a single user.
   """
   def show(%{user: user}) do
-    IO.puts("IN SHOw")
-    IO.inspect(user)
     %{data: data(user)}
   end
 

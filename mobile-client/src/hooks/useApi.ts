@@ -21,7 +21,6 @@ function useApi<T>(
 
       if (needsToken) {
         const token = await retrieveToken();
-        console.log(token);
 
         result = await apiCall(token, ...args);
       } else {
