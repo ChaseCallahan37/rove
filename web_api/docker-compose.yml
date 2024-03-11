@@ -6,10 +6,8 @@ services:
     container_name: database
     volumes:
         - pg-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: rove_api_dev_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: super_super_secret 
+    env_file:
+      - .env/db.env
     ports:
       - "5432:5432"
 
@@ -24,7 +22,7 @@ services:
     ports:
       - 4000:4000
     env_file:
-      - .env
+      - .env/app.env
 
 volumes:
   pg-data:
