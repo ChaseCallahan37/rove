@@ -12,15 +12,9 @@ RUN mix local.hex --force && \
     mix local.rebar --force && \
     mix archive.install --force hex phx_new 1.5.1
 
-# Install node
-RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - &&\
-    apt-get install -y nodejs
-
 WORKDIR /app
 
 RUN mix deps.get
-RUN npm --prefix assets install
-RUN npm --prefix assets run build
 
 EXPOSE 4000
 
