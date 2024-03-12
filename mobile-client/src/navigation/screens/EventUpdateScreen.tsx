@@ -15,16 +15,26 @@ import { AppNavigationProp } from "../AppNavigations";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
 
-import { createEvent } from "../../api/events/event";
+import { Event, createEvent } from "../../api/events/event";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
+import { EventDetailsScreenParams } from "./EventDetailsScreen";
+
+export type EventUpdateScreenParams = {
+  event: Event;
+};
 
 type EventUpdateScreenProps = {
   navigation: AppNavigationProp<"EventUpdate">;
+  route: {
+    params: EventDetailsScreenParams;
+  };
 };
 
-export default function EventUpdateScreen({ navigation }: EventUpdateScreenProps) {
+export default function EventUpdateScreen({
+  navigation,
+}: EventUpdateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
   const [eventCoordinate, setEventCoordinate] = useState<{

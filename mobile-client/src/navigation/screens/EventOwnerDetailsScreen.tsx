@@ -22,6 +22,7 @@ export default function EventOwnerDetailsScreen({
   route: {
     params: { eventId },
   },
+  navigation
 }: EventOwnerDetailsScreenProps) {
   const {
     loading,
@@ -49,6 +50,7 @@ export default function EventOwnerDetailsScreen({
   return (
     <View style={tw(["flex-1", "bg-slate-100", "py-8", "px-2"])}>
       <Text style={tw(['text-black'])}>Event Owner Screen</Text>
+      { !event ? <Text style={tw(['text-black'])}>Loading</Text> : <Button title="Edit Event" onPress={() => navigation.navigate("EventUpdate", {event: event})} />}
       {loading ? (
         <Text style={{ color: "red" }}>Loading</Text>
       ) : error ? (

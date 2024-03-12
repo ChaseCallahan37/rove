@@ -37,7 +37,9 @@ export default function UserEventsCreatedScreen({
       <View style={{ flex: 1 }}>
         <EventList
           events={events?.events_created}
-          onEventSelect={({id}) => navigation.navigate("EventOwnerDetails", {eventId: id})}
+          onEventSelect={({ id }) =>
+            navigation.navigate("EventOwnerDetails", { eventId: id })
+          }
         />
       </View>
     </View>
