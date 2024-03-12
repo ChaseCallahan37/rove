@@ -30,7 +30,7 @@ defmodule RoveApiWeb.EventJSON do
   def data(%Event{attendees: attendees} = event) when is_list(attendees) do
     {attendees, popped_event} = Map.pop(event, :attendees)
 
-    %{attendees: for(attendee <- attendees, do: UserJSON.data(attendee))}
+    %{attendees: for(attendee <- attendees, do: UserJSON.data(attendee.attendee))}
     |> Map.merge(data(popped_event))
   end
 
