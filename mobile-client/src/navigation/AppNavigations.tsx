@@ -13,6 +13,7 @@ import AccountUpadateScreen from "./screens/AccountUpdateScreen";
 import UserEventsCreatedScreen from "./screens/UserEventsCreatedScreen";
 import UserEventAttendancesScreen from "./screens/UserEventAttendancesScreen";
 import EventOwnerDetailsScreen, { EventOwnerDetailsScreenParams } from "./screens/EventOwnerDetailsScreen";
+import EventUpdateScreen from "./screens/EventUpdateScreen";
 
 export type AppNavigationProp<
   T extends
@@ -21,6 +22,7 @@ export type AppNavigationProp<
     | "EventCreate"
     | "EventDetails"
     | "EventOwnerDetails"
+    | "EventUpdate"
     | "Login"
     | "Account"
     | "AccountCreate"
@@ -34,6 +36,7 @@ export type AppNavigationProp<
     EventCreate: undefined;
     EventDetails: EventDetailsScreenParams;
     EventOwnerDetails: EventOwnerDetailsScreenParams;
+    EventUpdate: undefined;
     Login: undefined;
     Account: undefined;
     AccountCreate: undefined;
@@ -57,6 +60,7 @@ function AppNavigation() {
         <Stack.Screen name={"EventDetails"} component={EventDetailsScreen} />
         {/* @ts-ignore */}
         <Stack.Screen name={"EventOwnerDetails"} component={EventOwnerDetailsScreen} />
+        <Stack.Screen name={"EventUpdate"} component={EventUpdateScreen} />
         <Stack.Screen name={"Login"} component={LoginScreen} />
         <Stack.Screen name={"Account"} component={AccountScreen} />
         <Stack.Screen name={"AccountCreate"} component={CreateAccountScreen} />
