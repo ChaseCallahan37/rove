@@ -1,6 +1,6 @@
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { unpackResponse } from "../service";
-import { User } from "../user/user";
+import { User, parseUser } from "../user/user";
 
 export type Event = {
   id: string;
@@ -11,6 +11,16 @@ export type Event = {
   owner?: User;
   attendees?: User[];
 };
+
+export function parseEvent(obj: any): Event {
+  return {
+    ...obj,
+    date: new Date(obj.date),
+    latitude: parseFloat(obj.latitude),
+    longitude: parseFloat(obj.longitude),
+    owner: obj.owner ? parseUser(obj.owner) : null,
+  };
+}
 
 const resourceName = "events";
 
