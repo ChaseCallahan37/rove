@@ -28,12 +28,15 @@ export type EventUpdateScreenParams = {
 type EventUpdateScreenProps = {
   navigation: AppNavigationProp<"EventUpdate">;
   route: {
-    params: EventDetailsScreenParams;
+    params: EventUpdateScreenParams;
   };
 };
 
 export default function EventUpdateScreen({
   navigation,
+  route: {
+    params: { event },
+  },
 }: EventUpdateScreenProps) {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
@@ -76,6 +79,17 @@ export default function EventUpdateScreen({
     Alert.alert("Event succesrully cretaed");
     navigation.navigate("Home");
   };
+
+  if (account?.user?.id !== event.owner?.id) {
+    return (
+      <>
+        <Text style={tw(["text-black"])}>
+          You do not have access to this resource
+        </Text>
+        <Button title="Go back" onPress={() => navigation.goBack()} />
+      </>
+    );
+  }
 
   return (
     <SafeAreaView>

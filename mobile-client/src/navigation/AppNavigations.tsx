@@ -64,8 +64,7 @@ function AppNavigation() {
         <Stack.Screen name={"EventDetails"} component={EventDetailsScreen} />
         <Stack.Screen
           name={"EventOwnerDetails"}
-          
-        /* @ts-ignore */
+          /* @ts-ignore */
           component={EventOwnerDetailsScreen}
         />
         {/* @ts-ignore */}
