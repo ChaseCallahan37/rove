@@ -47,10 +47,7 @@ async function post<T>(
   return res;
 }
 
-async function put<T>(
-  resource: string,
-  opts?: { payload?: T; headers?: any }
-) {
+async function put<T>(resource: string, opts?: { payload?: T; headers?: any }) {
   const putUrl = url + resource;
   const putInit = {
     method: "PUT",
