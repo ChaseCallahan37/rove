@@ -4,7 +4,7 @@ defmodule RoveApiWeb.UserController do
   alias RoveApi.Users
   alias RoveApi.Users.User
 
-  import RoveApiWeb.Auth.AuthorizedPlug
+  import RoveApiWeb.Auth.AuthorizedPlugs.UserPlug
 
   plug :is_authorized when action in [:update, :delete]
 

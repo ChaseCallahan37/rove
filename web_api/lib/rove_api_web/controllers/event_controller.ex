@@ -7,6 +7,10 @@ defmodule RoveApiWeb.EventController do
   alias RoveApi.Events
   alias RoveApi.Events.Event
 
+  import RoveApiWeb.Auth.AuthorizedPlugs.EventPlug
+
+  plug :is_authorized when action in [:update, :delete]
+
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
