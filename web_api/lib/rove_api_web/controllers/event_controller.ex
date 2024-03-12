@@ -38,7 +38,7 @@ defmodule RoveApiWeb.EventController do
     end
   end
 
-  def update(%{assigns: %{event: event}} = conn,  event_params) do
+  def update(%{assigns: %{event: event}} = conn, %{"event" => event_params} = _params) do
     with {:ok, %Event{} = event} <- Events.update_event(event, event_params) do
       render(conn, :show, event: event)
     end

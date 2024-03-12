@@ -53,6 +53,14 @@ export async function createEvent(token: string, newEvent: Event) {
   return createdEvent;
 }
 
+export async function updateEvent(token: string, eventToUpdate: Event){
+  const res = await service.put<{event: Event}>(`${resourceName}`, {headers: createAuthHeader(token), payload: {event: eventToUpdate}})
+
+  const {data: updatedEvent} = await unpackResponse<{data: Event}>(res)
+  
+  return updatedEvent
+}
+
 export async function joinEvent(token: string, eventId: string) {
   await service.post(`${resourceName}/join`, {
     headers: createAuthHeader(token),
