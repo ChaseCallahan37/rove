@@ -20,6 +20,7 @@ import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
 import { EventDetailsScreenParams } from "./EventDetailsScreen";
+import deepCopy from "../../utils/deepCopy";
 
 export type EventUpdateScreenParams = {
   event: Event;
@@ -38,12 +39,7 @@ export default function EventUpdateScreen({
     params: { event },
   },
 }: EventUpdateScreenProps) {
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDate, setEventDate] = useState(new Date());
-  const [eventCoordinate, setEventCoordinate] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
+
 
   const { request } = useApi(createEvent, true);
 
@@ -55,29 +51,29 @@ export default function EventUpdateScreen({
     latitude: number;
     longitude: number;
   }) => {
-    setEventCoordinate(coordinate);
+    eventCopy.latitude = coordinate.latitude;
+    eventCopy.longitude = coordinate.longitude
   };
 
   const handleSubmit = async () => {
-    if (!eventCoordinate) {
+    if (!eventCopy.latitude || !eventCopy.longitude) {
       throw Error("Must provide coordinates");
     }
-    const { latitude, longitude } = eventCoordinate;
     const myEvent = {
-      date: eventDate,
-      latitude,
-      longitude,
-      title: eventTitle,
+      date: eventCopy.date,
+      latitude: eventCopy.latitude,
+      longitude: eventCopy.longitude,
+      title: eventCopy.title,
     };
 
     const succeeded = await request(myEvent);
 
     if (!succeeded) {
-      return Alert.alert("Your request failed, please try again");
+      return Alert.alert("Failed to update event, please try again");
     }
 
-    Alert.alert("Event succesrully cretaed");
-    navigation.navigate("Home");
+    Alert.alert("Event succesfully updated");
+    navigation.navigate("EventOwnerDetails", {eventId: event.id});
   };
 
   if (account?.user?.id !== event.owner?.id) {
@@ -90,6 +86,8 @@ export default function EventUpdateScreen({
       </>
     );
   }
+
+  const eventCopy = deepCopy<Event>(event)
 
   return (
     <SafeAreaView>
@@ -119,18 +117,19 @@ export default function EventUpdateScreen({
         </>
       ) : (
         <ScrollView>
-          <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
+          <Text style={{ color: "blue" }}>EVENT Update SCREEN</Text>
           <InputGroup label={{ size: "1/5", text: "Event Title" }}>
             <AppTextInput
-              updateValue={(text) => setEventTitle(text)}
-              value={eventTitle}
+              updateValue={(text) => eventCopy.title = text}
+              defaultValue={event.title} 
             />
           </InputGroup>
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
               mode="datetime"
-              date={eventDate}
-              updateDate={(date) => setEventDate(date)}
+              date={event.date}
+              updateDate={(date) => eventCopy.date = date}
+              
             />
           </InputGroup>
           <View>
@@ -140,7 +139,7 @@ export default function EventUpdateScreen({
               <AppMapView
                 onDoublePress={handleUpdateCoordinate}
                 onLongPress={handleUpdateCoordinate}
-                pins={eventCoordinate && [eventCoordinate]}
+                pins={[{latitude: event.latitude, longitude: event.longitude}]}
               />
             )}
             <Button title="Submit" onPress={() => handleSubmit()} />
