@@ -26,16 +26,16 @@ async function get(resource: string, opts?: { headers?: any }) {
 
 async function post<T>(
   resource: string,
-  { headers, payload }: { payload?: T; headers?: any }
+  opts?: { payload?: T; headers?: any }
 ) {
   const postUrl = url + resource;
   const postInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...headers,
+      ...opts?.headers,
     },
-    body: JSON.stringify(payload ? payload : {}),
+    body: JSON.stringify(opts?.payload ? opts.payload : {}),
   };
   console.log(`POST ${postUrl}`);
   console.log(postInit);
@@ -49,16 +49,16 @@ async function post<T>(
 
 async function put<T>(
   resource: string,
-  { headers, payload }: { payload?: T; headers?: any }
+  opts?: { payload?: T; headers?: any }
 ) {
   const putUrl = url + resource;
   const putInit = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      ...headers,
+      ...opts?.headers,
     },
-    body: JSON.stringify(payload ? payload : {}),
+    body: JSON.stringify(opts?.payload ? opts.payload : {}),
   };
   console.log(`PUT ${putUrl}`);
   console.log(putInit);
