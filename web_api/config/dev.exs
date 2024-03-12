@@ -2,11 +2,11 @@ import Config
 
 # Configure your database
 config :rove_api, RoveApi.Repo,
-  username: "postgres",
-  password: "super_super_secret",
-  hostname: "localhost",
-  database: "rove_api_dev_db",
-  port: 5432,
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  hostname: System.get_env("POSTGRES_HOST"),
+  database: System.get_env("POSTGRES_DATABASE"),
+  port: System.get_env("POSTGRES_PORT"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -24,7 +24,7 @@ config :rove_api, RoveApiWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "vkbjoY3VCcQZLY40Tee4gPPVaxP69aUPdgvyPEkNtNGW9v7xrbAE/tAKUp7GhkD+",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}

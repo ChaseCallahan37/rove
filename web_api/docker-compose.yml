@@ -3,15 +3,26 @@ services:
   db:
     image: postgres:latest
     restart: unless-stopped
-    ports:
-      # I change default for host because I am already running a postgres db
-      - "5432:5432"
+    container_name: database
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: rove_api_dev_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: super_super_secret 
+        - pg-data:/var/lib/postgresql/data
+    env_file:
+      - .env/db.env
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: rove-api
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile    
+    depends_on:
+      - db
+    ports:
+      - 4000:4000
+    env_file:
+      - .env/app.env
 
 volumes:
-  postgres_data:
+  pg-data:
