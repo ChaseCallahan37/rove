@@ -18,7 +18,7 @@ RUN mix deps.get
 
 EXPOSE 4000
 
-COPY ./bash/entrypoint.sh /app/bash/entrypoint.sh
+# Make the entrypoint executable
 RUN chmod +x /app/bash/entrypoint.sh
 
 CMD ["/app/bash/entrypoint.sh"]
