@@ -3,8 +3,6 @@ import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
 import { useEffect, useRef } from "react";
-import eventApi from "../../api/events";
-import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
@@ -39,7 +37,7 @@ export default function UserEventsCreatedScreen({
       <View style={{ flex: 1 }}>
         <EventList
           events={events?.events_created}
-          onEventSelect={(event) => console.log(event)}
+          onEventSelect={({id}) => navigation.navigate("EventOwnerDetails", {eventId: id})}
         />
       </View>
     </View>
