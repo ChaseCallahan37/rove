@@ -4,7 +4,7 @@ export type RequestResponse<T> = T | { error: string } | undefined;
 
 const url = Config.WEB_API_URL;
 
-async function get(resource: string, opts?: {headers?: any}) {
+async function get(resource: string, opts?: { headers?: any }) {
   const getUrl = url + resource;
   const getInit = {
     method: "GET",

@@ -35,6 +35,13 @@ export default function AccountScreen({ navigation }: AccountScreenProps) {
       </View>
 
       <Button
+        title="View Events Created"
+        onPress={() => navigation.navigate("UserEventsCreated")}
+      /><Button
+      title="View Events Joined"
+      onPress={() => navigation.navigate("UserEventAttendances")}
+    />
+      <Button
         title="Sign Out"
         onPress={() => {
           signOut();

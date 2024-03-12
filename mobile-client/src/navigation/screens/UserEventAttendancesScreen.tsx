@@ -10,13 +10,13 @@ import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
 import userApi from "../../api/user";
 
-type UserEventsCreatedScreenProps = {
-  navigation: AppNavigationProp<"UserEventsCreated">;
+type UserEventAttendancesScreenProps = {
+  navigation: AppNavigationProp<"UserEventAttendances">;
 };
 
-export default function UserEventsCreatedScreen({
+export default function UserEventAttendancesScreen({
   navigation,
-}: UserEventsCreatedScreenProps) {
+}: UserEventAttendancesScreenProps) {
   const { account } = useAuth();
   const {
     data: events,
@@ -38,10 +38,10 @@ export default function UserEventsCreatedScreen({
       <Text style={{ color: "blue" }}>USER CREATED EVENTS</Text>
       <View style={{ flex: 1 }}>
         <EventList
-          events={events?.events_created}
+          events={events?.attendances}
           onEventSelect={(event) => console.log(event)}
         />
       </View>
     </View>
-  );
+  )
 }

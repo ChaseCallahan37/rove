@@ -39,10 +39,9 @@ export async function signIn({
 }
 
 export async function getAccountInfo(token: string) {
-  const res = await service.get(
-    resourceName + "/current",
-    {headers: createAuthHeader(token)}
-  );
+  const res = await service.get(resourceName + "/current", {
+    headers: createAuthHeader(token),
+  });
 
   const {
     data: { account },
