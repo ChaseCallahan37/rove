@@ -1,12 +1,21 @@
-import { Alert, Button, FlatList, Image, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { style as tw } from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import { retrieveEvent } from "../../api/events/event";
 import eventApi from "../../api/events";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useApi from "../../hooks/useApi";
 import format from "../../utils/format";
+import { useFocusEffect } from "@react-navigation/native";
 
 export type EventDetailsScreenParams = {
   eventId: string;
@@ -30,11 +39,16 @@ function EventDetailsScreen({
     data: event,
     request: getEvent,
   } = useApi(retrieveEvent);
-  const { request: joinEvent } = useApi(eventApi.joinEvent, true);
+  const { request: joinEvent, data: joinEventSuccess } = useApi(
+    eventApi.joinEvent,
+    true
+  );
 
-  useEffect(() => {
-    getEvent(eventId);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getEvent(eventId);
+    }, [joinEventSuccess])
+  );
 
   const handleOnJoin = async () => {
     const success = await joinEvent(event?.id);
@@ -55,7 +69,7 @@ function EventDetailsScreen({
         <Text style={{ color: "red" }}>Error</Text>
       ) : (
         event && (
-          <>
+          <ScrollView>
             <View style={tw(["grow", "px-2"])}>
               <View
                 style={tw([
@@ -72,7 +86,6 @@ function EventDetailsScreen({
                   {event.title}
                 </Text>
                 {
-
                   <Text style={tw(["text-black", "text-sm"])}>
                     {format.shortDate(event.date)}
                   </Text>
@@ -111,22 +124,21 @@ function EventDetailsScreen({
                   <Text
                     style={tw(["text-black", "text-base", "font-semibold"])}
                   >
-                   {`${event.attendees?.length} Attendee${event.attendees?.length !== 1 ? "s" : ""}`} 
+                    {`${event.attendees?.length} Attendee${
+                      event.attendees?.length !== 1 ? "s" : ""
+                    }`}
                   </Text>
                 </View>
               </View>
               <Button title="Join Event" onPress={handleOnJoin} />
             </View>
             <Text style={tw(["text-black"])}>Attendees</Text>
-            <FlatList
-              data={event.attendees}
-              renderItem={({ item, index }) => (
-                <Text style={tw(["text-black"])} key={index}>
-                  {item.user_name}
-                </Text>
-              )}
-            />
-          </>
+            {event.attendees?.map(({ user_name }, index) => (
+              <Text style={tw(["text-black"])} key={index}>
+                {user_name}
+              </Text>
+            ))}
+          </ScrollView>
         )
       )}
     </View>

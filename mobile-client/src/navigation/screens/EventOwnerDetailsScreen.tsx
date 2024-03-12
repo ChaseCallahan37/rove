@@ -31,12 +31,15 @@ export default function EventOwnerDetailsScreen({
     data: event,
     request: getEvent,
   } = useApi(retrieveEvent);
-  const { request: joinEvent } = useApi(eventApi.joinEvent, true);
+  const { request: joinEvent, data: joinEventOutcome } = useApi(
+    eventApi.joinEvent,
+    true
+  );
 
   useFocusEffect(
     useCallback(() => {
       getEvent(eventId);
-    }, [])
+    }, [joinEventOutcome])
   );
 
   const handleOnJoin = async () => {
