@@ -50,7 +50,24 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
-          <EventList mapRef={mapRef} events={events} />
+          <EventList
+            onEventSelect={({ latitude, longitude }) => {
+              if (!mapRef) return null;
+
+              // @ts-ignore
+              mapRef.current.animateToRegion(
+                {
+                  latitude,
+                  longitude,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
+                },
+                1000
+              );
+            }}
+            // @ts-ignore
+            events={events}
+          />
         )}
       </View>
     </View>

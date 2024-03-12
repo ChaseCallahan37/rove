@@ -1,4 +1,4 @@
-defmodule RoveApiWeb.Auth.AuthorizedPlug do
+defmodule RoveApiWeb.Auth.AuthorizedPlugs.UserPlug do
   alias RoveApiWeb.Auth.ErrorResponse
 
   def is_authorized(%{assigns: %{account: account}} = conn, opts) do

@@ -8,11 +8,11 @@ import {
 import { Event } from "../api/events/event";
 
 type EventListProps = {
-  mapRef: React.MutableRefObject<null>;
+  onEventSelect: (event: Event) => void;
   events: Event[] | null | undefined;
 };
 
-function EventList({ mapRef, events }: EventListProps) {
+function EventList({ onEventSelect, events }: EventListProps) {
   if (!events || (events && events?.length == 0)) {
     return (
       <Text style={{ color: "brown" }}>There are ne events to render</Text>
@@ -24,21 +24,9 @@ function EventList({ mapRef, events }: EventListProps) {
       data={events}
       numColumns={2}
       // @ts-ignore
-      renderItem={({ item: { latitude, longitude, title } }) => (
+      renderItem={({ item: event }) => (
         <TouchableOpacity
-          onPress={() => {
-            if (!mapRef) return null;
-            // @ts-ignore
-            mapRef.current.animateToRegion(
-              {
-                latitude: latitude,
-                longitude: longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005,
-              },
-              1000
-            );
-          }}
+          onPress={() => onEventSelect(event)}
           style={styles.card}
         >
           <TouchableOpacity style={styles.joinButton}>
@@ -51,7 +39,7 @@ function EventList({ mapRef, events }: EventListProps) {
             }}
           />
           <Text style={styles.groupName}>Group Name</Text>
-          <Text style={styles.members}>{title}</Text>
+          <Text style={styles.members}>{event.title}</Text>
         </TouchableOpacity>
       )}
     />

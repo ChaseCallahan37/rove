@@ -5,7 +5,7 @@ defmodule RoveApiWeb.AccountController do
   alias RoveApiWeb.Auth.{Guardian, ErrorResponse}
   alias RoveApi.{Accounts, Accounts.Account, Users.User}
 
-  import RoveApiWeb.Auth.AuthorizedPlug
+  import RoveApiWeb.Auth.AuthorizedPlugs.UserPlug
 
   # we state this so that we can check for this specific actions to be called
   # only be the authorized user

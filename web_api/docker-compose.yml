@@ -12,6 +12,10 @@ services:
       - "5432:5432"
 
   app:
+    # Allows container to monitor source code for changes
+    # and will recompile if changes are detected
+    volumes:
+      - .:/app:delegated
     container_name: rove-api
     restart: unless-stopped
     build:

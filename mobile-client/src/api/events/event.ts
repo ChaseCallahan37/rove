@@ -1,6 +1,6 @@
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { unpackResponse } from "../service";
-import { User } from "../user/user";
+import { User, parseUser } from "../user/user";
 
 export type Event = {
   id: string;
@@ -11,6 +11,16 @@ export type Event = {
   owner?: User;
   attendees?: User[];
 };
+
+export function parseEvent(obj: any): Event {
+  return {
+    ...obj,
+    date: new Date(obj.date),
+    latitude: parseFloat(obj.latitude),
+    longitude: parseFloat(obj.longitude),
+    owner: obj.owner ? parseUser(obj.owner) : null,
+  };
+}
 
 const resourceName = "events";
 
@@ -41,6 +51,17 @@ export async function createEvent(token: string, newEvent: Event) {
   const { data: createdEvent } = await unpackResponse<{ data: Event }>(res);
 
   return createdEvent;
+}
+
+export async function updateEvent(token: string, eventToUpdate: Event) {
+  const res = await service.put<{ event: Event }>(`${resourceName}`, {
+    headers: createAuthHeader(token),
+    payload: { event: eventToUpdate },
+  });
+
+  const { data: updatedEvent } = await unpackResponse<{ data: Event }>(res);
+
+  return updatedEvent;
 }
 
 export async function joinEvent(token: string, eventId: string) {

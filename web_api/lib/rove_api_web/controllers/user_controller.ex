@@ -4,7 +4,7 @@ defmodule RoveApiWeb.UserController do
   alias RoveApi.Users
   alias RoveApi.Users.User
 
-  import RoveApiWeb.Auth.AuthorizedPlug
+  import RoveApiWeb.Auth.AuthorizedPlugs.UserPlug
 
   plug :is_authorized when action in [:update, :delete]
 
@@ -28,11 +28,11 @@ defmodule RoveApiWeb.UserController do
     |> render(:show, user: user)
   end
 
-  def show_events(%{assigns: %{account: %{user: user}}} = conn, _params) do
-    user_events = Users.get_user([id: user.id], [:events_created, attendances: [:event]])
+  def show_events(%{assigns: %{account: %{user: %{id: user_id}}}} = conn, _params) do
+    user = Users.get_user([id: user_id], [:events_created, attendances: [:event]])
 
     conn
-    |> render(:show, user: user_events)
+    |> render(:show, user: %{events_created: user.events_created, attendances: user.attendances})
   end
 
   def update(%{assigns: %{account: %{user: user}}} = conn, %{"user" => user_params}) do

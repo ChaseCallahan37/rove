@@ -8,7 +8,7 @@ export type Account = {
   user?: User;
 };
 
-export function parseAccount(obj: any) {
+export function parseAccount(obj: any): Account {
   return {
     ...obj,
     user: obj.user ? parseUser(obj.user) : null,
@@ -39,10 +39,9 @@ export async function signIn({
 }
 
 export async function getAccountInfo(token: string) {
-  const res = await service.get(
-    resourceName + "/current",
-    createAuthHeader(token)
-  );
+  const res = await service.get(resourceName + "/current", {
+    headers: createAuthHeader(token),
+  });
 
   const {
     data: { account },
