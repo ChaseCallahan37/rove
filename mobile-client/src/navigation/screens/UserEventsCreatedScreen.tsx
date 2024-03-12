@@ -2,11 +2,12 @@ import { Text, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
 import userApi from "../../api/user";
+import { useFocusEffect } from "@react-navigation/native";
 
 type UserEventsCreatedScreenProps = {
   navigation: AppNavigationProp<"UserEventsCreated">;
@@ -26,10 +27,11 @@ export default function UserEventsCreatedScreen({
     return <Text style={tw(["text-black"])}>Loading...</Text>;
   }
 
-  // @ts-ignore
-  useEffect(() => {
-    userEventsRequest();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      userEventsRequest();
+    }, [])
+  );
 
   return (
     <View style={{ flex: 1 }}>

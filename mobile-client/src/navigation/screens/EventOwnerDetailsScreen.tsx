@@ -4,8 +4,9 @@ import { style as tw } from "twrnc";
 import { AppNavigationProp } from "../AppNavigations";
 import { retrieveEvent } from "../../api/events/event";
 import eventApi from "../../api/events";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useApi from "../../hooks/useApi";
+import { useFocusEffect } from "@react-navigation/native";
 
 export type EventOwnerDetailsScreenParams = {
   eventId: string;
@@ -32,9 +33,11 @@ export default function EventOwnerDetailsScreen({
   } = useApi(retrieveEvent);
   const { request: joinEvent } = useApi(eventApi.joinEvent, true);
 
-  useEffect(() => {
-    getEvent(eventId);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getEvent(eventId);
+    }, [])
+  );
 
   const handleOnJoin = async () => {
     const success = await joinEvent(event?.id);

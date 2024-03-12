@@ -21,6 +21,7 @@ import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
 import { EventDetailsScreenParams } from "./EventDetailsScreen";
 import deepCopy from "../../utils/deepCopy";
+import eventApi from "../../api/events";
 
 export type EventUpdateScreenParams = {
   event: Event;
@@ -39,9 +40,7 @@ export default function EventUpdateScreen({
     params: { event },
   },
 }: EventUpdateScreenProps) {
-
-
-  const { request } = useApi(createEvent, true);
+  const { request } = useApi(eventApi.updateEvent, true);
 
   const { isToggled, toggle } = useToggle(false);
 
@@ -52,28 +51,28 @@ export default function EventUpdateScreen({
     longitude: number;
   }) => {
     eventCopy.latitude = coordinate.latitude;
-    eventCopy.longitude = coordinate.longitude
+    eventCopy.longitude = coordinate.longitude;
   };
 
   const handleSubmit = async () => {
     if (!eventCopy.latitude || !eventCopy.longitude) {
       throw Error("Must provide coordinates");
     }
-    const myEvent = {
+
+    const succeeded = await request({
+      id: event.id,
       date: eventCopy.date,
       latitude: eventCopy.latitude,
       longitude: eventCopy.longitude,
       title: eventCopy.title,
-    };
-
-    const succeeded = await request(myEvent);
+    });
 
     if (!succeeded) {
       return Alert.alert("Failed to update event, please try again");
     }
 
     Alert.alert("Event succesfully updated");
-    navigation.navigate("EventOwnerDetails", {eventId: event.id});
+    navigation.navigate("EventOwnerDetails", { eventId: event.id });
   };
 
   if (account?.user?.id !== event.owner?.id) {
@@ -87,7 +86,7 @@ export default function EventUpdateScreen({
     );
   }
 
-  const eventCopy = deepCopy<Event>(event)
+  const eventCopy = deepCopy<Event>(event);
 
   return (
     <SafeAreaView>
@@ -120,16 +119,15 @@ export default function EventUpdateScreen({
           <Text style={{ color: "blue" }}>EVENT Update SCREEN</Text>
           <InputGroup label={{ size: "1/5", text: "Event Title" }}>
             <AppTextInput
-              updateValue={(text) => eventCopy.title = text}
-              defaultValue={event.title} 
+              updateValue={(text) => (eventCopy.title = text)}
+              defaultValue={event.title}
             />
           </InputGroup>
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
               mode="datetime"
               date={event.date}
-              updateDate={(date) => eventCopy.date = date}
-              
+              updateDate={(date) => (eventCopy.date = date)}
             />
           </InputGroup>
           <View>
@@ -139,7 +137,9 @@ export default function EventUpdateScreen({
               <AppMapView
                 onDoublePress={handleUpdateCoordinate}
                 onLongPress={handleUpdateCoordinate}
-                pins={[{latitude: event.latitude, longitude: event.longitude}]}
+                pins={[
+                  { latitude: event.latitude, longitude: event.longitude },
+                ]}
               />
             )}
             <Button title="Submit" onPress={() => handleSubmit()} />
