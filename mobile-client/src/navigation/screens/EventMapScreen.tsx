@@ -11,7 +11,7 @@ import { style as tw } from "twrnc";
 import useApi from "../../hooks/useApi";
 import { useEffect, useRef } from "react";
 import eventApi from "../../api/events";
-import AppMapView from "../../components/AppMapView";
+import AppMapView, { Pin } from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import mapsApi from "../../api/maps";
@@ -51,13 +51,17 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     );
   };
 
+  const handleOnPinPress = ({ id }: Pin) => {
+    if (!id) throw new Error("Pins must be passed in with Ids for this screen");
+
+    navigation.navigate("EventDetails", { eventId: id });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <AppMapView
-          onPinPress={({ eventID: eventId }) =>
-            navigation.navigate("EventDetails", { eventId })
-          }
+          onPinPress={handleOnPinPress}
           ref={mapRef}
           // @ts-ignore
           pins={

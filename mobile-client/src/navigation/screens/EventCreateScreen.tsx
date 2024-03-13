@@ -10,7 +10,7 @@ import {
 import { style as tw } from "twrnc";
 
 import AppDatePicker from "../../components/AppDatePicker";
-import AppMapView from "../../components/AppMapView";
+import AppMapView, { Pin } from "../../components/AppMapView";
 import { AppNavigationProp } from "../AppNavigations";
 import AppTextInput from "../../components/AppTextInput";
 import InputGroup from "../../components/InputGroup";
@@ -20,6 +20,7 @@ import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
 import LocationSearch from "../../components/LocationSearch";
+import { Place } from "../../api/maps/map";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -32,6 +33,8 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     latitude: number;
     longitude: number;
   }>();
+
+  const [searchLocations, setSearchLocations] = useState<null | Place[]>(null)
 
   const { request } = useApi(createEvent, true);
 
@@ -85,8 +88,25 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     );
   };
 
+  const handleOnPinPress = (pin: Pin) => {
+    
+    Alert.alert("Location Chosen", `Setting location for event to ${pin.name} at ${pin.address}`);
+
+    setEventCoordinate({latitude: pin.latitude, longitude: pin.longitude})
+  }
+
+  const handleFormatPins = (searchLocations: Place[] | null, eventCoordinate: {latitude: number, longitude: number} | null | undefined) => {
+    const searchPins = searchLocations?.map(({latitude, longitude, icon: {url}, name, address}) => ({latitude, longitude, imageUrl: url, name, address,}))
+
+    if(searchPins && eventCoordinate) return [eventCoordinate, ...searchPins]
+
+    if(eventCoordinate) return [eventCoordinate]
+
+    return searchPins
+  }
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={tw(['pb-3'])}>
       {!account ? (
         <>
           <Text style={tw(["text-black"])}>
@@ -130,12 +150,16 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               onLocationSelect={({ latitude, longitude }) =>
                 handleMapFocus(latitude, longitude)
               }
+
+              onSearchCompletion={(places) => setSearchLocations(places)}
             />
             <AppMapView
               ref={mapRef}
+              
+              onPinPress={handleOnPinPress}
               onDoublePress={handleUpdateCoordinate}
               onLongPress={handleUpdateCoordinate}
-              pins={eventCoordinate && [eventCoordinate]}
+              pins={handleFormatPins(searchLocations, eventCoordinate)}
             />
             <Button title="Submit" onPress={() => handleSubmit()} />
           </View>

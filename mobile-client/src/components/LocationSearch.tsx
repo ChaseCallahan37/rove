@@ -1,16 +1,18 @@
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { style as tw } from "twrnc";
 
-import { Place } from "../api/maps/map";
+import { Place, searchPlaces } from "../api/maps/map";
 import useApi from "../hooks/useApi";
 import mapsApi from "../api/maps";
 import AppTextInput from "./AppTextInput";
 
 type LocationSearchProps = {
   onLocationSelect?: (place: Place) => void;
+  onSearchCompletion?: (plases: Place[]) => void;
 };
 
 export default function LocationSearch({
+  onSearchCompletion,
   onLocationSelect,
 }: LocationSearchProps) {
   const {
@@ -25,21 +27,34 @@ export default function LocationSearch({
     searchGooglePlaces({ query: placeSearch });
   };
 
+  // We want to provide a hook for consumer to use for when
+  // search results are made available
+  if (!searchLoading && searchedPlaces && onSearchCompletion) {
+    onSearchCompletion(searchedPlaces);
+  }
+
   return (
     <View style={tw(["p-2"])}>
       <AppTextInput
         placeholder="Type the name of the location"
         updateValue={(text) => (placeSearch = text)}
       />
-      {searchedPlaces?.map((place, index) => (
-        <TouchableOpacity
-          onPress={onLocationSelect && (() => onLocationSelect(place))}
-          style={tw(["bg-slate-500", "mb-2"])}
-          key={index}
+      {searchedPlaces && (
+        <ScrollView
+          style={tw(["max-h-40", "bg-fuchsia-300"])}
+          nestedScrollEnabled={true}
         >
-          <Text style={tw(["text-black", "text-lg"])}>{place.name}</Text>
-        </TouchableOpacity>
-      ))}
+          {searchedPlaces?.map((place, index) => (
+            <TouchableOpacity
+              onPress={onLocationSelect && (() => onLocationSelect(place))}
+              style={tw(["bg-slate-500", "mb-2"])}
+              key={index}
+            >
+              <Text style={tw(["text-black", "text-lg"])}>{place.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
       {!searchLoading ? (
         <Button title="Search" onPress={handleOnSearch} />
       ) : (
