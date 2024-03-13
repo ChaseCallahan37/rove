@@ -54,7 +54,8 @@ defmodule RoveApi.MixProject do
       {:cors_plug, "~> 2.0"},
       {:guardian, "~> 2.3"},
       {:guardian_db, "~> 2.0"},
-      {:bcrypt_elixir, "~> 3.0"}
+      {:bcrypt_elixir, "~> 3.0"},
+      {:httpoison, "~> 1.8"}
     ]
   end
 
