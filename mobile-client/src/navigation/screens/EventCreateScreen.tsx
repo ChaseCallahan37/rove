@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -19,6 +19,7 @@ import { createEvent } from "../../api/events/event";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
+import LocationSearch from "../../components/LocationSearch";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -37,6 +38,8 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const { isToggled, toggle } = useToggle(false);
 
   const { account } = useAuth();
+
+  const mapRef = useRef(null);
 
   const handleUpdateCoordinate = (coordinate: {
     latitude: number;
@@ -67,6 +70,21 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     navigation.navigate("Home");
   };
 
+  const handleMapFocus = (latitude: number, longitude: number) => {
+    if (!mapRef) return null;
+
+    // @ts-ignore
+    mapRef.current.animateToRegion(
+      {
+        latitude,
+        longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      },
+      1000
+    );
+  };
+
   return (
     <SafeAreaView>
       {!account ? (
@@ -94,7 +112,6 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
         </>
       ) : (
         <ScrollView>
-          <Text style={{ color: "blue" }}>EVENT CREATE SCREEN</Text>
           <InputGroup label={{ size: "1/5", text: "Event Title" }}>
             <AppTextInput
               updateValue={(text) => setEventTitle(text)}
@@ -109,15 +126,17 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
             />
           </InputGroup>
           <View>
-            <Button title="Choose Location" onPress={toggle} />
-
-            {isToggled && (
-              <AppMapView
-                onDoublePress={handleUpdateCoordinate}
-                onLongPress={handleUpdateCoordinate}
-                pins={eventCoordinate && [eventCoordinate]}
-              />
-            )}
+            <LocationSearch
+              onLocationSelect={({ latitude, longitude }) =>
+                handleMapFocus(latitude, longitude)
+              }
+            />
+            <AppMapView
+              ref={mapRef}
+              onDoublePress={handleUpdateCoordinate}
+              onLongPress={handleUpdateCoordinate}
+              pins={eventCoordinate && [eventCoordinate]}
+            />
             <Button title="Submit" onPress={() => handleSubmit()} />
           </View>
         </ScrollView>

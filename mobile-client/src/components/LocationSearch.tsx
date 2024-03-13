@@ -13,9 +13,11 @@ type LocationSearchProps = {
 export default function LocationSearch({
   onLocationSelect,
 }: LocationSearchProps) {
-  const { data: searchedPlaces, request: searchGooglePlaces, loading: searchLoading } = useApi(
-    mapsApi.searchPlaces
-  );
+  const {
+    data: searchedPlaces,
+    request: searchGooglePlaces,
+    loading: searchLoading,
+  } = useApi(mapsApi.searchPlaces);
 
   let placeSearch = "";
 
@@ -38,7 +40,11 @@ export default function LocationSearch({
           <Text style={tw(["text-black", "text-lg"])}>{place.name}</Text>
         </TouchableOpacity>
       ))}
-      {!searchLoading ? <Button title="Search" onPress={handleOnSearch} /> : <Text style={tw(['text-black'])}>Loading</Text>}
+      {!searchLoading ? (
+        <Button title="Search" onPress={handleOnSearch} />
+      ) : (
+        <Text style={tw(["text-black"])}>Loading</Text>
+      )}
     </View>
   );
 }
