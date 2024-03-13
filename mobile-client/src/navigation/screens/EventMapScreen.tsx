@@ -1,10 +1,12 @@
-import { Text, View } from "react-native";
+import { Button, FlatList, Text, View } from "react-native";
 import useApi from "../../hooks/useApi";
 import { useEffect, useRef } from "react";
 import eventApi from "../../api/events";
 import AppMapView from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
+import mapsApi from "../../api/maps";
+import AppTextInput from "../../components/AppTextInput";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -17,6 +19,8 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
+  const {data: searchedPlaces, request: searchGooglePlaces} = useApi(mapsApi.searchPlaces)
+
   // @ts-ignore
   useEffect(() => {
     getEvents();
@@ -24,9 +28,18 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
 
   const mapRef = useRef(null);
 
+  let placeSearch = ""
+
+  const handleOnSearch = () => {
+    searchGooglePlaces({query: placeSearch})
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <Text style={{ color: "blue" }}>EVENT MAP SCREEN</Text>
+      <AppTextInput placeholder="Where would you like to hold your event?" updateValue={(text) => placeSearch = text}/>
+      <Button title="Search" onPress={handleOnSearch}/>
+      <FlatList data={searchedPlaces} renderItem={({index, item}) => <Text key={index} style={{color: "blue"}}>{item.name}</Text>}/>
       <View style={{ flex: 1 }}>
         <AppMapView
           onPinPress={({ eventID: eventId }) =>

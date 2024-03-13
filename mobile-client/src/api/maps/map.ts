@@ -18,7 +18,7 @@ export function parsePlace(obj: any): Place {
   };
 }
 
-const resourceName = "map";
+const resourceName = "maps";
 
 export async function searchPlaces(searchBody: {query: string}) {
   const res = await service.post(`${resourceName}/places/search`, {
