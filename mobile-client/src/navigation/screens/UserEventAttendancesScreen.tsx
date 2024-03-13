@@ -39,7 +39,7 @@ export default function UserEventAttendancesScreen({
       <View style={{ flex: 1 }}>
         <EventList
           events={events?.attendances}
-          onEventSelect={(event) => console.log(event)}
+          onEventSelect={(event) => navigation.navigate("EventDetails", {eventId: event.id})}
         />
       </View>
     </View>

@@ -120,7 +120,7 @@ export default function EventOwnerDetailsScreen({
               </View>
             </View>
             <Text style={tw(["text-black"])}>Attendees</Text>
-            <AttendeeList attendees={event.attendees} />
+            <AttendeeList onAttendeePress={(user) => navigation.navigate("UserProfile", {user})} attendees={event.attendees} />
           </ScrollView>
         )
       )}
