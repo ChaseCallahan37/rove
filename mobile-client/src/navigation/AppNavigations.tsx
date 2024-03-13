@@ -18,6 +18,9 @@ import EventOwnerDetailsScreen, {
 import EventUpdateScreen, {
   EventUpdateScreenParams,
 } from "./screens/EventUpdateScreen";
+import UserProfileScreen, {
+  UserProfileScreenParams,
+} from "./screens/UserProfileScreen";
 
 export type AppNavigationProp<
   T extends
@@ -33,6 +36,7 @@ export type AppNavigationProp<
     | "AccountUpdate"
     | "UserEventsCreated"
     | "UserEventAttendances"
+    | "UserProfile"
 > = NavigationProp<
   {
     Home: undefined;
@@ -47,6 +51,7 @@ export type AppNavigationProp<
     AccountUpdate: undefined;
     UserEventsCreated: undefined;
     UserEventAttendances: undefined;
+    UserProfile: UserProfileScreenParams;
   },
   T
 >;
@@ -81,6 +86,8 @@ function AppNavigation() {
           name={"UserEventAttendances"}
           component={UserEventAttendancesScreen}
         />
+        {/* @ts-ignore */}
+        <Stack.Screen name={"UserProfile"} component={UserProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

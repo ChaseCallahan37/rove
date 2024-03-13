@@ -30,6 +30,7 @@ export type EventDetailsScreenProps = {
 };
 
 function EventDetailsScreen({
+  navigation,
   route: {
     params: { eventId },
   },
@@ -133,7 +134,12 @@ function EventDetailsScreen({
               </View>
               <Button title="Join Event" onPress={handleOnJoin} />
             </View>
-            <AttendeeList attendees={event.attendees} />
+            <AttendeeList
+              onAttendeePress={(user) =>
+                navigation.navigate("UserProfile", { user })
+              }
+              attendees={event.attendees}
+            />
           </ScrollView>
         )
       )}
