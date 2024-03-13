@@ -5,8 +5,8 @@ defmodule RoveApiWeb.MapsController do
   action_fallback RoveApiWeb.FallbackController
 
   def search(conn, params) do
-    %{"search" => %{"input" => input}} = params
-    places = Place.text_search(input)
+    %{"search" => %{"query" => query}} = params
+    places = Place.text_search(query)
 
     conn
     |> render(:index, places: places)
