@@ -16,6 +16,7 @@ import { useCallback, useEffect } from "react";
 import useApi from "../../hooks/useApi";
 import format from "../../utils/format";
 import { useFocusEffect } from "@react-navigation/native";
+import AttendeeList from "../../components/AttendeeList";
 
 export type EventDetailsScreenParams = {
   eventId: string;
@@ -132,12 +133,7 @@ function EventDetailsScreen({
               </View>
               <Button title="Join Event" onPress={handleOnJoin} />
             </View>
-            <Text style={tw(["text-black"])}>Attendees</Text>
-            {event.attendees?.map(({ user_name }, index) => (
-              <Text style={tw(["text-black"])} key={index}>
-                {user_name}
-              </Text>
-            ))}
+            <AttendeeList attendees={event.attendees} />
           </ScrollView>
         )
       )}

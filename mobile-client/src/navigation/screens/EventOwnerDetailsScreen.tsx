@@ -8,6 +8,7 @@ import { useCallback, useEffect } from "react";
 import useApi from "../../hooks/useApi";
 import { useFocusEffect } from "@react-navigation/native";
 import format from "../../utils/format";
+import AttendeeList from "../../components/AttendeeList";
 
 export type EventOwnerDetailsScreenParams = {
   eventId: string;
@@ -73,7 +74,6 @@ export default function EventOwnerDetailsScreen({
                   {event.title}
                 </Text>
                 {
-
                   <Text style={tw(["text-black", "text-sm"])}>
                     {format.shortDate(event.date)}
                   </Text>
@@ -112,7 +112,7 @@ export default function EventOwnerDetailsScreen({
                   <Text
                     style={tw(["text-black", "text-base", "font-semibold"])}
                   >
-                  {`${event.attendees?.length} Attendee${
+                    {`${event.attendees?.length} Attendee${
                       event.attendees?.length !== 1 ? "s" : ""
                     }`}
                   </Text>
@@ -120,11 +120,7 @@ export default function EventOwnerDetailsScreen({
               </View>
             </View>
             <Text style={tw(["text-black"])}>Attendees</Text>
-            {event.attendees?.map(({ user_name }, index) => (
-              <Text key={index} style={tw(["text-black"])}>
-                {user_name}
-              </Text>
-            ))}
+            <AttendeeList attendees={event.attendees} />
           </ScrollView>
         )
       )}
