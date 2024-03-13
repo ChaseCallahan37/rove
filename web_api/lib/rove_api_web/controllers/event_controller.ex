@@ -27,7 +27,7 @@ defmodule RoveApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    case Events.get_event([id: id], [:attendees, :owner]) do
+    case Events.get_event([id: id], [:attendees, :owner, attendees: [:attendee]]) do
       %Event{} = event ->
         conn
         |> put_status(:ok)
