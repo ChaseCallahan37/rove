@@ -7,7 +7,7 @@ function useApi<T>(
   needsToken = false
 ) {
   const [data, setData] = useState<T | null>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(false);
   const [progress, setProgress] = useState<number | null>(null);
 

@@ -1,3 +1,3 @@
-import * as mapsApi from "./map" 
+import * as mapsApi from "./map";
 
 export default mapsApi;

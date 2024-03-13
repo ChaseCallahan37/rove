@@ -7,7 +7,7 @@ export type Place = {
   address: string;
   latitude: number;
   longitude: number;
-  icon: {url: string, bg_color: string};
+  icon: { url: string; bg_color: string };
 };
 
 export function parsePlace(obj: any): Place {
@@ -20,14 +20,14 @@ export function parsePlace(obj: any): Place {
 
 const resourceName = "maps";
 
-export async function searchPlaces(searchBody: {query: string}) {
+export async function searchPlaces(searchBody: { query: string }) {
   const res = await service.post(`${resourceName}/places/search`, {
     payload: {
       search: searchBody,
     },
   });
 
-  const {data: places} = await unpackResponse<{data: Place[]}>(res)
+  const { data: places } = await unpackResponse<{ data: Place[] }>(res);
 
-  return places.map(parsePlace)
+  return places.map(parsePlace);
 }

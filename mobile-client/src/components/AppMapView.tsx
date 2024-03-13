@@ -109,7 +109,7 @@ const AppMapView = forwardRef(
 const styles = StyleSheet.create({
   map: {
     // Specify the height of the map or use flex to allocate space
-    height: 380, // You can adjust this value as needed
+    height: 250, // You can adjust this value as needed
     width: "100%",
   },
 });
