@@ -23,7 +23,12 @@ import LocationSearch from "../../components/LocationSearch";
 import { Place } from "../../api/maps/map";
 import usePlaceSearch from "../../hooks/usePlaceSearch";
 
-import SearchIcon from "../../../assets/exclamation-mark.png"
+
+// @ts-ignore
+import SearchLocationsIcon from "../../../assets/search-locations-icon.png"
+
+// @ts-ignore
+import GenericLocationIcon from "../../../assets/generic-location-icon.png"
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -108,13 +113,21 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       ({ latitude, longitude, name, address }) => ({
         latitude,
         longitude,
-        image: SearchIcon,
+        image: SearchLocationsIcon,
         name,
         address,
       })
     );
 
-    if (searchPins && eventCoordinate) return [eventCoordinate, ...searchPins];
+    if (searchPins && eventCoordinate){
+      const chosenPin = searchPins.find(({latitude, longitude}) => eventCoordinate.latitude === latitude && eventCoordinate.longitude == longitude)
+      
+      if(chosenPin) {
+        chosenPin.image =GenericLocationIcon 
+        return searchPins
+      } 
+      return [...searchPins, {latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, name: "Selected Location", image: GenericLocationIcon}];
+    } 
 
     if (eventCoordinate) return [eventCoordinate];
 
