@@ -21,6 +21,9 @@ import useAuth from "../../hooks/useAuth";
 import useToggle from "../../hooks/useToggle";
 import LocationSearch from "../../components/LocationSearch";
 import { Place } from "../../api/maps/map";
+import usePlaceSearch from "../../hooks/usePlaceSearch";
+
+import SearchIcon from "../../../assets/exclamation-mark.png"
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
@@ -34,7 +37,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     longitude: number;
   }>();
 
-  const [searchLocations, setSearchLocations] = useState<null | Place[]>(null)
+  const { searchLoading, searchGooglePlaces, searchResults} = usePlaceSearch();
 
   const { request } = useApi(createEvent, true);
 
@@ -89,24 +92,37 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   };
 
   const handleOnPinPress = (pin: Pin) => {
-    
-    Alert.alert("Location Chosen", `Setting location for event to ${pin.name} at ${pin.address}`);
+    Alert.alert(
+      "Location Chosen",
+      `Setting location for event to ${pin.name} at ${pin.address}`
+    );
 
-    setEventCoordinate({latitude: pin.latitude, longitude: pin.longitude})
-  }
+    setEventCoordinate({ latitude: pin.latitude, longitude: pin.longitude });
+  };
 
-  const handleFormatPins = (searchLocations: Place[] | null, eventCoordinate: {latitude: number, longitude: number} | null | undefined) => {
-    const searchPins = searchLocations?.map(({latitude, longitude, icon: {url}, name, address}) => ({latitude, longitude, imageUrl: url, name, address,}))
+  const handleFormatPins = (
+    searchLocations: Place[] | null,
+    eventCoordinate: { latitude: number; longitude: number } | null | undefined
+  ) => {
+    const searchPins = searchLocations?.map(
+      ({ latitude, longitude, name, address }) => ({
+        latitude,
+        longitude,
+        image: SearchIcon,
+        name,
+        address,
+      })
+    );
 
-    if(searchPins && eventCoordinate) return [eventCoordinate, ...searchPins]
+    if (searchPins && eventCoordinate) return [eventCoordinate, ...searchPins];
 
-    if(eventCoordinate) return [eventCoordinate]
+    if (eventCoordinate) return [eventCoordinate];
 
-    return searchPins
-  }
+    return searchPins;
+  };
 
   return (
-    <SafeAreaView style={tw(['pb-3'])}>
+    <SafeAreaView style={tw(["pb-3"])}>
       {!account ? (
         <>
           <Text style={tw(["text-black"])}>
@@ -147,19 +163,20 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
           </InputGroup>
           <View>
             <LocationSearch
-              onLocationSelect={({ latitude, longitude }) =>
+              loading={searchLoading}
+              onSearch={(text) => searchGooglePlaces(text)}
+              searchedItems={searchResults}
+              onItemSelect={({ latitude, longitude }) =>
                 handleMapFocus(latitude, longitude)
               }
-
-              onSearchCompletion={(places) => setSearchLocations(places)}
             />
             <AppMapView
               ref={mapRef}
-              
               onPinPress={handleOnPinPress}
               onDoublePress={handleUpdateCoordinate}
               onLongPress={handleUpdateCoordinate}
-              pins={handleFormatPins(searchLocations, eventCoordinate)}
+              // @ts-ignore
+              pins={handleFormatPins(searchResults, eventCoordinate)}
             />
             <Button title="Submit" onPress={() => handleSubmit()} />
           </View>
