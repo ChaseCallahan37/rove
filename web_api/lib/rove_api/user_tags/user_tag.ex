@@ -1,4 +1,4 @@
-defmodule RoveApi.EventAttendances.EventAttendance do
+defmodule RoveApi.UserTags.UserTag do
   use Ecto.Schema
   import Ecto.Changeset
 

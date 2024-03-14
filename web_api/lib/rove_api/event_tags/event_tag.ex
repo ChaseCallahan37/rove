@@ -1,10 +1,10 @@
-defmodule RoveApi.EventAttendances.EventAttendance do
+defmodule RoveApi.EventTags.EventTag do
   use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "event_tags" do
+  schema "event_tag" do
     belongs_to :tag, RoveApi.Tags.Tag,
       foreign_key: :tag_id,
       type: :binary_id

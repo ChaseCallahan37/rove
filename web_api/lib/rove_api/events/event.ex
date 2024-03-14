@@ -11,6 +11,7 @@ defmodule RoveApi.Events.Event do
     field :longitude, :float
     belongs_to :owner, RoveApi.Users.User, foreign_key: :owner_id, type: :binary_id
     has_many :attendees, RoveApi.EventAttendances.EventAttendance, foreign_key: :event_id
+    has_many :tags, RoveApi.EventTags.EventTag, foreign_key: :event_id
     timestamps(type: :utc_datetime)
   end
 
