@@ -1,5 +1,6 @@
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { unpackResponse } from "../service";
+import { Tag, parseTag } from "../tags/tag";
 import { User, parseUser } from "../user/user";
 
 export type Event = {
@@ -10,6 +11,7 @@ export type Event = {
   longitude: number;
   owner?: User;
   attendees?: User[];
+  tags?: Tag[]
 };
 
 export function parseEvent(obj: any): Event {
@@ -19,6 +21,7 @@ export function parseEvent(obj: any): Event {
     latitude: parseFloat(obj.latitude),
     longitude: parseFloat(obj.longitude),
     owner: obj.owner ? parseUser(obj.owner) : null,
+    tags: obj.tags ? obj.tags.map(parseTag) : null
   };
 }
 
