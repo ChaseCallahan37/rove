@@ -21,4 +21,20 @@ defmodule RoveApiWeb.FallbackController do
     |> put_view(html: RoveApiWeb.ErrorHTML, json: RoveApiWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  # Handle generic errors, specifically missing templates or views
+  def call(conn, :error) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(json: RoveApiWeb.ErrorJSON) # Ensure this is the correct module reference
+    |> render("error.json", message: "An unexpected error occurred.")
+  end
+
+  # Catch-all for any other errors not explicitly handled above
+  def call(conn, _unhandled_error) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(json: RoveApiWeb.ErrorJSON) # Correct module reference
+    |> render("error.json", message: "An unexpected error occurred.")
+  end
 end

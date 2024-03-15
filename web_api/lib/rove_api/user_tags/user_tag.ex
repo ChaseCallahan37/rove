@@ -4,7 +4,7 @@ defmodule RoveApi.UserTags.UserTag do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "user_tag" do
+  schema "user_tags" do
     belongs_to :tag, RoveApi.Tags.Tag,
       foreign_key: :tag_id,
       type: :binary_id

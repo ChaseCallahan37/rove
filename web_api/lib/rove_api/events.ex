@@ -5,6 +5,7 @@ defmodule RoveApi.Events do
 
   import Ecto.Query, warn: false
 
+  alias RoveApi.EventTags
   alias RoveApi.Repo
   alias RoveApi.Events.Event
   alias RoveApi.Users.User
@@ -35,6 +36,16 @@ defmodule RoveApi.Events do
     end
   end
 
+  def create_event(%User{} = user, %{"tags" => _event_tags} = attrs) do
+    {event_tags, popped_attrs} = Map.pop(attrs, "tags")
+
+    Repo.transaction(fn ->
+      {:ok, %{id: event_id} = created_event} = create_event(user, popped_attrs)
+      EventTags.add_tags(event_id, event_tags)
+      created_event
+    end)
+
+  end
   @doc """
   Creates a event.
 
@@ -66,11 +77,31 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_event(event, attrs) do
-    event
-    |> Event.changeset(attrs)
-    |> Repo.update()
+
+  def update_event(event, %{"tags" => _tag_ids, "id" => event_id} = attrs) do
+    {tag_ids, popped_attrs} = Map.pop(attrs, "tags")
+
+    Repo.transaction(fn ->
+      try do
+        {_num, nil} = EventTags.remove_existing_tags(event_id)
+        {_num, nil} = EventTags.add_tags(event_id, tag_ids)
+        {:ok, updated_event} = update_event(event, popped_attrs)
+        updated_event
+      rescue
+          e ->
+            IO.inspect(e)
+            {:error, e}
+      end
+
+    end)
   end
+
+def update_event(event, attrs) do
+  event
+  |> Event.changeset(attrs)
+  |> Repo.update()
+end
+
 
   @doc """
   Deletes a event.

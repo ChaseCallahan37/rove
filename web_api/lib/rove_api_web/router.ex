@@ -95,6 +95,18 @@ defmodule RoveApiWeb.Router do
     post "/places/search", MapsController, :search
   end
 
+  scope "/api/tags", RoveApiWeb do
+    pipe_through [:api]
+
+    get "/", TagController, :index
+  end
+
+  scope "/api/tags", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    post "/", TagController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", RoveApiWeb do
   #   pipe_through :api
