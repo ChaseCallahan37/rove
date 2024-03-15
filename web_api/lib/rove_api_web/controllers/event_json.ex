@@ -48,7 +48,8 @@ defmodule RoveApiWeb.EventJSON do
       title: event.title,
       date: event.date,
       latitude: event.latitude,
-      longitude: event.longitude
+      longitude: event.longitude,
+      description: event.description
     }
   end
 
