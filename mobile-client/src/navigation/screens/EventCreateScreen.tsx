@@ -177,6 +177,14 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               value={formData.title}
             />
           </InputGroup>
+          <InputGroup label={{ size: "1/5", text: "Event Description" }}>
+            <AppTextInput
+              updateValue={(text) => (formData.description = text)}
+              value={formData.description}
+            />
+          </InputGroup>
+
+
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
               mode="datetime"

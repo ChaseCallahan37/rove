@@ -10,6 +10,7 @@ export type Event = {
   date: Date;
   latitude: number;
   longitude: number;
+  desciption?: string
   owner?: User;
   attendees?: User[];
   tags?: Tag[];
@@ -49,6 +50,7 @@ export async function createEvent(newEvent: {
   date?: Date;
   latitude?: number;
   longitude?: number;
+  description?: string
   tags?: string[];
 }) {
   const token = await retrieveToken();
