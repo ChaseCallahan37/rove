@@ -8,23 +8,22 @@ import AppTextInput from "./AppTextInput";
 import { useRef } from "react";
 
 type LocationSearchProps<T> = {
-  searchedItems: T[] | null | undefined
-  loading: boolean
+  searchedItems: T[] | null | undefined;
+  loading: boolean;
   onItemSelect?: (place: T) => void;
   onSearch: (text: string) => void;
 };
 
-export default function LocationSearch<T extends {name: string}>({
+export default function LocationSearch<T extends { name: string }>({
   onItemSelect,
   searchedItems,
   onSearch,
-  loading
+  loading,
 }: LocationSearchProps<T>) {
-  
   const searchQuery = useRef("");
 
   const handleOnSearch = () => {
-    onSearch(searchQuery.current)
+    onSearch(searchQuery.current);
   };
 
   return (

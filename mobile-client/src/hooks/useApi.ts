@@ -2,10 +2,7 @@ import { useState } from "react";
 
 import { retrieveToken } from "../auth/token";
 
-function useApi<T>(
-  apiCall: (...args: any[]) => Promise<T>,
-  needsToken = false
-) {
+function useApi<T>(apiCall: (...args: any[]) => Promise<T>) {
   const [data, setData] = useState<T | null>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(false);
@@ -17,15 +14,7 @@ function useApi<T>(
     try {
       setLoading(true);
 
-      let result: T;
-
-      if (needsToken) {
-        const token = await retrieveToken();
-
-        result = await apiCall(token, ...args);
-      } else {
-        result = await apiCall(...args);
-      }
+      const result = await apiCall(...args);
 
       setLoading(false);
       setData(result);

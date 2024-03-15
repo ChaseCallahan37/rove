@@ -14,7 +14,7 @@ export type Pin = {
   address?: string;
   latitude: number;
   longitude: number;
-  image?: number | ImageURISource | undefined
+  image?: number | ImageURISource | undefined;
 };
 
 type AppEventMapProps = {

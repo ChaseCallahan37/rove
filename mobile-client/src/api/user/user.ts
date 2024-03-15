@@ -1,3 +1,4 @@
+import { retrieveToken } from "../../auth/token";
 import createAuthHeader from "../../utils/createAuthHeader";
 import { parseEvent } from "../events/event";
 import service, { unpackResponse } from "../service";
@@ -17,15 +18,14 @@ export function parseUser(obj: any): User {
 
 const resourceName = "users";
 
-export async function updateUserProfile(
-  token: string,
-  updatedFields: {
-    first_name: string;
-    last_name: string;
-    dob: Date;
-    gender: string;
-  }
-) {
+export async function updateUserProfile(updatedFields: {
+  first_name: string;
+  last_name: string;
+  dob: Date;
+  gender: string;
+}) {
+  const token = await retrieveToken();
+
   const res = await service.put(`${resourceName}/update`, {
     headers: createAuthHeader(token),
     payload: {
@@ -38,7 +38,8 @@ export async function updateUserProfile(
   return parseUser(user);
 }
 
-export async function retrieveUserEvents(token: string) {
+export async function retrieveUserEvents() {
+  const token = await retrieveToken();
   const res = await service.get(`${resourceName}/current/events`, {
     headers: createAuthHeader(token),
   });

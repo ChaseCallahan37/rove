@@ -11,7 +11,11 @@ export async function storeToken(token: string) {
 }
 
 export async function retrieveToken() {
-  return await asyncSecureRetrieval<string>(key);
+  const token = await asyncSecureRetrieval<string>(key);
+
+  if (!token) throw Error("Failed to retrieve token");
+
+  return token;
 }
 
 export async function removeToken() {

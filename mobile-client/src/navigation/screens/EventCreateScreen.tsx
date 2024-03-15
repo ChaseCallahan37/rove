@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Text,
   SafeAreaView,
@@ -23,55 +23,50 @@ import LocationSearch from "../../components/LocationSearch";
 import { Place } from "../../api/maps/map";
 import usePlaceSearch from "../../hooks/usePlaceSearch";
 
+// @ts-ignore
+import SearchLocationsIcon from "../../../assets/search-locations-icon.png";
 
 // @ts-ignore
-import SearchLocationsIcon from "../../../assets/search-locations-icon.png"
-
-// @ts-ignore
-import GenericLocationIcon from "../../../assets/generic-location-icon.png"
+import GenericLocationIcon from "../../../assets/generic-location-icon.png";
+import AppDropdown from "../../components/AppDropdown";
+import tagApi from "../../api/tags";
+import useForm from "../../hooks/useForm";
+import eventApi from "../../api/events";
 
 type EventCreateScreenProps = {
   navigation: AppNavigationProp<"EventCreate">;
 };
 
 function EventCreateScreen({ navigation }: EventCreateScreenProps) {
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDate, setEventDate] = useState(new Date());
-  const [eventCoordinate, setEventCoordinate] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
+  const { searchLoading, searchGooglePlaces, searchResults } = usePlaceSearch();
 
-  const { searchLoading, searchGooglePlaces, searchResults} = usePlaceSearch();
+  const { submitForm, formData } = useForm(
+    { tags: [], date: new Date(Date.now()) },
+    eventApi.createEvent
+  );
 
-  const { request } = useApi(createEvent, true);
-
+  const { data: tags, request: getTags } = useApi(tagApi.retrieveTags);
   const { isToggled, toggle } = useToggle(false);
-
   const { account } = useAuth();
-
   const mapRef = useRef(null);
 
-  const handleUpdateCoordinate = (coordinate: {
+  useEffect(() => {
+    getTags();
+  }, []);
+
+  const handleUpdateCoordinate = ({
+    latitude,
+    longitude,
+  }: {
     latitude: number;
     longitude: number;
   }) => {
-    setEventCoordinate(coordinate);
+    formData.latitude = latitude;
+    formData.longitude = longitude;
   };
 
   const handleSubmit = async () => {
-    if (!eventCoordinate) {
-      throw Error("Must provide coordinates");
-    }
-    const { latitude, longitude } = eventCoordinate;
-    const myEvent = {
-      date: eventDate,
-      latitude,
-      longitude,
-      title: eventTitle,
-    };
-
-    const succeeded = await request(myEvent);
+    const succeeded = await submitForm();
 
     if (!succeeded) {
       return Alert.alert("Your request failed, please try again");
@@ -102,13 +97,16 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       `Setting location for event to ${pin.name} at ${pin.address}`
     );
 
-    setEventCoordinate({ latitude: pin.latitude, longitude: pin.longitude });
+    handleUpdateCoordinate({
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+    });
   };
 
   const handleFormatPins = (
-    searchLocations: Place[] | null,
+    searchLocations: Place[] | undefined | null,
     eventCoordinate: { latitude: number; longitude: number } | null | undefined
-  ) => {
+  ): Pin[] | undefined => {
     const searchPins = searchLocations?.map(
       ({ latitude, longitude, name, address }) => ({
         latitude,
@@ -119,15 +117,27 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       })
     );
 
-    if (searchPins && eventCoordinate){
-      const chosenPin = searchPins.find(({latitude, longitude}) => eventCoordinate.latitude === latitude && eventCoordinate.longitude == longitude)
-      
-      if(chosenPin) {
-        chosenPin.image =GenericLocationIcon 
-        return searchPins
-      } 
-      return [...searchPins, {latitude: eventCoordinate.latitude, longitude: eventCoordinate.longitude, name: "Selected Location", image: GenericLocationIcon}];
-    } 
+    if (searchPins && eventCoordinate) {
+      const chosenPin = searchPins.find(
+        ({ latitude, longitude }) =>
+          eventCoordinate.latitude === latitude &&
+          eventCoordinate.longitude == longitude
+      );
+
+      if (chosenPin) {
+        chosenPin.image = GenericLocationIcon;
+        return searchPins;
+      }
+      return [
+        ...searchPins,
+        {
+          latitude: eventCoordinate.latitude,
+          longitude: eventCoordinate.longitude,
+          name: "Selected Location",
+          image: GenericLocationIcon,
+        },
+      ];
+    }
 
     if (eventCoordinate) return [eventCoordinate];
 
@@ -163,15 +173,22 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
         <ScrollView>
           <InputGroup label={{ size: "1/5", text: "Event Title" }}>
             <AppTextInput
-              updateValue={(text) => setEventTitle(text)}
-              value={eventTitle}
+              updateValue={(text) => (formData.title = text)}
+              value={formData.title}
             />
           </InputGroup>
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
               mode="datetime"
-              date={eventDate}
-              updateDate={(date) => setEventDate(date)}
+              date={formData.date}
+              updateDate={(date) => (formData.date = date)}
+            />
+          </InputGroup>
+
+          <InputGroup>
+            <AppDropdown
+              onChange={(value) => formData.tags?.push(value)}
+              data={tags?.map(({ name, id }) => ({ label: name, value: id }))}
             />
           </InputGroup>
           <View>
@@ -188,8 +205,15 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               onPinPress={handleOnPinPress}
               onDoublePress={handleUpdateCoordinate}
               onLongPress={handleUpdateCoordinate}
-              // @ts-ignore
-              pins={handleFormatPins(searchResults, eventCoordinate)}
+              pins={handleFormatPins(
+                searchResults,
+                formData.latitude && formData.longitude
+                  ? {
+                      latitude: formData.latitude,
+                      longitude: formData.longitude,
+                    }
+                  : null
+              )}
             />
             <Button title="Submit" onPress={() => handleSubmit()} />
           </View>

@@ -10,13 +10,9 @@ export default function usePlaceSearch() {
     request: runSearch,
   } = useApi(mapsApi.searchPlaces);
 
-
   const searchGooglePlaces = async (query: string) => {
-    await runSearch({query});
-
+    await runSearch({ query });
   };
-  
 
-
-  return { searchResults, searchLoading, errorLoading, searchGooglePlaces};
+  return { searchResults, searchLoading, errorLoading, searchGooglePlaces };
 }

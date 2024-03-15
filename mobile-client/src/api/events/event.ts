@@ -1,3 +1,4 @@
+import { retrieveToken } from "../../auth/token";
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { unpackResponse } from "../service";
 import { Tag, parseTag } from "../tags/tag";
@@ -11,7 +12,7 @@ export type Event = {
   longitude: number;
   owner?: User;
   attendees?: User[];
-  tags?: Tag[]
+  tags?: Tag[];
 };
 
 export function parseEvent(obj: any): Event {
@@ -21,7 +22,7 @@ export function parseEvent(obj: any): Event {
     latitude: parseFloat(obj.latitude),
     longitude: parseFloat(obj.longitude),
     owner: obj.owner ? parseUser(obj.owner) : null,
-    tags: obj.tags ? obj.tags.map(parseTag) : null
+    tags: obj.tags ? obj.tags.map(parseTag) : null,
   };
 }
 
@@ -43,8 +44,16 @@ export async function retrieveEvent(id: string) {
   return event;
 }
 
-export async function createEvent(token: string, newEvent: Event) {
-  const res = await service.post<{ event: Event }>(resourceName, {
+export async function createEvent(newEvent: {
+  title?: string;
+  date?: Date;
+  latitude?: number;
+  longitude?: number;
+  tags?: string[];
+}) {
+  const token = await retrieveToken();
+
+  const res = await service.post(resourceName, {
     payload: {
       event: newEvent,
     },
@@ -56,7 +65,9 @@ export async function createEvent(token: string, newEvent: Event) {
   return createdEvent;
 }
 
-export async function updateEvent(token: string, eventToUpdate: Event) {
+export async function updateEvent(eventToUpdate: Event) {
+  const token = await retrieveToken();
+
   const res = await service.put<{ event: Event }>(`${resourceName}`, {
     headers: createAuthHeader(token),
     payload: { event: eventToUpdate },
@@ -67,7 +78,9 @@ export async function updateEvent(token: string, eventToUpdate: Event) {
   return updatedEvent;
 }
 
-export async function joinEvent(token: string, eventId: string) {
+export async function joinEvent(eventId: string) {
+  const token = await retrieveToken();
+
   await service.post(`${resourceName}/join`, {
     headers: createAuthHeader(token),
     payload: {

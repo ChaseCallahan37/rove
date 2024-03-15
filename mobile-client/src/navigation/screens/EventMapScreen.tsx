@@ -57,7 +57,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     navigation.navigate("EventDetails", { eventId: id });
   };
 
-
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>

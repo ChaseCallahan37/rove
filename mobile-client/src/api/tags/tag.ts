@@ -1,11 +1,20 @@
-
+import service, { unpackResponse } from "../service";
 
 export type Tag = {
-    id: string,
-    name: string
+  id: string;
+  name: string;
+};
+
+export function parseTag(obj: any): Tag {
+  return { ...obj };
 }
 
-export function parseTag(obj: any): Tag{
+const resourceName = "tags";
 
-    return {...obj}
+export async function retrieveTags() {
+  const res = await service.get(resourceName);
+
+  const { data: tags } = await unpackResponse<{ data: Tag[] }>(res);
+
+  return tags;
 }

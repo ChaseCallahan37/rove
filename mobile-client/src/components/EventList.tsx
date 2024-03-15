@@ -39,7 +39,11 @@ function EventList({ onEventSelect, events }: EventListProps) {
             }}
           />
           <Text style={styles.groupName}>{event.title}</Text>
-          {event.tags && event.tags.length > 0 && <Text style={styles.members}>Tags: {event.tags.map(({name}) => name).join(", ")}</Text>}
+          {event.tags && event.tags.length > 0 && (
+            <Text style={styles.members}>
+              Tags: {event.tags.map(({ name }) => name).join(", ")}
+            </Text>
+          )}
         </TouchableOpacity>
       )}
     />
