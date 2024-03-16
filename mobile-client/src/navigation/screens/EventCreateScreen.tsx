@@ -39,6 +39,7 @@ type EventCreateScreenProps = {
 
 function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const { searchLoading, searchGooglePlaces, searchResults } = usePlaceSearch();
+  const [selectedLocation, setSelectedLocation] = useState<{latitude: number, longitude: number}>()
 
   const { submitForm, formData } = useForm(
     { tags: [], date: new Date(Date.now()) },
@@ -61,6 +62,11 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     latitude: number;
     longitude: number;
   }) => {
+    setSelectedLocation({latitude, longitude})
+    console.log("IN HANDLE UPDATE");
+    console.log(latitude, longitude);
+    
+    
     formData.latitude = latitude;
     formData.longitude = longitude;
   };
@@ -121,7 +127,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
       const chosenPin = searchPins.find(
         ({ latitude, longitude }) =>
           eventCoordinate.latitude === latitude &&
-          eventCoordinate.longitude == longitude
+          eventCoordinate.longitude === longitude
       );
 
       if (chosenPin) {
@@ -207,6 +213,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               onItemSelect={({ latitude, longitude }) =>
                 handleMapFocus(latitude, longitude)
               }
+              
             />
             <AppMapView
               ref={mapRef}
@@ -215,12 +222,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               onLongPress={handleUpdateCoordinate}
               pins={handleFormatPins(
                 searchResults,
-                formData.latitude && formData.longitude
-                  ? {
-                      latitude: formData.latitude,
-                      longitude: formData.longitude,
-                    }
-                  : null
+               selectedLocation 
               )}
             />
             <Button title="Submit" onPress={() => handleSubmit()} />
