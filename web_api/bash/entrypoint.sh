@@ -16,6 +16,10 @@ if [[ -z `psql -Atqc "\\list $POSTGRES_DATABASE"` ]]; then
   mix ecto.migrate
   mix run priv/repo/seeds.exs
   echo "Database $POSTGRES_DATABASE created."
+else
+  echo "Database $POSTGRES_DATABASE exists. Running migrations..."
+  mix ecto.migrate
+  echo "Migrations completed."
 fi
 
 exec mix phx.server

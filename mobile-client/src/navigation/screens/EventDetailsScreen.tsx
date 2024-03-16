@@ -34,6 +34,7 @@ function EventDetailsScreen({
   route: {
     params: { eventId },
   },
+  navigation
 }: EventDetailsScreenProps) {
   const {
     loading,
@@ -42,8 +43,7 @@ function EventDetailsScreen({
     request: getEvent,
   } = useApi(retrieveEvent);
   const { request: joinEvent, data: joinEventSuccess } = useApi(
-    eventApi.joinEvent,
-    true
+    eventApi.joinEvent
   );
 
   useFocusEffect(
@@ -59,7 +59,8 @@ function EventDetailsScreen({
     if (success) {
       Alert.alert("Successfully joined event!");
     } else {
-      Alert.alert("Unable to join event, please try again");
+      Alert.alert("Unable to join event, please sign in");
+      navigation.navigate("Login")
     }
   };
 

@@ -1,24 +1,28 @@
 import { forwardRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageURISource, StyleSheet, View } from "react-native";
 import MapView, {
   ClickEvent,
   LongPressEvent,
   MapPressEvent,
   Marker,
-  MarkerPressEvent,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
 
+export type Pin = {
+  id?: string;
+  name?: string;
+  address?: string;
+  latitude: number;
+  longitude: number;
+  image?: number | ImageURISource | undefined;
+};
+
 type AppEventMapProps = {
-  pins?: { id?: string; latitude: number; longitude: number }[] | undefined;
+  pins?: Pin[] | null | undefined;
   onPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onLongPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onDoublePress?: (coordinate: { latitude: number; longitude: number }) => void;
-  onPinPress?: (pin: {
-    latitude: number;
-    longitude: number;
-    eventID: string;
-  }) => void;
+  onPinPress?: (pin: Pin) => void;
 };
 
 // We use forward ref here so that we can pass the reference down to the
@@ -53,25 +57,6 @@ const AppMapView = forwardRef(
       onDoublePress(coordinate);
     };
 
-    const handleOnPinPress = (
-      event: MarkerPressEvent,
-      eventID: string | undefined
-    ) => {
-      if (!onPinPress) return;
-
-      if (!eventID)
-        throw new Error(
-          "You must pass pins with an ID into the map view in order to use handleOnPinPress"
-        );
-
-      const { latitude, longitude } = event.nativeEvent.coordinate;
-      onPinPress({
-        latitude,
-        longitude,
-        eventID,
-      });
-    };
-
     return (
       <View style={{}}>
         <MapView
@@ -91,13 +76,15 @@ const AppMapView = forwardRef(
         >
           {pins &&
             /*@ts-ignore          */
-            pins.map(({ latitude, longitude, id: eventID }, index) => (
+            pins.map((pin, index) => (
               <Marker
                 key={index}
-                coordinate={{ latitude, longitude }}
-                onPress={
-                  onPinPress && ((event) => handleOnPinPress(event, eventID))
-                }
+                coordinate={{
+                  latitude: pin.latitude,
+                  longitude: pin.longitude,
+                }}
+                onPress={onPinPress && ((event) => onPinPress(pin))}
+                image={pin.image}
               />
             ))}
         </MapView>
@@ -109,7 +96,7 @@ const AppMapView = forwardRef(
 const styles = StyleSheet.create({
   map: {
     // Specify the height of the map or use flex to allocate space
-    height: 380, // You can adjust this value as needed
+    height: 250, // You can adjust this value as needed
     width: "100%",
   },
 });

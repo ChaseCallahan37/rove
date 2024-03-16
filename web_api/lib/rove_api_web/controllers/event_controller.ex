@@ -14,7 +14,7 @@ defmodule RoveApiWeb.EventController do
   action_fallback RoveApiWeb.FallbackController
 
   def index(conn, _params) do
-    events = Events.list_events()
+    events = Events.list_events([tags: [:tag]])
     render(conn, :index, events: events)
   end
 
@@ -27,7 +27,7 @@ defmodule RoveApiWeb.EventController do
   end
 
   def show(conn, %{"id" => id}) do
-    case Events.get_event([id: id], [:attendees, :owner, attendees: [:attendee]]) do
+    case Events.get_event([id: id], [:attendees, :owner, attendees: [:attendee], tags: [:tag]]) do
       %Event{} = event ->
         conn
         |> put_status(:ok)

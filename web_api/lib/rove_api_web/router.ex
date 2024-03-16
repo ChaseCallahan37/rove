@@ -16,8 +16,6 @@ defmodule RoveApiWeb.Router do
   end
 
   defp handle_errors(conn, body) do
-    IO.inspect(body)
-
     conn
     |> json(%{error: "request failed see logs"})
     |> halt()
@@ -89,6 +87,24 @@ defmodule RoveApiWeb.Router do
     put "/update", UserController, :update
     get "/current", UserController, :show
     get "/current/events", UserController, :show_events
+  end
+
+  scope "/api/maps", RoveApiWeb do
+    pipe_through [:api]
+
+    post "/places/search", MapsController, :search
+  end
+
+  scope "/api/tags", RoveApiWeb do
+    pipe_through [:api]
+
+    get "/", TagController, :index
+  end
+
+  scope "/api/tags", RoveApiWeb do
+    pipe_through [:api, :auth]
+
+    post "/", TagController, :create
   end
 
   # Other scopes may use custom stacks.

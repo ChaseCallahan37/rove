@@ -3,7 +3,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import { style as tw } from "twrnc";
 
 type AppDropdownProps = {
-  data: { label: string; value: string }[];
+  data: { label: string; value: string }[] | null | undefined;
   onChange: (value: string) => void;
 };
 
@@ -14,13 +14,17 @@ export default function AppDropdown({ data, onChange }: AppDropdownProps) {
 
   return (
     <View style={tw(["flex-grow", "text-black"])}>
-      <Dropdown
-        data={data}
-        labelField={"label"}
-        valueField={"value"}
-        onChange={handleOnChange}
-        itemTextStyle={tw(["text-black"])}
-      />
+      {!data ? (
+        <Text style={tw(["text-black"])}>Loading</Text>
+      ) : (
+        <Dropdown
+          data={data}
+          labelField={"label"}
+          valueField={"value"}
+          onChange={handleOnChange}
+          itemTextStyle={tw(["text-black"])}
+        />
+      )}
     </View>
   );
 }

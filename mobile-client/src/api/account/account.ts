@@ -1,3 +1,4 @@
+import { retrieveToken } from "../../auth/token";
 import createAuthHeader from "../../utils/createAuthHeader";
 import service, { RequestResponse, unpackResponse } from "../service";
 import { User, parseUser } from "../user/user";
@@ -38,7 +39,9 @@ export async function signIn({
   return { token, account: parseAccount(account) };
 }
 
-export async function getAccountInfo(token: string) {
+export async function getAccountInfo() {
+  const token = await retrieveToken();
+
   const res = await service.get(resourceName + "/current", {
     headers: createAuthHeader(token),
   });

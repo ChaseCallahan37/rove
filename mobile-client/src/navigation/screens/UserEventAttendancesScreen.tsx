@@ -2,9 +2,7 @@ import { Text, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
-import { useEffect, useRef } from "react";
-import eventApi from "../../api/events";
-import AppMapView from "../../components/AppMapView";
+import { useEffect } from "react";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
@@ -22,7 +20,7 @@ export default function UserEventAttendancesScreen({
     data: events,
     request: userEventsRequest,
     loading,
-  } = useApi(userApi.retrieveUserEvents, true);
+  } = useApi(userApi.retrieveUserEvents);
 
   if (!account?.user) {
     return <Text style={tw(["text-black"])}>Loading...</Text>;

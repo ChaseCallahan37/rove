@@ -1,4 +1,5 @@
 defmodule RoveApiWeb.EventJSON do
+  alias RoveApiWeb.TagJSON
   alias RoveApi.EventAttendances.EventAttendance
   alias RoveApi.Users.User
   alias RoveApiWeb.UserJSON
@@ -20,7 +21,7 @@ defmodule RoveApiWeb.EventJSON do
     }
   end
 
-  def data(%Event{owner: _owner} = event) do
+  def data(%Event{owner: %User{}} = event) do
     {owner, popped_event} = Map.pop(event, :owner)
 
     %{owner: UserJSON.data(owner)}
@@ -34,13 +35,21 @@ defmodule RoveApiWeb.EventJSON do
     |> Map.merge(data(popped_event))
   end
 
+  def data(%Event{tags: tags} = event) when is_list(tags) do
+    {event_tags, popped_event} = Map.pop(event, :tags)
+
+    %{tags: for(event_tag <- event_tags, do: TagJSON.data(event_tag.tag))}
+    |> Map.merge(data(popped_event))
+  end
+
   def data(%Event{} = event) do
     %{
       id: event.id,
       title: event.title,
       date: event.date,
       latitude: event.latitude,
-      longitude: event.longitude
+      longitude: event.longitude,
+      description: event.description
     }
   end
 
