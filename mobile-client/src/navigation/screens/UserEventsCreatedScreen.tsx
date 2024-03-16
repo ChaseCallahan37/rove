@@ -21,7 +21,7 @@ export default function UserEventsCreatedScreen({
     data: events,
     request: userEventsRequest,
     loading,
-  } = useApi(userApi.retrieveUserEvents, true);
+  } = useApi(userApi.retrieveUserEvents);
 
   if (!account?.user) {
     return <Text style={tw(["text-black"])}>Loading...</Text>;
