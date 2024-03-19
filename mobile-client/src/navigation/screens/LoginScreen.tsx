@@ -47,7 +47,10 @@ function LoginScreen({ navigation }: LoginScreenProps) {
         <Button title="Login" onPress={handleSignIn}></Button>
         {account && <Text>{JSON.stringify(account)}</Text>}
       </View>
-      <Button title="Create an Account" onPress={() => navigation.navigate("AccountCreate")}/>
+      <Button
+        title="Create an Account"
+        onPress={() => navigation.navigate("AccountCreate")}
+      />
     </View>
   );
 }

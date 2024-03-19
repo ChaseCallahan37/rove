@@ -39,15 +39,19 @@ type UserProfileScreenProps = {
 export default function UserProfileScreen({
   navigation,
   route: {
-    params: { user: {user_name, dob, first_name, gender, last_name} },
+    params: {
+      user: { user_name, dob, first_name, gender, last_name },
+    },
   },
 }: UserProfileScreenProps) {
   return (
     <View style={tw(["bg-slate-400"])}>
       <Text style={tw(["text-lg"])}>Profile Screen - {user_name}</Text>
-    
-      <Text>{first_name} {last_name}</Text>
-      {dob &&<Text>{format.shortDate(dob)} </Text>}
+
+      <Text>
+        {first_name} {last_name}
+      </Text>
+      {dob && <Text>{format.shortDate(dob)} </Text>}
       <Text>{gender}</Text>
     </View>
   );

@@ -5,12 +5,20 @@ import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
 import AppDropdown from "../../components/AppDropdown";
 
+import Geolocation from 'react-native-geolocation-service';
+
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
 };
 
 function HomeScreen({ navigation }: HomeScreenProps) {
+
+
   const { account } = useAuth();
+  console.log("ABOUT OT CLALL");
+
+ 
+
   return (
     <View>
       <Text style={tw.style(["text-black"])}>
