@@ -34,7 +34,6 @@ function EventDetailsScreen({
   route: {
     params: { eventId },
   },
-  navigation
 }: EventDetailsScreenProps) {
   const {
     loading,
@@ -52,10 +51,9 @@ function EventDetailsScreen({
     }, [joinEventSuccess])
   );
 
-  const handleOnJoin = async () => {
-    const success = await joinEvent(event?.id);
+  const handleOnJoin = async (eventId: string) => {
+    const success = await joinEvent(eventId);
 
-    // @ts-ignore
     if (success) {
       Alert.alert("Successfully joined event!");
     } else {
@@ -133,7 +131,7 @@ function EventDetailsScreen({
                   </Text>
                 </View>
               </View>
-              <Button title="Join Event" onPress={handleOnJoin} />
+              <Button title="Join Event" onPress={() => handleOnJoin(event.id)} />
             </View>
             <AttendeeList
               onAttendeePress={(user) =>
