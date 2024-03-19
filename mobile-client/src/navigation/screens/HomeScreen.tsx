@@ -3,9 +3,7 @@ import tw from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
-import AppDropdown from "../../components/AppDropdown";
-
-import Geolocation from 'react-native-geolocation-service';
+import useLocation from "../../hooks/useLocation";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -15,7 +13,9 @@ function HomeScreen({ navigation }: HomeScreenProps) {
 
 
   const { account } = useAuth();
+  useLocation()
   console.log("ABOUT OT CLALL");
+
 
  
 
