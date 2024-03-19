@@ -10,14 +10,7 @@ type HomeScreenProps = {
 };
 
 function HomeScreen({ navigation }: HomeScreenProps) {
-
-
   const { account } = useAuth();
-  useLocation()
-  console.log("ABOUT OT CLALL");
-
-
- 
 
   return (
     <View>
