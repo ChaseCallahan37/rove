@@ -5,6 +5,7 @@ defmodule RoveApi.Users do
 
   import Ecto.Query, warn: false
 
+  alias RoveApi.UserTags
   alias RoveApi.Repo
   alias RoveApi.Users.User
 
@@ -53,6 +54,23 @@ defmodule RoveApi.Users do
     |> Repo.insert()
   end
 
+  def update_user(%User{} = user, %{"tags" => _tag_ids, "id" => user_id} = attrs) do
+    {tag_ids, popped_attrs} = Map.pop(attrs, "tags")
+
+    Repo.transaction(fn ->
+      try do
+        {_num, nil} = UserTags.remove_existing_tags(user_id)
+        {_num, nil} = UserTags.add_tags(user_id, tag_ids)
+        {:ok, updated_user} = update_user(user, popped_attrs)
+
+        updated_user
+      rescue
+        e ->
+          IO.inspect(e)
+          {:error, e}
+      end
+    end)
+  end
   @doc """
   Updates a user.
 
