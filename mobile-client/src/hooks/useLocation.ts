@@ -13,11 +13,17 @@ export default function useLocation() {
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      ({coords: {latitude, longitude}}: {coords: {latitude: number, longitude: number}}) => {setLocation({latitude, longitude})},
+      ({
+        coords: { latitude, longitude },
+      }: {
+        coords: { latitude: number; longitude: number };
+      }) => {
+        setLocation({ latitude, longitude });
+      },
       (er: any) => console.log(er),
       {}
     );
   });
 
-  return {location}
+  return { location };
 }

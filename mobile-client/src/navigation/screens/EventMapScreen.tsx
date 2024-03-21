@@ -17,6 +17,7 @@ import { AppNavigationProp } from "../AppNavigations";
 import mapsApi from "../../api/maps";
 import AppTextInput from "../../components/AppTextInput";
 import LocationSearch from "../../components/LocationSearch";
+import useLocation from "../../hooks/useLocation";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -28,6 +29,8 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     request: getEvents,
     loading,
   } = useApi(eventApi.retrieveEvents);
+
+  const { location } = useLocation();
 
   // @ts-ignore
   useEffect(() => {
@@ -60,20 +63,27 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        <AppMapView
-          onPinPress={handleOnPinPress}
-          ref={mapRef}
-          // @ts-ignore
-          pins={
-            events &&
+        {location ? (
+          <AppMapView
+            startLocation={location}
+            onPinPress={handleOnPinPress}
+            ref={mapRef}
             // @ts-ignore
-            events.map(({ latitude, longitude, id }) => ({
-              latitude,
-              longitude,
-              id,
-            }))
-          }
-        ></AppMapView>
+            pins={
+              events &&
+              // @ts-ignore
+              events.map(({ latitude, longitude, id }) => ({
+                latitude,
+                longitude,
+                id,
+              }))
+            }
+          ></AppMapView>
+        ) : (
+          <Text style={tw(["text-black"])}>
+            Please Allow this app to use location services
+          </Text>
+        )}
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
 
         {/*@ts-ignore          */}

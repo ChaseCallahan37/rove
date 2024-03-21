@@ -23,13 +23,21 @@ type AppEventMapProps = {
   onLongPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onDoublePress?: (coordinate: { latitude: number; longitude: number }) => void;
   onPinPress?: (pin: Pin) => void;
+  startLocation: { latitude: number; longitude: number };
 };
 
 // We use forward ref here so that we can pass the reference down to the
 // MapView component, allowing us to effectively encapsulate our map dependency
 const AppMapView = forwardRef(
   (
-    { pins, onPress, onDoublePress, onLongPress, onPinPress }: AppEventMapProps,
+    {
+      pins,
+      onPress,
+      onDoublePress,
+      onLongPress,
+      onPinPress,
+      startLocation,
+    }: AppEventMapProps,
     ref
   ) => {
     const handleOnPress = (event: MapPressEvent) => {
@@ -68,8 +76,8 @@ const AppMapView = forwardRef(
           onLongPress={onLongPress && handleOnLongPress}
           onDoublePress={onDoublePress && handleDoublePress}
           region={{
-            latitude: 33.2098,
-            longitude: -87.5692,
+            latitude: startLocation?.latitude,
+            longitude: startLocation?.longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
