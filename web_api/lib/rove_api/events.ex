@@ -5,11 +5,20 @@ defmodule RoveApi.Events do
 
   import Ecto.Query, warn: false
 
+  alias RoveApi.Search
   alias RoveApi.EventTags
   alias RoveApi.Repo
   alias RoveApi.Events.Event
   alias RoveApi.Users.User
 
+  def list_events(include, params) do
+    criteria = Search.Events.build_query(params)
+    IO.puts("LOOK HERERERE")
+    IO.inspect(criteria)
+    Event
+    |> where(^criteria)
+    |> preload(^include)
+  end
   @doc """
   Returns the list of events.
 
