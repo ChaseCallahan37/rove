@@ -1,11 +1,4 @@
-import {
-  Button,
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
@@ -14,9 +7,6 @@ import eventApi from "../../api/events";
 import AppMapView, { Pin } from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
-import mapsApi from "../../api/maps";
-import AppTextInput from "../../components/AppTextInput";
-import LocationSearch from "../../components/LocationSearch";
 import useLocation from "../../hooks/useLocation";
 
 type HomeScreenProps = {
@@ -29,8 +19,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     request: getEvents,
     loading,
   } = useApi(eventApi.retrieveEvents);
-
-  const { location } = useLocation();
 
   // @ts-ignore
   useEffect(() => {
@@ -63,30 +51,20 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
-        {location ? (
-          <AppMapView
-            startLocation={location}
-            onPinPress={handleOnPinPress}
-            ref={mapRef}
-            // @ts-ignore
-            pins={
-              events &&
-              // @ts-ignore
-              events.map(({ latitude, longitude, id }) => ({
-                latitude,
-                longitude,
-                id,
-              }))
-            }
-          ></AppMapView>
-        ) : (
-          <Text style={tw(["text-black"])}>
-            Please Allow this app to use location services
-          </Text>
-        )}
+        <AppMapView
+          onPinPress={handleOnPinPress}
+          ref={mapRef}
+          pins={
+            events &&
+            events.map(({ latitude, longitude, id }) => ({
+              latitude,
+              longitude,
+              id,
+            }))
+          }
+        ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
 
-        {/*@ts-ignore          */}
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
@@ -94,7 +72,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
             onEventSelect={({ latitude, longitude }) =>
               handleMapFocus(latitude, longitude)
             }
-            // @ts-ignore
             events={events}
           />
         )}

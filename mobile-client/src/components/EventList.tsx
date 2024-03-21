@@ -23,7 +23,6 @@ function EventList({ onEventSelect, events }: EventListProps) {
     <FlatList
       data={events}
       numColumns={2}
-      // @ts-ignore
       renderItem={({ item: event }) => (
         <TouchableOpacity
           onPress={() => onEventSelect(event)}

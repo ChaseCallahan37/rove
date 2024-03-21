@@ -7,6 +7,7 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+import useLocation from "../hooks/useLocation";
 
 export type Pin = {
   id?: string;
@@ -23,23 +24,16 @@ type AppEventMapProps = {
   onLongPress?: (coordinate: { latitude: number; longitude: number }) => void;
   onDoublePress?: (coordinate: { latitude: number; longitude: number }) => void;
   onPinPress?: (pin: Pin) => void;
-  startLocation: { latitude: number; longitude: number };
 };
 
 // We use forward ref here so that we can pass the reference down to the
 // MapView component, allowing us to effectively encapsulate our map dependency
 const AppMapView = forwardRef(
   (
-    {
-      pins,
-      onPress,
-      onDoublePress,
-      onLongPress,
-      onPinPress,
-      startLocation,
-    }: AppEventMapProps,
-    ref
+    { pins, onPress, onDoublePress, onLongPress, onPinPress }: AppEventMapProps,
+    ref: React.ForwardedRef<MapView>
   ) => {
+    const { location: startLocation } = useLocation();
     const handleOnPress = (event: MapPressEvent) => {
       if (!onPress) {
         throw new Error("Must provide onPress field in order to use it");
@@ -68,7 +62,6 @@ const AppMapView = forwardRef(
     return (
       <View style={{}}>
         <MapView
-          // @ts-ignore
           ref={ref}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -76,14 +69,13 @@ const AppMapView = forwardRef(
           onLongPress={onLongPress && handleOnLongPress}
           onDoublePress={onDoublePress && handleDoublePress}
           region={{
-            latitude: startLocation?.latitude,
-            longitude: startLocation?.longitude,
+            latitude: startLocation ? startLocation.latitude : 50,
+            longitude: startLocation ? startLocation.longitude : 40,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
         >
           {pins &&
-            /*@ts-ignore          */
             pins.map((pin, index) => (
               <Marker
                 key={index}
