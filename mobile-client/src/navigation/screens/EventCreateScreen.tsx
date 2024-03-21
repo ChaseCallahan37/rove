@@ -85,7 +85,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   };
 
   const handleMapFocus = (latitude: number, longitude: number) => {
-    if (!mapRef) return null;
+    if (!mapRef?.current) return null;
 
     // @ts-ignore
     mapRef.current.animateToRegion(

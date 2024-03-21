@@ -20,7 +20,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
-  // @ts-ignore
   useEffect(() => {
     getEvents();
   }, []);
@@ -28,7 +27,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   const mapRef = useRef(null);
 
   const handleMapFocus = (latitude: number, longitude: number) => {
-    if (!mapRef) return null;
+    if (!mapRef?.current) return null;
 
     // @ts-ignore
     mapRef.current.animateToRegion(

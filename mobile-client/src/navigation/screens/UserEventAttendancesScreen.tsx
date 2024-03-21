@@ -26,7 +26,6 @@ export default function UserEventAttendancesScreen({
     return <Text style={tw(["text-black"])}>Loading...</Text>;
   }
 
-  // @ts-ignore
   useEffect(() => {
     userEventsRequest();
   }, []);
