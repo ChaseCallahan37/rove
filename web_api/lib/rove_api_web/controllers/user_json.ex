@@ -1,6 +1,5 @@
 defmodule RoveApiWeb.UserJSON do
-  alias RoveApi.EventAttendances.EventAttendance
-  alias RoveApi.Events.Event
+  alias RoveApiWeb.TagJSON
   alias RoveApi.Users.User
   alias RoveApi.Users.User
   alias RoveApiWeb.EventJSON
@@ -30,6 +29,13 @@ defmodule RoveApiWeb.UserJSON do
     {attendances, popped_user} = Map.pop(user, :attendances)
 
     %{attendances: for(attendance <- attendances, do: EventJSON.data(attendance.event))}
+    |> Map.merge(data(popped_user))
+  end
+
+  def data(%{tags: tags} = user) when is_list(tags) do
+    {user_tags, popped_user} = Map.pop(user, :tags)
+
+    %{tags: for(user_tag <- user_tags, do: TagJSON.data(user_tag.tag))}
     |> Map.merge(data(popped_user))
   end
 
