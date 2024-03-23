@@ -15,7 +15,7 @@ defmodule RoveApiWeb.Router do
     |> halt()
   end
 
-  defp handle_errors(conn, body) do
+  defp handle_errors(conn, _body) do
     conn
     |> json(%{error: "request failed see logs"})
     |> halt()
