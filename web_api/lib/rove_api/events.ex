@@ -36,6 +36,7 @@ defmodule RoveApi.Events do
     end
   end
 
+  def create_event(user, attrs \\ %{})
   def create_event(%User{} = user, %{"tags" => _event_tags} = attrs) do
     {event_tags, popped_attrs} = Map.pop(attrs, "tags")
 
@@ -58,7 +59,7 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_event(%User{} = user, attrs \\ %{}) do
+  def create_event(%User{} = user, attrs) do
     user
     |> Ecto.build_assoc(:events_created)
     |> Event.changeset(attrs)
