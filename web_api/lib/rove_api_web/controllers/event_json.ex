@@ -1,6 +1,5 @@
 defmodule RoveApiWeb.EventJSON do
   alias RoveApiWeb.TagJSON
-  alias RoveApi.EventAttendances.EventAttendance
   alias RoveApi.Users.User
   alias RoveApiWeb.UserJSON
   alias RoveApi.Events.Event

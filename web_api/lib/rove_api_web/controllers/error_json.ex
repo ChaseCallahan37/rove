@@ -45,14 +45,10 @@ defmodule RoveApiWeb.ErrorJSON do
 
   # Fallback rendering for any other specific status codes not explicitly handled above
   def render(template, _assigns) do
-    status_message = Phoenix.Controller.status_message_from_template(template)
-    status_code = Phoenix.Controller.status_code_from_template(template)
+    _status_message = Phoenix.Controller.status_message_from_template(template)
 
     %{
       errors: %{
-        detail: status_message || "Error",
-        status: status_code || 500,
-        title: status_message || "Error"
       }
     }
   end
