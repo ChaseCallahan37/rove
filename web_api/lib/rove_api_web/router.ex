@@ -56,7 +56,7 @@ defmodule RoveApiWeb.Router do
   scope "/api/events", RoveApiWeb do
     pipe_through :api
 
-    get "/", EventController, :index
+    post "/", EventController, :index
     get "/:id", EventController, :show
   end
 
