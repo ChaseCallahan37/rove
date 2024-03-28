@@ -13,8 +13,8 @@ defmodule RoveApiWeb.EventController do
 
   action_fallback RoveApiWeb.FallbackController
 
-  def index(conn, _params) do
-    events = Events.list_events([tags: [:tag]])
+  def index(conn, params) do
+    events = Events.list_events([tags: [:tag]], params)
     render(conn, :index, events: events)
   end
 

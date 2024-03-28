@@ -3,19 +3,19 @@ defmodule RoveApiWeb.Router do
   use Plug.ErrorHandler
 
   # These need to be handled with the Plug.ErrorHandler abvoe
-  defp handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
     conn
     |> json(%{error: message})
     |> halt()
   end
 
-  defp handle_errors(conn, %{reason: %{message: message}}) do
+  def handle_errors(conn, %{reason: %{message: message}}) do
     conn
     |> json(%{error: message})
     |> halt()
   end
 
-  defp handle_errors(conn, body) do
+  def handle_errors(conn, _body) do
     conn
     |> json(%{error: "request failed see logs"})
     |> halt()
@@ -56,7 +56,7 @@ defmodule RoveApiWeb.Router do
   scope "/api/events", RoveApiWeb do
     pipe_through :api
 
-    get "/", EventController, :index
+    post "/", EventController, :index
     get "/:id", EventController, :show
   end
 

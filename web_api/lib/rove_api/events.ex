@@ -5,11 +5,20 @@ defmodule RoveApi.Events do
 
   import Ecto.Query, warn: false
 
+  alias RoveApi.Search
   alias RoveApi.EventTags
   alias RoveApi.Repo
   alias RoveApi.Events.Event
   alias RoveApi.Users.User
 
+  def list_events(include, params) do
+    criteria = Search.Events.build_query(params)
+    IO.puts("LOOK HERERERE")
+    IO.inspect(criteria)
+    Event
+    |> where(^criteria)
+    |> preload(^include)
+  end
   @doc """
   Returns the list of events.
 
@@ -36,6 +45,7 @@ defmodule RoveApi.Events do
     end
   end
 
+  def create_event(user, attrs \\ %{})
   def create_event(%User{} = user, %{"tags" => _event_tags} = attrs) do
     {event_tags, popped_attrs} = Map.pop(attrs, "tags")
 
@@ -58,7 +68,7 @@ defmodule RoveApi.Events do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_event(%User{} = user, attrs \\ %{}) do
+  def create_event(%User{} = user, attrs) do
     user
     |> Ecto.build_assoc(:events_created)
     |> Event.changeset(attrs)
