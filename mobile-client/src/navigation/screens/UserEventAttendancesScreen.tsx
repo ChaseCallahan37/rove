@@ -26,7 +26,6 @@ export default function UserEventAttendancesScreen({
     return <Text style={tw(["text-black"])}>Loading...</Text>;
   }
 
-  // @ts-ignore
   useEffect(() => {
     userEventsRequest();
   }, []);
@@ -37,7 +36,9 @@ export default function UserEventAttendancesScreen({
       <View style={{ flex: 1 }}>
         <EventList
           events={events?.attendances}
-          onEventSelect={(event) => navigation.navigate("EventDetails", {eventId: event.id})}
+          onEventSelect={(event) =>
+            navigation.navigate("EventDetails", { eventId: event.id })
+          }
         />
       </View>
     </View>

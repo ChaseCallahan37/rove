@@ -3,7 +3,7 @@ import tw from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
-import AppDropdown from "../../components/AppDropdown";
+import useLocation from "../../hooks/useLocation";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -11,6 +11,7 @@ type HomeScreenProps = {
 
 function HomeScreen({ navigation }: HomeScreenProps) {
   const { account } = useAuth();
+
   return (
     <View>
       <Text style={tw.style(["text-black"])}>

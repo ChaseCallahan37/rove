@@ -7,6 +7,7 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+import useLocation from "../hooks/useLocation";
 
 export type Pin = {
   id?: string;
@@ -30,8 +31,9 @@ type AppEventMapProps = {
 const AppMapView = forwardRef(
   (
     { pins, onPress, onDoublePress, onLongPress, onPinPress }: AppEventMapProps,
-    ref
+    ref: React.ForwardedRef<MapView>
   ) => {
+    const { location: startLocation } = useLocation();
     const handleOnPress = (event: MapPressEvent) => {
       if (!onPress) {
         throw new Error("Must provide onPress field in order to use it");
@@ -60,7 +62,6 @@ const AppMapView = forwardRef(
     return (
       <View style={{}}>
         <MapView
-          // @ts-ignore
           ref={ref}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -68,14 +69,13 @@ const AppMapView = forwardRef(
           onLongPress={onLongPress && handleOnLongPress}
           onDoublePress={onDoublePress && handleDoublePress}
           region={{
-            latitude: 33.2098,
-            longitude: -87.5692,
+            latitude: startLocation ? startLocation.latitude : 50,
+            longitude: startLocation ? startLocation.longitude : 40,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
         >
           {pins &&
-            /*@ts-ignore          */
             pins.map((pin, index) => (
               <Marker
                 key={index}

@@ -58,7 +58,7 @@ function EventDetailsScreen({
       Alert.alert("Successfully joined event!");
     } else {
       Alert.alert("Unable to join event, please sign in");
-      navigation.navigate("Login")
+      navigation.navigate("Login");
     }
   };
 
@@ -131,7 +131,10 @@ function EventDetailsScreen({
                   </Text>
                 </View>
               </View>
-              <Button title="Join Event" onPress={() => handleOnJoin(event.id)} />
+              <Button
+                title="Join Event"
+                onPress={() => handleOnJoin(event.id)}
+              />
             </View>
             <AttendeeList
               onAttendeePress={(user) =>

@@ -39,7 +39,10 @@ type EventCreateScreenProps = {
 
 function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   const { searchLoading, searchGooglePlaces, searchResults } = usePlaceSearch();
-  const [selectedLocation, setSelectedLocation] = useState<{latitude: number, longitude: number}>()
+  const [selectedLocation, setSelectedLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>();
 
   const { submitForm, formData } = useForm(
     { tags: [], date: new Date(Date.now()) },
@@ -62,11 +65,10 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     latitude: number;
     longitude: number;
   }) => {
-    setSelectedLocation({latitude, longitude})
+    setSelectedLocation({ latitude, longitude });
     console.log("IN HANDLE UPDATE");
     console.log(latitude, longitude);
-    
-    
+
     formData.latitude = latitude;
     formData.longitude = longitude;
   };
@@ -83,7 +85,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
   };
 
   const handleMapFocus = (latitude: number, longitude: number) => {
-    if (!mapRef) return null;
+    if (!mapRef?.current) return null;
 
     // @ts-ignore
     mapRef.current.animateToRegion(
@@ -190,7 +192,6 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
             />
           </InputGroup>
 
-
           <InputGroup label={{ text: "Event Date", size: "2/5" }}>
             <AppDatePicker
               mode="datetime"
@@ -213,17 +214,13 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
               onItemSelect={({ latitude, longitude }) =>
                 handleMapFocus(latitude, longitude)
               }
-              
             />
             <AppMapView
               ref={mapRef}
               onPinPress={handleOnPinPress}
               onDoublePress={handleUpdateCoordinate}
               onLongPress={handleUpdateCoordinate}
-              pins={handleFormatPins(
-                searchResults,
-               selectedLocation 
-              )}
+              pins={handleFormatPins(searchResults, selectedLocation)}
             />
             <Button title="Submit" onPress={() => handleSubmit()} />
           </View>

@@ -1,11 +1,4 @@
-import {
-  Button,
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
@@ -14,9 +7,7 @@ import eventApi from "../../api/events";
 import AppMapView, { Pin } from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
-import mapsApi from "../../api/maps";
-import AppTextInput from "../../components/AppTextInput";
-import LocationSearch from "../../components/LocationSearch";
+import useLocation from "../../hooks/useLocation";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -29,7 +20,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
-  // @ts-ignore
   useEffect(() => {
     getEvents();
   }, []);
@@ -37,7 +27,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   const mapRef = useRef(null);
 
   const handleMapFocus = (latitude: number, longitude: number) => {
-    if (!mapRef) return null;
+    if (!mapRef?.current) return null;
 
     // @ts-ignore
     mapRef.current.animateToRegion(
@@ -63,10 +53,8 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
         <AppMapView
           onPinPress={handleOnPinPress}
           ref={mapRef}
-          // @ts-ignore
           pins={
             events &&
-            // @ts-ignore
             events.map(({ latitude, longitude, id }) => ({
               latitude,
               longitude,
@@ -76,7 +64,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
 
-        {/*@ts-ignore          */}
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
@@ -84,7 +71,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
             onEventSelect={({ latitude, longitude }) =>
               handleMapFocus(latitude, longitude)
             }
-            // @ts-ignore
             events={events}
           />
         )}
