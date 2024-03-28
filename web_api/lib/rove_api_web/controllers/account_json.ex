@@ -20,6 +20,13 @@ defmodule RoveApiWeb.AccountJSON do
     %{data: data(account)}
   end
 
+  def data(%Account{} = account, token) do
+    %{
+      token: token,
+      account: data(account)
+    }
+  end
+
   def data(%Account{user: _user} = account) do
     {user, popped_account} = Map.pop(account, :user)
 
@@ -31,13 +38,6 @@ defmodule RoveApiWeb.AccountJSON do
     %{
       id: account.id,
       email: account.email
-    }
-  end
-
-  def data(%Account{} = account, token) do
-    %{
-      token: token,
-      account: data(account)
     }
   end
 
