@@ -18,8 +18,8 @@ defmodule RoveApi.Events.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :date, :location, :owner_id, :description])
-    |> validate_required([:title, :date, :location, :owner_id])
+    |> cast(attrs, [:title, :date,  :owner_id, :description])
+    |> validate_required([:title, :date, :owner_id])
     |> unique_constraint([:date, :title, :owner_id],
       name: :unique_date_title_owner,
       message: "User has already created an event on this date with that title"
@@ -27,7 +27,12 @@ defmodule RoveApi.Events.Event do
     |> cast_location(attrs)
   end
 
-  defp cast_location(changeset, _) do
-    changeset
+  defp cast_location(changeset, %{"location" => %{"latitude" => lat, "longitude" => lon}} = _attrs) do
+    # Convert the latitude and longitude to a Geo.Point
+    point = %Geo.Point{coordinates: {lon, lat}, srid: 4326}
+    # Add the location to the changeset
+    changeset |> put_change(:location, point)
   end
+
+  defp cast_location(changeset, _attrs), do: changeset
 end

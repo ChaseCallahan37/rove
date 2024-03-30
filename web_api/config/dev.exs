@@ -9,7 +9,8 @@ config :rove_api, RoveApi.Repo,
   port: System.get_env("POSTGRES_PORT"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  types: RoveApi.Repo.Types
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

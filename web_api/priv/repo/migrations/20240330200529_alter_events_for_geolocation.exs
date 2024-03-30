@@ -6,7 +6,7 @@ defmodule RoveApi.Repo.Migrations.AlterEventsForGeolocation do
       remove :latitude
       remove :longitude
 
-      add :location, :geometry
+      add :location, :geometry, null: false
     end
   end
 end
