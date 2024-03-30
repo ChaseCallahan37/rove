@@ -14,9 +14,6 @@ defmodule RoveApi.Events do
   def list_events(include, params) do
     conditions = Search.Events.build_conditions(params)
 
-    IO.inspect("HERE")
-    IO.inspect(conditions)
-
     Event
     |> where(^conditions)
     |> preload(^include)
