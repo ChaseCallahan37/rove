@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   db:
-    image: postgres:latest
+    image: postgis/postgis:latest
     restart: unless-stopped
     container_name: database
     volumes:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: Dockerfile    
+      dockerfile: api.Dockerfile    
     depends_on:
       - db
     ports:

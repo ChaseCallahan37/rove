@@ -56,14 +56,14 @@ defmodule RoveApiWeb.Router do
   scope "/api/events", RoveApiWeb do
     pipe_through :api
 
-    post "/", EventController, :index
+    post "/search", EventController, :index
     get "/:id", EventController, :show
   end
 
   scope "/api/events", RoveApiWeb do
     pipe_through [:api, :auth]
 
-    post "/", EventController, :create
+    post "/create", EventController, :create
     put "/", EventController, :update
     post "/join", EventController, :join
   end

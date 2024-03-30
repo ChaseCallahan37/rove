@@ -41,13 +41,21 @@ defmodule RoveApiWeb.EventJSON do
     |> Map.merge(data(popped_event))
   end
 
+  def data(%Event{location: %{coordinates: {longitude, latitude}}} = event) do
+    {_location, popped_event} = Map.pop(event, :location)
+
+    %{location: %{
+      latitude: latitude,
+      longitude: longitude
+    }}
+    |> Map.merge(data(popped_event))
+  end
+
   def data(%Event{} = event) do
     %{
       id: event.id,
       title: event.title,
       date: event.date,
-      latitude: event.latitude,
-      longitude: event.longitude,
       description: event.description
     }
   end

@@ -12,12 +12,13 @@ defmodule RoveApi.Events do
   alias RoveApi.Users.User
 
   def list_events(include, params) do
-    criteria = Search.Events.build_query(params)
-    IO.puts("LOOK HERERERE")
-    IO.inspect(criteria)
+    conditions = Search.Events.build_conditions(params)
+
     Event
-    |> where(^criteria)
+    |> where(^conditions)
+    |> order_by(desc: :date)
     |> preload(^include)
+    |> Repo.all()
   end
   @doc """
   Returns the list of events.
