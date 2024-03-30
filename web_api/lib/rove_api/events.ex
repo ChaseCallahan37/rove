@@ -16,6 +16,7 @@ defmodule RoveApi.Events do
 
     Event
     |> where(^conditions)
+    |> order_by(desc: :date)
     |> preload(^include)
     |> Repo.all()
   end
