@@ -55,7 +55,8 @@ defmodule RoveApi.MixProject do
       {:guardian, "~> 2.3"},
       {:guardian_db, "~> 2.0"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:httpoison, "~> 1.8"}
+      {:httpoison, "~> 1.8"},
+      {:geo_postgis, "~> 3.6"}
     ]
   end
 
