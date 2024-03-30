@@ -1,17 +1,19 @@
 defmodule RoveApi.Search.Events do
+  import Ecto.Query, only: [dynamic: 2]
 
-
-  def build_query(conditions) do
-    build_query(conditions, [])
+  def build_conditions(params) do
+    build_conditions(params, false)
   end
 
-  defp build_query(%{"start_date" => _start_date} = conditions, criteria) do
-    {start_date, popped_conditions} = Map.pop(conditions, "start_date")
+  defp build_conditions(%{"start_date" => _start_date} = params, conditions) do
+    {start_date, popped_params} = Map.pop(params, "start_date")
 
-    build_query(popped_conditions, Enum.concat(criteria, [date: start_date]))
+    start_date = Date.from_iso8601!(start_date)
+
+    build_conditions(popped_params, dynamic([e], e.date >= ^start_date or ^conditions))
   end
 
-  defp build_query(_conditions, criteria) do
-    criteria
+  defp build_conditions(_params, conditions) do
+    conditions
   end
 end
