@@ -9,6 +9,15 @@ do
   sleep 2
 done
 
+
+
+# Automatically create the PostGIS extension if it doesn't exist.
+# This SQL command checks if the extension already exists, and if not, it creates it.
+echo "Ensuring PostGIS is installed..."
+PGPASSWORD=$POSTGRES_PASSWORD psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DATABASE" <<-EOSQL
+  CREATE EXTENSION IF NOT EXISTS postgis;
+EOSQL
+
 # Create, migrate, and seed database if it doesn't exist.
 if [[ -z `psql -Atqc "\\list $POSTGRES_DATABASE"` ]]; then
   echo "Database $POSTGRES_DATABASE does not exist. Creating..."
