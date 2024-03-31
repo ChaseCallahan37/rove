@@ -8,8 +8,10 @@ export type Event = {
   id: string;
   title: string;
   date: Date;
-  latitude: number;
-  longitude: number;
+  location: {
+    latitude: number,
+    longitude: number
+  }
   desciption?: string;
   owner?: User;
   attendees?: User[];
@@ -20,8 +22,10 @@ export function parseEvent(obj: any): Event {
   return {
     ...obj,
     date: new Date(obj.date),
-    latitude: parseFloat(obj.latitude),
-    longitude: parseFloat(obj.longitude),
+    location: {
+      latitude: parseFloat(obj.latitude),
+      longitude: parseFloat(obj.longitude),
+    },
     owner: obj.owner ? parseUser(obj.owner) : null,
     tags: obj.tags ? obj.tags.map(parseTag) : null,
   };
@@ -29,8 +33,10 @@ export function parseEvent(obj: any): Event {
 
 const resourceName = "events";
 
-export async function retrieveEvents() {
-  const res = await service.get(resourceName);
+export async function retrieveEvents(searchParams?: {start_date?: Date, end_date?: Date, location?: {latitude: number, longitude: number, radius: number}}) {
+  const res = await service.post(resourceName + "/search", {
+    payload: searchParams
+  });
 
   const { data: events } = await unpackResponse<{ data: Event[] }>(res);
 
@@ -48,14 +54,14 @@ export async function retrieveEvent(id: string) {
 export async function createEvent(newEvent: {
   title?: string;
   date?: Date;
-  latitude?: number;
-  longitude?: number;
+  location?: {latitude: number;
+  longitude: number;}
   description?: string;
   tags?: string[];
 }) {
   const token = await retrieveToken();
 
-  const res = await service.post(resourceName, {
+  const res = await service.post(resourceName + "/create", {
     payload: {
       event: newEvent,
     },

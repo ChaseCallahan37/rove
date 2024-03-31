@@ -20,8 +20,16 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
+  const {location} = useLocation();
+
   useEffect(() => {
-    getEvents();
+    getEvents({
+      location:{
+        latitude: location?.latitude || 0,
+        longitude: location?.longitude || 0,
+        radius: 10000000
+      }
+    });
   }, []);
 
   const mapRef = useRef(null);
@@ -55,7 +63,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           ref={mapRef}
           pins={
             events &&
-            events.map(({ latitude, longitude, id }) => ({
+            events.map(({ location: {latitude, longitude}, id }) => ({
               latitude,
               longitude,
               id,
@@ -68,7 +76,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
           <EventList
-            onEventSelect={({ latitude, longitude }) =>
+            onEventSelect={({ location: {latitude, longitude} }) =>
               handleMapFocus(latitude, longitude)
             }
             events={events}
