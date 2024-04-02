@@ -1,12 +1,6 @@
 import { Form } from "houseform";
 import React from "react";
-import {
-  Button,
-  Keyboard,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Button, Keyboard, TouchableWithoutFeedback, View } from "react-native";
 
 type AppFormProps<T> = {
   children: React.ReactNode[] | React.ReactNode;

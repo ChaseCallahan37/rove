@@ -8,15 +8,17 @@ type AppFormFieldProps<T> = {
     setValue: (param: T) => void;
   }) => React.ReactNode;
   name: string;
+  initialValue: T;
 };
 
 export default function AppFormField<T>({
   children,
+  initialValue,
   name,
 }: AppFormFieldProps<T>) {
   return (
     <View>
-      <Field<T> name={name}>
+      <Field<T> name={name} initialValue={initialValue}>
         {({ errors, value, setValue }) => (
           <View>
             {children({ value, setValue })}

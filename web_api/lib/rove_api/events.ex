@@ -20,6 +20,7 @@ defmodule RoveApi.Events do
     |> preload(^include)
     |> Repo.all()
   end
+
   @doc """
   Returns the list of events.
 
@@ -47,6 +48,7 @@ defmodule RoveApi.Events do
   end
 
   def create_event(user, attrs \\ %{})
+
   def create_event(%User{} = user, %{"tags" => _event_tags} = attrs) do
     {event_tags, popped_attrs} = Map.pop(attrs, "tags")
 
@@ -55,8 +57,8 @@ defmodule RoveApi.Events do
       EventTags.add_tags(event_id, event_tags)
       created_event
     end)
-
   end
+
   @doc """
   Creates a event.
 
@@ -99,20 +101,18 @@ defmodule RoveApi.Events do
         {:ok, updated_event} = update_event(event, popped_attrs)
         updated_event
       rescue
-          e ->
-            IO.inspect(e)
-            {:error, e}
+        e ->
+          IO.inspect(e)
+          {:error, e}
       end
-
     end)
   end
 
-def update_event(event, attrs) do
-  event
-  |> Event.changeset(attrs)
-  |> Repo.update()
-end
-
+  def update_event(event, attrs) do
+    event
+    |> Event.changeset(attrs)
+    |> Repo.update()
+  end
 
   @doc """
   Deletes a event.

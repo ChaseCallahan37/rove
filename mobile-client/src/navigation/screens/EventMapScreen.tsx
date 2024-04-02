@@ -11,6 +11,7 @@ import useLocation from "../../hooks/useLocation";
 import { Field, Form } from "houseform";
 import { z } from "zod";
 import AppDatePicker from "../../components/AppDatePicker";
+import EventFilterForm from "../../forms/EventFilterForm";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -40,16 +41,28 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   const handleRetrieveEvents = ({
     startDate,
     endDate,
+    radius,
   }: {
     startDate?: Date;
     endDate?: Date;
+    radius?: number;
   }) => {
+    console.log(radius);
+
     getEvents({
-      location: {
-        latitude: location?.latitude || 0,
-        longitude: location?.longitude || 0,
-        radius: 10000000,
-      },
+      location: radius
+        ? {
+            latitude: location?.latitude || 0,
+            longitude: location?.longitude || 0,
+            radius: radius,
+          }
+        : undefined,
+
+      // location: {
+      //   latitude: location?.latitude || 0,
+      //   longitude: location?.longitude || 0,
+      //   radius: 10000000,
+      // },
       start_date: startDate,
       end_date: endDate,
     });
@@ -92,30 +105,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           }
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
-        <Form<{ startDate: Date }>
-          onSubmit={({ startDate }) => handleRetrieveEvents({ startDate })}
-        >
-          {({ isValid, submit }) => (
-            <View>
-              <Field<Date>
-                initialValue={new Date()}
-                name="startDate"
-                onBlurValidate={z.date()}
-              >
-                {({ value, setValue, onBlur, errors }) => (
-                  <View>
-                    <AppDatePicker
-                      mode="date"
-                      date={value}
-                      updateDate={(date) => setValue(date)}
-                    />
-                  </View>
-                )}
-              </Field>
-              <Button onPress={submit} disabled={!isValid} title="Submti" />
-            </View>
-          )}
-        </Form>
+        <EventFilterForm onSubmit={(values) => handleRetrieveEvents(values)} />
 
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>

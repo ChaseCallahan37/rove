@@ -21,6 +21,7 @@ defmodule RoveApi.EventTags.EventTag do
   def changeset(attrs) do
     changeset(%EventTag{}, attrs)
   end
+
   @doc false
   def changeset(event_tag, attrs) do
     event_tag

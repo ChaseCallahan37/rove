@@ -2,13 +2,16 @@ import { Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { style as tw } from "twrnc";
 
-type AppDropdownProps = {
-  data: { label: string; value: string }[] | null | undefined;
-  onChange: (value: string) => void;
+type AppDropdownProps<T> = {
+  data: { label: string; value: T }[] | null | undefined;
+  onChange: (value: T) => void;
 };
 
-export default function AppDropdown({ data, onChange }: AppDropdownProps) {
-  const handleOnChange = ({ value }: { label: string; value: string }) => {
+export default function AppDropdown<T>({
+  data,
+  onChange,
+}: AppDropdownProps<T>) {
+  const handleOnChange = ({ value }: { label: string; value: T }) => {
     onChange(value);
   };
 

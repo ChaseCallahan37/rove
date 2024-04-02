@@ -29,20 +29,29 @@ defmodule RoveApi.Search.Events do
   defp build_conditions(%{"tags" => _tags} = params, conditions) do
     {tags, popped_params} = Map.pop(params, "tags")
 
-    tags_query = from( et in EventTag,
-                          join: t in assoc(et, :tag),
-                          where: t.name in ^tags,
-                          select: et.event_id)
+    tags_query =
+      from(et in EventTag,
+        join: t in assoc(et, :tag),
+        where: t.name in ^tags,
+        select: et.event_id
+      )
 
     build_conditions(popped_params, dynamic([e], e.id in subquery(tags_query) and ^conditions))
   end
 
-  defp build_conditions(%{"location" => %{"latitude" => latitude, "longitude" => longitude, "radius" => radius}} = params, conditions) do
+  defp build_conditions(
+         %{"location" => %{"latitude" => latitude, "longitude" => longitude, "radius" => radius}} =
+           params,
+         conditions
+       ) do
     {_location, popped_params} = Map.pop(params, "location")
 
     point = %Point{coordinates: {longitude, latitude}, srid: 4326}
 
-    build_conditions(popped_params, dynamic([e], PostGIS.st_dwithin_in_meters(e.location, ^point, ^radius)  and ^conditions))
+    build_conditions(
+      popped_params,
+      dynamic([e], PostGIS.st_dwithin_in_meters(e.location, ^point, ^radius) and ^conditions)
+    )
   end
 
   defp build_conditions(_params, conditions) do
