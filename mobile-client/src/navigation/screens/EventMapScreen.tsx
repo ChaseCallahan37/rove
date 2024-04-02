@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Alert, Button, Text, TextInput, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
@@ -8,6 +8,10 @@ import AppMapView, { Pin } from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import useLocation from "../../hooks/useLocation";
+import { Field, Form } from "houseform";
+import { z } from "zod";
+import AppDatePicker from "../../components/AppDatePicker";
+import EventFilterForm from "../../forms/EventFilterForm";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -20,11 +24,44 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
+  const { location } = useLocation();
+
   useEffect(() => {
-    getEvents();
+    getEvents({
+      location: {
+        latitude: location?.latitude || 0,
+        longitude: location?.longitude || 0,
+        radius: 10000000,
+      },
+    });
   }, []);
 
   const mapRef = useRef(null);
+
+  const handleRetrieveEvents = ({
+    startDate,
+    endDate,
+    radius,
+  }: {
+    startDate?: Date;
+    endDate?: Date;
+    radius?: number;
+  }) => {
+    console.log(radius);
+
+    getEvents({
+      location: radius
+        ? {
+            latitude: location?.latitude || 0,
+            longitude: location?.longitude || 0,
+            radius: radius,
+          }
+        : undefined,
+
+      start_date: startDate,
+      end_date: endDate,
+    });
+  };
 
   const handleMapFocus = (latitude: number, longitude: number) => {
     if (!mapRef?.current) return null;
@@ -55,7 +92,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           ref={mapRef}
           pins={
             events &&
-            events.map(({ latitude, longitude, id }) => ({
+            events.map(({ location: { latitude, longitude }, id }) => ({
               latitude,
               longitude,
               id,
@@ -63,12 +100,13 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           }
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
+        <EventFilterForm onSubmit={(values) => handleRetrieveEvents(values)} />
 
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
           <EventList
-            onEventSelect={({ latitude, longitude }) =>
+            onEventSelect={({ location: { latitude, longitude } }) =>
               handleMapFocus(latitude, longitude)
             }
             events={events}

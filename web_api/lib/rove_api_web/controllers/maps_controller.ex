@@ -11,5 +11,4 @@ defmodule RoveApiWeb.MapsController do
     conn
     |> render(:index, places: places)
   end
-
 end

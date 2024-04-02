@@ -71,6 +71,7 @@ defmodule RoveApi.Users do
       end
     end)
   end
+
   @doc """
   Updates a user.
 

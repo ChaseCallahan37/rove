@@ -48,8 +48,7 @@ defmodule RoveApiWeb.ErrorJSON do
     _status_message = Phoenix.Controller.status_message_from_template(template)
 
     %{
-      errors: %{
-      }
+      errors: %{}
     }
   end
 end

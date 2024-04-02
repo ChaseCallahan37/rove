@@ -1,9 +1,13 @@
 defmodule RoveApi.Maps.Place do
   @google_api_key System.get_env("GOOGLE_MAPS_API_KEY")
 
-  defstruct [address: nil, name: nil, icon: %{url: nil, bg_color: nil}, latitude: nil, longitude: nil]
-  alias RoveApi.Maps.Place
+  defstruct address: nil,
+            name: nil,
+            icon: %{url: nil, bg_color: nil},
+            latitude: nil,
+            longitude: nil
 
+  alias RoveApi.Maps.Place
 
   def text_search(query) do
     url =

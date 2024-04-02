@@ -18,7 +18,7 @@ defmodule RoveApi.Events.Event do
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :date,  :owner_id, :description])
+    |> cast(attrs, [:title, :date, :owner_id, :description])
     |> validate_required([:title, :date, :owner_id])
     |> unique_constraint([:date, :title, :owner_id],
       name: :unique_date_title_owner,
@@ -27,7 +27,10 @@ defmodule RoveApi.Events.Event do
     |> cast_location(attrs)
   end
 
-  defp cast_location(changeset, %{"location" => %{"latitude" => lat, "longitude" => lon}} = _attrs) do
+  defp cast_location(
+         changeset,
+         %{"location" => %{"latitude" => lat, "longitude" => lon}} = _attrs
+       ) do
     # Convert the latitude and longitude to a Geo.Point
     point = %Geo.Point{coordinates: {lon, lat}, srid: 4326}
     # Add the location to the changeset

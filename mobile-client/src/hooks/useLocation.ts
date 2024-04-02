@@ -23,7 +23,7 @@ export default function useLocation() {
       (er: any) => console.log(er),
       {}
     );
-  });
+  }, []);
 
   return { location };
 }

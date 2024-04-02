@@ -13,6 +13,5 @@ defmodule RoveApi.Repo.Migrations.AddingTimestampsToTags do
     alter table(:user_tags) do
       timestamps(type: :utc_datetime)
     end
-
   end
 end

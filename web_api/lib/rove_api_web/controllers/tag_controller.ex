@@ -11,6 +11,7 @@ defmodule RoveApiWeb.TagController do
     conn
     |> render(:index, tags: tags)
   end
+
   def create(conn, %{"tag" => tag_params}) do
     with {:ok, %Tag{} = tag} <- Tags.create_tag(tag_params) do
       conn
@@ -18,5 +19,4 @@ defmodule RoveApiWeb.TagController do
       |> render(:show, tag: tag)
     end
   end
-
 end

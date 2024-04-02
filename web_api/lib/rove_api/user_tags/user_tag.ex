@@ -13,7 +13,6 @@ defmodule RoveApi.UserTags.UserTag do
       foreign_key: :user_id,
       type: :binary_id
 
-
     timestamps(type: :utc_datetime)
   end
 

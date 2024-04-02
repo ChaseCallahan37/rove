@@ -28,9 +28,5 @@ defmodule RoveApi.Repo.Migrations.AddingDescriptionsAndTagsForEvents do
     alter table(:events) do
       add :description, :string
     end
-
-
-
-
   end
 end

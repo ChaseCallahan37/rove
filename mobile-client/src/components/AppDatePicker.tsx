@@ -5,7 +5,7 @@ import format from "../utils/format";
 import { useState } from "react";
 
 type AppDatePickerProps = {
-  date?: Date;
+  date: Date;
   updateDate: (updatedDate: Date) => void;
   mode: "datetime" | "date" | "time";
 };
@@ -15,9 +15,7 @@ function AppDatePicker({
   updateDate,
   mode,
 }: AppDatePickerProps) {
-  const [date, setDate] = useState<Date>(
-    initialDate ? new Date(initialDate) : new Date()
-  );
+  const [date, setDate] = useState<Date>(initialDate);
 
   const { isToggled: showDatePicker, toggle: toggleDatePicker } =
     useToggle(false);

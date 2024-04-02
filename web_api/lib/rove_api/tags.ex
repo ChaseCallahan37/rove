@@ -1,8 +1,8 @@
 defmodule RoveApi.Tags do
   @moduledoc """
   """
-alias RoveApi.Repo
-alias RoveApi.Tags.Tag
+  alias RoveApi.Repo
+  alias RoveApi.Tags.Tag
 
   import Ecto.Query, warn: false
 
