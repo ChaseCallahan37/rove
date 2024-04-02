@@ -41,7 +41,7 @@ defmodule RoveApi.Search.Events do
 
     point = %Point{coordinates: {longitude, latitude}, srid: 4326}
 
-    build_conditions(popped_params, dynamic([e], PostGIS.st_dwithin(e.location, ^point, ^radius)  and ^conditions))
+    build_conditions(popped_params, dynamic([e], PostGIS.st_dwithin_in_meters(e.location, ^point, ^radius)  and ^conditions))
   end
 
   defp build_conditions(_params, conditions) do
