@@ -69,7 +69,7 @@ function EventCreateScreen({ navigation }: EventCreateScreenProps) {
     console.log("IN HANDLE UPDATE");
     console.log(latitude, longitude);
 
-    formData.location = {latitude,longitude}
+    formData.location = { latitude, longitude };
   };
 
   const handleSubmit = async () => {

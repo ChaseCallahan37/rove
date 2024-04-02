@@ -1,9 +1,10 @@
-import { Button, Text, View } from "react-native";
+import { Alert, Button, Text, View } from "react-native";
 import tw from "twrnc";
 
 import { AppNavigationProp } from "../AppNavigations";
 import useAuth from "../../hooks/useAuth";
 import useLocation from "../../hooks/useLocation";
+import AppForm from "../../components/AppForm";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -39,6 +40,10 @@ function HomeScreen({ navigation }: HomeScreenProps) {
           onPress={() => navigation.navigate("Account")}
         />
       )}
+      <AppForm<{email: string}> onSubmit={(values) => Alert.alert(JSON.stringify(values))}>
+        <Text>Form</Text>
+        <Text>Form</Text>
+      </AppForm>
     </View>
   );
 }

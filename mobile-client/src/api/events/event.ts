@@ -9,9 +9,9 @@ export type Event = {
   title: string;
   date: Date;
   location: {
-    latitude: number,
-    longitude: number
-  }
+    latitude: number;
+    longitude: number;
+  };
   desciption?: string;
   owner?: User;
   attendees?: User[];
@@ -33,9 +33,13 @@ export function parseEvent(obj: any): Event {
 
 const resourceName = "events";
 
-export async function retrieveEvents(searchParams?: {start_date?: Date, end_date?: Date, location?: {latitude: number, longitude: number, radius: number}}) {
+export async function retrieveEvents(searchParams?: {
+  start_date?: Date;
+  end_date?: Date;
+  location?: { latitude: number; longitude: number; radius: number };
+}) {
   const res = await service.post(resourceName + "/search", {
-    payload: searchParams
+    payload: searchParams,
   });
 
   const { data: events } = await unpackResponse<{ data: Event[] }>(res);
@@ -54,8 +58,7 @@ export async function retrieveEvent(id: string) {
 export async function createEvent(newEvent: {
   title?: string;
   date?: Date;
-  location?: {latitude: number;
-  longitude: number;}
+  location?: { latitude: number; longitude: number };
   description?: string;
   tags?: string[];
 }) {

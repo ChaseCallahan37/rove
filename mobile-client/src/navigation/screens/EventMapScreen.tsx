@@ -23,32 +23,37 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
     loading,
   } = useApi(eventApi.retrieveEvents);
 
-  const {location} = useLocation();
+  const { location } = useLocation();
 
   useEffect(() => {
     getEvents({
-      location:{
+      location: {
         latitude: location?.latitude || 0,
         longitude: location?.longitude || 0,
-        radius: 10000000
-      }
+        radius: 10000000,
+      },
     });
   }, []);
 
   const mapRef = useRef(null);
 
-  const handleRetrieveEvents = ({startDate, endDate}: {startDate?: Date, endDate?: Date}) => {
+  const handleRetrieveEvents = ({
+    startDate,
+    endDate,
+  }: {
+    startDate?: Date;
+    endDate?: Date;
+  }) => {
     getEvents({
-      location:{
+      location: {
         latitude: location?.latitude || 0,
         longitude: location?.longitude || 0,
-        radius: 10000000
+        radius: 10000000,
       },
       start_date: startDate,
-      end_date: endDate
-    })
-
-  }
+      end_date: endDate,
+    });
+  };
 
   const handleMapFocus = (latitude: number, longitude: number) => {
     if (!mapRef?.current) return null;
@@ -79,7 +84,7 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           ref={mapRef}
           pins={
             events &&
-            events.map(({ location: {latitude, longitude}, id }) => ({
+            events.map(({ location: { latitude, longitude }, id }) => ({
               latitude,
               longitude,
               id,
@@ -87,32 +92,36 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           }
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
-        <Form<{startDate: Date}> onSubmit={({startDate}) => handleRetrieveEvents({startDate})}>
-          
-            {
-              ({isValid, submit}) => (
-                <View>
-                  <Field<Date>
-                  initialValue={new Date()}
-                  name="startDate"
-                  onBlurValidate={z.date()}>
-                      {
-                        ({value, setValue, onBlur, errors}) => (<View><AppDatePicker mode="date" date={value} updateDate={(date) => setValue(date)}  /></View>)
-                      }
-
-                  </Field>
-                <Button onPress={submit} disabled={!isValid} title="Submti" />
-                </View>
-
-              )
-            }
+        <Form<{ startDate: Date }>
+          onSubmit={({ startDate }) => handleRetrieveEvents({ startDate })}
+        >
+          {({ isValid, submit }) => (
+            <View>
+              <Field<Date>
+                initialValue={new Date()}
+                name="startDate"
+                onBlurValidate={z.date()}
+              >
+                {({ value, setValue, onBlur, errors }) => (
+                  <View>
+                    <AppDatePicker
+                      mode="date"
+                      date={value}
+                      updateDate={(date) => setValue(date)}
+                    />
+                  </View>
+                )}
+              </Field>
+              <Button onPress={submit} disabled={!isValid} title="Submti" />
+            </View>
+          )}
         </Form>
 
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
         ) : (
           <EventList
-            onEventSelect={({ location: {latitude, longitude} }) =>
+            onEventSelect={({ location: { latitude, longitude } }) =>
               handleMapFocus(latitude, longitude)
             }
             events={events}
