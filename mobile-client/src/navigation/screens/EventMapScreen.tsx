@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Alert, Button, Text, TextInput, View } from "react-native";
 import { style as tw } from "twrnc";
 
 import useApi from "../../hooks/useApi";
@@ -8,6 +8,9 @@ import AppMapView, { Pin } from "../../components/AppMapView";
 import EventList from "../../components/EventList";
 import { AppNavigationProp } from "../AppNavigations";
 import useLocation from "../../hooks/useLocation";
+import { Field, Form } from "houseform";
+import { z } from "zod";
+import AppDatePicker from "../../components/AppDatePicker";
 
 type HomeScreenProps = {
   navigation: AppNavigationProp<"Home">;
@@ -33,6 +36,19 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
   }, []);
 
   const mapRef = useRef(null);
+
+  const handleRetrieveEvents = ({startDate, endDate}: {startDate?: Date, endDate?: Date}) => {
+    getEvents({
+      location:{
+        latitude: location?.latitude || 0,
+        longitude: location?.longitude || 0,
+        radius: 10000000
+      },
+      start_date: startDate,
+      end_date: endDate
+    })
+
+  }
 
   const handleMapFocus = (latitude: number, longitude: number) => {
     if (!mapRef?.current) return null;
@@ -71,6 +87,26 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           }
         ></AppMapView>
         <Text style={{ color: "pink" }}>NEARBY EVENTS</Text>
+        <Form<{startDate: Date}> onSubmit={({startDate}) => handleRetrieveEvents({startDate})}>
+          
+            {
+              ({isValid, submit}) => (
+                <View>
+                  <Field<Date>
+                  initialValue={new Date()}
+                  name="startDate"
+                  onBlurValidate={z.date()}>
+                      {
+                        ({value, setValue, onBlur, errors}) => (<View><AppDatePicker mode="date" date={value} updateDate={(date) => setValue(date)}  /></View>)
+                      }
+
+                  </Field>
+                <Button onPress={submit} disabled={!isValid} title="Submti" />
+                </View>
+
+              )
+            }
+        </Form>
 
         {loading ? (
           <Text style={{ color: "brown" }}>Loading...</Text>
