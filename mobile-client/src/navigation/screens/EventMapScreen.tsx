@@ -58,11 +58,6 @@ function EventMapScreen({ navigation }: HomeScreenProps) {
           }
         : undefined,
 
-      // location: {
-      //   latitude: location?.latitude || 0,
-      //   longitude: location?.longitude || 0,
-      //   radius: 10000000,
-      // },
       start_date: startDate,
       end_date: endDate,
     });
