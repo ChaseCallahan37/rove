@@ -5,20 +5,28 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web_api
+    env:
+      MIX_ENV: test
+      POSTGRES_USER: rove_api
+      POSTGRES_PASSWORD: CaYglGHMbZRK7QTmIZy/STizxoFMUR34PY/U/QEqEQgJwdQfCGpBnXEE3d9oIcSe
+      POSTGRES_DATABASE: rove_api_dev_db
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: localhost
     services:
       postgres:
-        image: postgis/postgis:16-master
+        image: postgis/postgis:latest
         env:
           POSTGRES_USER: rove_api
           POSTGRES_PASSWORD: CaYglGHMbZRK7QTmIZy/STizxoFMUR34PY/U/QEqEQgJwdQfCGpBnXEE3d9oIcSe
           POSTGRES_DATABASE: rove_api_dev_db
           POSTGRES_PORT: 5432
-          POSTGRES_HOST: database
+          POSTGRES_HOST: localhost 
         ports: 
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    env:
-      MIX_ENV: test
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1.15
@@ -29,7 +37,7 @@ jobs:
         env:
           cache-name: cache-elixir-deps
         with:
-          path: web_api/deps
+          path: deps
           key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             ${{ runner.os }}-mix-${{ env.cache-name }}-
@@ -37,12 +45,10 @@ jobs:
         env:
           cache-name: cache-compiled-build
         with:
-          path: web_api/_build
+          path: _build
           key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
             ${{ runner.os }}-mix-${{ env.cache-name }}-
             ${{ runner.os }}-mix-
       - run: mix deps.get
-        working-directory: web_api
       - run: mix test
-        working-directory: web_api
