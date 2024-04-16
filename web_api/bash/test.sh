@@ -1,26 +1,32 @@
 #!/bin/bash
-# Docker entrypoint script.
 
-# Wait until Postgres is ready
-echo "Testing if Postgres is accepting connections. ${POSTGRES_HOST} ${POSTGRES_PORT} ${POSTGRES_USER}"
-while ! pg_isready -q -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER
-do
-  echo "$(date) - waiting for database to start"
-  sleep 2
-done
+# Get the absolute path to the web_api directory that contains the docker-compose.yml
+# Assuming the script is located in web_api/bash and you are running it from there
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 
-# Create, migrate, and seed database if it doesn't exist.
-if [[ -z `psql -Atqc "\\list $POSTGRES_DATABASE"` ]]; then
-  echo "Database $POSTGRES_DATABASE does not exist. Creating..."
-  mix ecto.create
-  mix ecto.migrate
-  mix run priv/repo/seeds.exs
-  echo "Database $POSTGRES_DATABASE created."
+echo "Starting Docker services..."
+# Start Docker Compose services
+docker-compose -f "$DIR/docker-compose.yml" up -d
+
+# Check if Docker Compose starts up successfully
+if [ $? -eq 0 ]; then
+    echo "Docker services started successfully."
 else
-  echo "Database $POSTGRES_DATABASE exists. Running migrations..."
-  mix ecto.migrate
-  mix run priv/repo/seeds.exs
-  echo "Migrations completed."
+    echo "Failed to start Docker services."
+    exit 1
 fi
 
-exec mix test 
+echo "Running mix tests..."
+# Run mix tests
+cd "$DIR"
+mix test
+
+# Capture the exit code of mix test
+TEST_EXIT_CODE=$?
+
+# Stop Docker services after tests
+echo "Stopping Docker services..."
+docker-compose -f "$DIR/docker-compose.yml" down
+
+# Exit with the exit code of the mix test
+exit $TEST_EXIT_CODE

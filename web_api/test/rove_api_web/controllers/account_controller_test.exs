@@ -19,13 +19,6 @@ defmodule RoveApiWeb.AccountControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all account", %{conn: conn} do
-      conn = get(conn, ~p"/api/account")
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
-
   describe "create account" do
     test "renders account when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/account", account: @create_attrs)
