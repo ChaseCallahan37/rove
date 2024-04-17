@@ -2,11 +2,11 @@ import Config
 
 # Configure your database
 config :rove_api, RoveApi.Repo,
-  username: "rove_api",
-  password: "CaYglGHMbZRK7QTmIZy/STizxoFMUR34PY/U/QEqEQgJwdQfCGpBnXEE3d9oIcSe",
-  hostname: "localhost",
-  database: "rove_api_dev_db",
-  port: 5432,
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  hostname: System.get_env("POSTGRES_HOST"),
+  database: System.get_env("POSTGRES_DATABASE"),
+  port: System.get_env("POSTGRES_PORT"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,

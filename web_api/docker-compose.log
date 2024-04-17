@@ -1,0 +1,84 @@
+database is up-to-date
+Starting rove-api ... 
+Starting rove-api ... done
+Attaching to database, rove-api
+[33mrove-api |[0m Testing if Postgres is accepting connections. database 5432 rove_api
+[36mdatabase |[0m 
+[36mdatabase |[0m PostgreSQL Database directory appears to contain a database; Skipping initialization
+[36mdatabase |[0m 
+[36mdatabase |[0m 2024-04-17 15:17:15.246 UTC [1] LOG:  starting PostgreSQL 16.2 (Debian 16.2-1.pgdg110+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+[36mdatabase |[0m 2024-04-17 15:17:15.247 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[36mdatabase |[0m 2024-04-17 15:17:15.247 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[36mdatabase |[0m 2024-04-17 15:17:15.252 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[36mdatabase |[0m 2024-04-17 15:17:15.260 UTC [28] LOG:  database system was shut down at 2024-04-16 20:37:09 UTC
+[36mdatabase |[0m 2024-04-17 15:17:15.261 UTC [29] FATAL:  the database system is starting up
+[36mdatabase |[0m 2024-04-17 15:17:15.266 UTC [1] LOG:  database system is ready to accept connections
+[36mdatabase |[0m 2024-04-17 15:19:07.160 UTC [1] LOG:  received fast shutdown request
+[36mdatabase |[0m 2024-04-17 15:19:07.163 UTC [1] LOG:  aborting any active transactions
+[36mdatabase |[0m 2024-04-17 15:19:07.164 UTC [1] LOG:  background worker "logical replication launcher" (PID 32) exited with exit code 1
+[36mdatabase |[0m 2024-04-17 15:19:07.166 UTC [26] LOG:  shutting down
+[36mdatabase |[0m 2024-04-17 15:19:07.168 UTC [26] LOG:  checkpoint starting: shutdown immediate
+[36mdatabase |[0m 2024-04-17 15:19:07.185 UTC [26] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.006 s, sync=0.002 s, total=0.020 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/40A5C00, redo lsn=0/40A5C00
+[36mdatabase |[0m 2024-04-17 15:19:07.188 UTC [1] LOG:  database system is shut down
+[36mdatabase |[0m 
+[36mdatabase |[0m PostgreSQL Database directory appears to contain a database; Skipping initialization
+[36mdatabase |[0m 
+[36mdatabase |[0m 2024-04-17 15:19:08.434 UTC [1] LOG:  starting PostgreSQL 16.2 (Debian 16.2-1.pgdg110+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+[36mdatabase |[0m 2024-04-17 15:19:08.434 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[36mdatabase |[0m 2024-04-17 15:19:08.434 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[36mdatabase |[0m 2024-04-17 15:19:08.443 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[36mdatabase |[0m 2024-04-17 15:19:08.452 UTC [29] LOG:  database system was shut down at 2024-04-17 15:19:07 UTC
+[36mdatabase |[0m 2024-04-17 15:19:08.459 UTC [1] LOG:  database system is ready to accept connections
+[36mdatabase |[0m 2024-04-17 15:20:07.730 UTC [1] LOG:  received fast shutdown request
+[36mdatabase |[0m 2024-04-17 15:20:07.732 UTC [1] LOG:  aborting any active transactions
+[36mdatabase |[0m 2024-04-17 15:20:07.734 UTC [1] LOG:  background worker "logical replication launcher" (PID 32) exited with exit code 1
+[36mdatabase |[0m 2024-04-17 15:20:07.734 UTC [27] LOG:  shutting down
+[36mdatabase |[0m 2024-04-17 15:20:07.737 UTC [27] LOG:  checkpoint starting: shutdown immediate
+[36mdatabase |[0m 2024-04-17 15:20:07.757 UTC [27] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.006 s, sync=0.002 s, total=0.023 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/40A5CB0, redo lsn=0/40A5CB0
+[36mdatabase |[0m 2024-04-17 15:20:07.760 UTC [1] LOG:  database system is shut down
+[36mdatabase |[0m 
+[36mdatabase |[0m PostgreSQL Database directory appears to contain a database; Skipping initialization
+[36mdatabase |[0m 
+[36mdatabase |[0m 2024-04-17 15:20:08.362 UTC [1] LOG:  starting PostgreSQL 16.2 (Debian 16.2-1.pgdg110+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+[36mdatabase |[0m 2024-04-17 15:20:08.362 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[36mdatabase |[0m 2024-04-17 15:20:08.362 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[36mdatabase |[0m 2024-04-17 15:20:08.370 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[36mdatabase |[0m 2024-04-17 15:20:08.377 UTC [29] LOG:  database system was shut down at 2024-04-17 15:20:07 UTC
+[36mdatabase |[0m 2024-04-17 15:20:08.383 UTC [1] LOG:  database system is ready to accept connections
+[36mdatabase |[0m 2024-04-17 15:20:30.598 UTC [1] LOG:  received fast shutdown request
+[36mdatabase |[0m 2024-04-17 15:20:30.602 UTC [1] LOG:  aborting any active transactions
+[36mdatabase |[0m 2024-04-17 15:20:30.603 UTC [1] LOG:  background worker "logical replication launcher" (PID 32) exited with exit code 1
+[36mdatabase |[0m 2024-04-17 15:20:30.603 UTC [27] LOG:  shutting down
+[36mdatabase |[0m 2024-04-17 15:20:30.606 UTC [27] LOG:  checkpoint starting: shutdown immediate
+[36mdatabase |[0m 2024-04-17 15:20:30.634 UTC [27] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.015 s, sync=0.004 s, total=0.032 s; sync files=2, longest=0.003 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=0/40A5D60, redo lsn=0/40A5D60
+[36mdatabase |[0m 2024-04-17 15:20:30.639 UTC [1] LOG:  database system is shut down
+[36mdatabase exited with code 0
+[0m[33mrove-api |[0m Wed Apr 17 15:20:30 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:33 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:35 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:37 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:39 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:41 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:43 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:45 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:47 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:49 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:51 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:53 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:55 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:57 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:20:59 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:01 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:03 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:05 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:07 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:09 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:11 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:13 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:15 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:17 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:19 UTC 2024 - waiting for database to start
+[33mrove-api |[0m Wed Apr 17 15:21:21 UTC 2024 - waiting for database to start
+Stopping rove-api ... 
+Stopping rove-api ... done
+Gracefully stopping... (press Ctrl+C again to force)
