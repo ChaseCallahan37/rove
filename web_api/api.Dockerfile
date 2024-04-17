@@ -21,4 +21,4 @@ EXPOSE 4000
 # Make the entrypoint executable
 RUN chmod +x /app/bash/entrypoint.sh
 
-CMD ["/app/bash/entrypoint.sh"]
+CMD ["mix", "phx.server"]
