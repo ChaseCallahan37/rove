@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  db:
+    image: postgis/postgis:latest
+    restart: unless-stopped
+    container_name: database
+    environment:
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+        - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   app:
     # Allows container to monitor source code for changes
     # and will recompile if changes are detected
@@ -15,4 +27,7 @@ services:
     ports:
       - 4000:4000
     env_file:
-      - .env/app.env
+      - .env/app.dev.env
+
+volumes:
+  pg-data:
