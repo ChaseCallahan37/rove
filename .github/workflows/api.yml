@@ -51,6 +51,7 @@ jobs:
             ${{ runner.os }}-mix-${{ env.cache-name }}-
             ${{ runner.os }}-mix-
       - run: mix deps.get
+      - run: mix ecto.migrate
       - run: mix test
 
 
