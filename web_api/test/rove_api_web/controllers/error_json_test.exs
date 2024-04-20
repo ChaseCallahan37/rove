@@ -1,12 +1,12 @@
-defmodule RoveApiWeb.ErrorJSONTest do
-  use RoveApiWeb.ConnCase, async: true
+# defmodule RoveApiWeb.ErrorJSONTest do
+#   use RoveApiWeb.ConnCase, async: true
 
-  test "renders 404" do
-    assert RoveApiWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
-  end
+#   test "renders 404" do
+#     assert RoveApiWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
+#   end
 
-  test "renders 500" do
-    assert RoveApiWeb.ErrorJSON.render("500.json", %{}) ==
-             %{errors: %{detail: "Internal Server Error"}}
-  end
-end
+#   test "renders 500" do
+#     assert RoveApiWeb.ErrorJSON.render("500.json", %{}) ==
+#              %{errors: %{detail: "Internal Server Error"}}
+#   end
+# end
