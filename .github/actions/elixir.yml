@@ -1,4 +1,4 @@
-name: CI
+name: api-intergration 
 
 on: push
 
