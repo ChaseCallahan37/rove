@@ -11,6 +11,7 @@
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.15.7-erlang-26.2.2-debian-bullseye-20240130-slim
 #
+
 ARG ELIXIR_VERSION=1.15.7
 ARG OTP_VERSION=26.2.2
 ARG DEBIAN_VERSION=bullseye-20240130-slim
@@ -67,6 +68,7 @@ RUN mix release
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE}
 
+
 RUN apt-get update -y && \
   apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
@@ -82,7 +84,23 @@ WORKDIR "/app"
 RUN chown nobody /app
 
 # set runner ENV
+
+# Application variables
 ENV MIX_ENV="prod"
+ENV PORT=$PORT
+ENV PHX_HOST=$PHX_HOST
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+
+# Auth variables
+ENV SIGNING_SALT=$SIGNING_SALT
+ENV GUARDIAN_SECRET_KEY=$GUARDIAN_SECRET_KEY
+
+# External service variables
+ENV GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
+
+# Database variables
+ENV DATABASE_URL=$DATABASE_URL
+ENV DATABASE_SERVER_NAME=$DATABASE_SERVER_NAME
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/rove_api ./
@@ -94,4 +112,7 @@ USER nobody
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
 
-CMD ["/app/bin/start"]
+
+RUN chmod +x /app/bin/server
+
+CMD ["/app/bin/server"]
