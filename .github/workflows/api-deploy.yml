@@ -1,6 +1,12 @@
 name: deploy-api
 
 on:
+  push:
+    branches:
+      - prod
+  pull_request:
+    branches:
+      - prod
   workflow_run:
     workflows: ["test-api"]  # Name of the test workflow
     types:
