@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: api.Dockerfile    
+      dockerfile: dev.Dockerfile    
     depends_on:
       - db
     ports:
