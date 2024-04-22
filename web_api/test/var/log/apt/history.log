@@ -1,0 +1,5 @@
+
+Start-Date: 2024-04-21  02:56:55
+Commandline: apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates
+Install: libtinfo5:amd64 (6.2+20201114-2+deb11u2, automatic), libgpm2:amd64 (1.20.7-8, automatic), locales:amd64 (2.31-13+deb11u8), ca-certificates:amd64 (20210119), libc-l10n:amd64 (2.31-13+deb11u8, automatic), libncurses5:amd64 (6.2+20201114-2+deb11u2), openssl:amd64 (1.1.1w-0+deb11u1)
+End-Date: 2024-04-21  02:56:58

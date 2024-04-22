@@ -1,0 +1,54 @@
+name: test-api
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web_api
+    env:
+      MIX_ENV: test
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }} 
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }} 
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+    services:
+      postgres:
+        image: postgis/postgis:latest
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }} 
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }} 
+          POSTGRES_PORT: 5432
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        ports: 
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: erlef/setup-beam@v1.15
+        with:
+          otp-version: 24.3.4
+          elixir-version: 1.14
+      - uses: actions/cache@v3
+        env:
+          cache-name: cache-elixir-deps
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ env.cache-name }}-
+      - uses: actions/cache@v3
+        env:
+          cache-name: cache-compiled-build
+        with:
+          path: _build
+          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ env.cache-name }}-
+            ${{ runner.os }}-mix-
+      - run: mix deps.get
+      - run: mix test
